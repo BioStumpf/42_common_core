@@ -6,13 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/20 16:01:22 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/20 19:34:32 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*strjoin_and_free(char *s1, char *s2, size_t s1_len, size_t s2_len)
+static char	*strjoin_and_free(char *s1, char *s2, size_t s1_len, size_t s2_len)
 {
 	size_t	tot_len;
 	char	*out;
@@ -22,7 +22,7 @@ char	*strjoin_and_free(char *s1, char *s2, size_t s1_len, size_t s2_len)
 	if (!out)
 		return (0);
 	ft_strlcpy(out, s1, tot_len + 1);
-	ft_strlcat(out, s2, tot_len + 1);
+	ft_strlcpy(out + s1_len, s2, tot_len + 1);
 	free(s1);
 	return (out);
 }
@@ -36,7 +36,7 @@ static char	*read_line(char *leftover_buff, char **current_line_start, int fd)
 
 	line_end = NULL;
 	tot_bytes_read = ft_strlen(*current_line_start);
-	tmp_buff = ft_calloc(BUFFER_SIZE + 1);
+	tmp_buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	while (true)
 	{
 		bytes_read = read(fd, tmp_buff, BUFFER_SIZE);
@@ -50,9 +50,10 @@ static char	*read_line(char *leftover_buff, char **current_line_start, int fd)
 			free(tmp_buff);
 			return (*current_line_start + (tot_bytes_read));
 		}
+		tmp_buff[bytes_read] = '\0';
 		*current_line_start = strjoin_and_free(*current_line_start, tmp_buff, tot_bytes_read, bytes_read);
 		tot_bytes_read += bytes_read;
-		line_end = strchr(*current_line_start, '\n');
+		line_end = ft_strchr(*current_line_start, '\n');
 		if (line_end)
 		{
 			ft_strlcpy(leftover_buff, line_end + 1, BUFFER_SIZE);
@@ -67,7 +68,6 @@ static char	*read_buff_and_line(char *leftover_buff, int fd)
 	char	*line;
 	char	*current_line_start;
 	char	*next_line_start;
-	size_t	buff_len;
 
 	current_line_start = ft_substr(leftover_buff, 0, BUFFER_SIZE);
 	next_line_start = read_line(leftover_buff, &current_line_start, fd);
@@ -78,17 +78,17 @@ static char	*read_buff_and_line(char *leftover_buff, int fd)
 
 char	*get_next_line(int fd)
 {
+	static char	*leftover_buff;
 	char		*line_end;
 	char		*line;
-	static char	*leftover_buff;
 
 	if (!leftover_buff)
 	{
-		leftover_buff = ft_calloc(BUFFER_SIZE);
+		leftover_buff = ft_calloc(BUFFER_SIZE, sizeof(char));
 		if (!leftover_buff)
 			return (NULL);
 	}
-	line_end = strchr(leftover_buff, '\n');
+	line_end = ft_strchr(leftover_buff, '\n');
 	if (line_end)
 	{
 		line = ft_substr(leftover_buff, 0, (line_end - leftover_buff + 1));

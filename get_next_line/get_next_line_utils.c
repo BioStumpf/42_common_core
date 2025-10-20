@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 12:08:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/20 15:03:51 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/20 19:05:52 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-static char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	unsigned char	cn;
 	unsigned char	*sn;
@@ -44,6 +44,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*out;
 	size_t	out_size;
+	size_t	i;
 
 	if (nmemb == 0 || size == 0)
 		out_size = 0;
@@ -54,11 +55,13 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	out = malloc(out_size);
 	if (!out)
 		return (0);
-	ft_bzero(out, out_size);
+	i = 0;
+	while (i < out_size)
+		((char *)out)[i++] = 0;
 	return (out);
 }
 
-static size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 
