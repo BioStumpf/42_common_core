@@ -5,14 +5,12 @@
 int main (void)
 {
 	char	*res;
-	size_t	counter = 0;
 
 	int fd = open("testfile", O_RDONLY);	
-	while (counter < 15)
+	while ((res = get_next_line(fd)))
 	{
-		res = get_next_line(fd);
 		printf("%s", res);
-		counter++;
+		free(res);
 	}
 	close(fd);
 }
