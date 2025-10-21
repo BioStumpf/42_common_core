@@ -9,7 +9,7 @@ int main (void)
 	int fd = open("testfile", O_RDONLY);	
 	while ((res = get_next_line(fd)))
 	{
-		printf("%s", res);
+		printf(": %s", res);
 		free(res);
 	}
 	close(fd);
