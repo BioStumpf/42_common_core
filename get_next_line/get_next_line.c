@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/22 00:06:05 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/22 00:14:28 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ char	*extract_line(char *pre_buff, char **ln_buff, char *tmp_buff, int fd)
 	{
 		bytes_read = read_join(ln_buff, lb_len, tmp_buff, fd);
 		if (bytes_read < 0)
-			return (NULL) ;
+			return (NULL);
 		lb_len += bytes_read;
 		eol_found = get_line(*ln_buff, pre_buff, lb_len, &line);
 		if (eol_found)
-			return (line) ;
+			return (line);
 	}
 	pre_buff[0] = '\0';
 	if (**ln_buff)
