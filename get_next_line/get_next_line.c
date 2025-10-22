@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/22 17:32:54 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/22 17:38:07 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void *test_malloc(size_t size)
-{
-    static int count = 0;
-
-    if (count == 3)
-    {
-        printf("Simulated malloc failure!\n");
-        return NULL;
-    }
-    count++;
-    return malloc(size);
-}
-#define malloc(size) test_malloc(size)
+//void *test_malloc(size_t size)
+//{
+//    static int count = 0;
+//
+//    if (count == 3)
+//    {
+//        printf("Simulated malloc failure!\n");
+//        return NULL;
+//    }
+//    count++;
+//    return malloc(size);
+//}
+//#define malloc(size) test_malloc(size)
 
 static char	*strjoin_and_free(char *s1, char *s2, size_t s1_len, size_t s2_len)
 {
