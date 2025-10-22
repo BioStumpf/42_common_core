@@ -6,11 +6,27 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/22 00:14:28 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/22 17:32:54 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+void *test_malloc(size_t size)
+{
+    static int count = 0;
+
+    if (count == 3)
+    {
+        printf("Simulated malloc failure!\n");
+        return NULL;
+    }
+    count++;
+    return malloc(size);
+}
+#define malloc(size) test_malloc(size)
 
 static char	*strjoin_and_free(char *s1, char *s2, size_t s1_len, size_t s2_len)
 {
@@ -20,7 +36,10 @@ static char	*strjoin_and_free(char *s1, char *s2, size_t s1_len, size_t s2_len)
 	tot_len = s1_len + s2_len;
 	out = malloc(tot_len + 1);
 	if (!out)
+	{
+		free(s1);
 		return (NULL);
+	}
 	ft_strlcpy(out, s1, tot_len + 1);
 	ft_strlcpy(out + s1_len, s2, tot_len + 1);
 	free(s1);
@@ -90,6 +109,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	size_t		pre_len;
 
+	line = NULL;
 	pre_len = ft_strlen(pre_buff);
 	if (get_line(pre_buff, pre_buff, pre_len, &line))
 		return (line);
