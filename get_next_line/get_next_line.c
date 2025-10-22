@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/22 17:38:07 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/22 19:50:23 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //{
 //    static int count = 0;
 //
-//    if (count == 3)
+//    if (count == 1)
 //    {
 //        printf("Simulated malloc failure!\n");
 //        return NULL;
@@ -89,7 +89,10 @@ char	*extract_line(char *pre_buff, char **ln_buff, char *tmp_buff, int fd)
 	{
 		bytes_read = read_join(ln_buff, lb_len, tmp_buff, fd);
 		if (bytes_read < 0)
+		{
+			pre_buff[0] = '\0';
 			return (NULL);
+		}
 		lb_len += bytes_read;
 		eol_found = get_line(*ln_buff, pre_buff, lb_len, &line);
 		if (eol_found)
