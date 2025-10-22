@@ -6,13 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/22 19:50:23 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/22 19:58:30 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
-#include <stdio.h>
+//#include <stdlib.h>
+//#include <stdio.h>
 
 //void *test_malloc(size_t size)
 //{
