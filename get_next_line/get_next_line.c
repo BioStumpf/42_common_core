@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/22 19:58:30 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/23 19:35:21 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 //    return malloc(size);
 //}
 //#define malloc(size) test_malloc(size)
+
+//LEGEND
+//lf == line_from, indicates where to get the line from (stupid line len rule)
 
 static char	*strjoin_and_free(char *s1, char *s2, size_t s1_len, size_t s2_len)
 {
@@ -60,7 +63,7 @@ static ssize_t	read_join(char **ln_buff, size_t lb_len, char *tmp_buff, int fd)
 	return (bytes_read);
 }
 
-static bool	get_line(char *ln_buff, char *pre_buff, size_t lb_len, char **line)
+static bool	lf_buff(char *ln_buff, char *pre_buff, size_t lb_len, char **line)
 {
 	char	*line_end;
 	size_t	line_len;
@@ -76,7 +79,7 @@ static bool	get_line(char *ln_buff, char *pre_buff, size_t lb_len, char **line)
 	return (false);
 }
 
-char	*extract_line(char *pre_buff, char **ln_buff, char *tmp_buff, int fd)
+static char	*lf_file(char *pre_buff, char **ln_buff, char *tmp_buff, int fd)
 {
 	char	*line;
 	size_t	lb_len;
@@ -94,7 +97,7 @@ char	*extract_line(char *pre_buff, char **ln_buff, char *tmp_buff, int fd)
 			return (NULL);
 		}
 		lb_len += bytes_read;
-		eol_found = get_line(*ln_buff, pre_buff, lb_len, &line);
+		eol_found = lf_buff(*ln_buff, pre_buff, lb_len, &line);
 		if (eol_found)
 			return (line);
 	}
@@ -114,13 +117,37 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	pre_len = ft_strlen(pre_buff);
-	if (get_line(pre_buff, pre_buff, pre_len, &line))
+	if (lf_buff(pre_buff, pre_buff, pre_len, &line))
 		return (line);
 	ln_buff = ft_substr(pre_buff, 0, BUFFER_SIZE);
 	tmp_buff = malloc(BUFFER_SIZE + 1);
 	if (ln_buff && tmp_buff)
-		line = extract_line(pre_buff, &ln_buff, tmp_buff, fd);
+		line = lf_file(pre_buff, &ln_buff, tmp_buff, fd);
 	free(tmp_buff);
 	free(ln_buff);
 	return (line);
+}
+
+
+
+ char	*get_next_line(int fd)
+{
+	static t_fdlist	*;
+	//buff
+	//buff_i
+	//buff_s
+	//line
+	//line_i
+	//line_s
+
+	while (big_struct->buff_s > 0)
+	{
+		if (big_struct->buff_i >= big_struct->buff_s)
+			big_struct->buff_s = read(fd, big_struct->buff, BUFFER_SIZE);
+		big_struct->line = ft_realloc(line, big_struct->line_s);
+		if (big_struct->buff_i < big_struct->buff_s)
+			(big_struct->line)[(big_struct->line_i)++] = (big_struct->buff)[big_struct->buff_i];
+		if ((big_struct->buff)[big_struct->buff_i] != '\n')
+			break ;
+	}
 }

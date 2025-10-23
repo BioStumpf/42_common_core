@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 12:08:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/20 19:05:52 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/23 15:42:04 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,6 @@ char	*ft_strchr(const char *s, int c)
 	if (*sn == cn)
 		return ((char *)sn);
 	return (0);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*out;
-	size_t	out_size;
-	size_t	i;
-
-	if (nmemb == 0 || size == 0)
-		out_size = 0;
-	else if (nmemb > (SIZE_MAX / size))
-		return (0);
-	else
-		out_size = nmemb * size;
-	out = malloc(out_size);
-	if (!out)
-		return (0);
-	i = 0;
-	while (i < out_size)
-		((char *)out)[i++] = 0;
-	return (out);
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
