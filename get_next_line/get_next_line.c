@@ -128,26 +128,92 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+static char	*strjoin_and_free(t_fdlist *stash)
+{
+	size_t	tot_len;
+	size_t	i;
+	size_t	j;
+	char	*out;
 
+	i = 0;
+	j = 0;
+	tot_len = stash->line_s + stash->read_i;
+	out = malloc(tot_len + 1);
+	if (!out)
+	{
+		free(stash->line);
+		free(stash->read);
+		return (NULL);
+	}
+	while (line && i < stash->line_s)
+		out[i] = (stash->line)[i++];
+	while (i < tot_len)
+		out[i++] = (stash->read)[j++]; 
+	out[i] = '\0';
+	free(stash->line);
+	stash->line_s = i;
+	return (out);
+}
+
+static char	*ft_realloc(t_fdlist *stash, size_t new_len)
+{
+	char	*new_line;
+	size_t	i;
+
+	if (!stash->line)
+		return (NULL);
+	new_line = malloc(new_len);
+	if (!new_line)
+		return (NULL);
+	i = 0;
+	while (i <= stash->line_i)  
+		new_line[i] = (stash->line)[i++];
+	(stash->line)[i] = '\0';
+	stash->line_s = new_len;
+	free(stash->line);
+	return (new_line);
+}
+
+static t_fdlist	*init_stash(t_fdlist *stash)
+{
+	if (!stash)
+	{
+		stash = malloc(sizeof(stash));
+		stash->buff_i = 0;
+		stash->buff_s = 0;
+	}
+	stash->line = malloc(BUFFER_SIZE);
+	stash->line_s = 0;
+	stash->line_i = 0;
+	return (stash);
+}
 
  char	*get_next_line(int fd)
 {
-	static t_fdlist	*;
+	static t_fdlist	*stash;
+
+	while (stash->buff_s > 0 && stash->line)
+	{
+		if (stash->buff_i >= stash->buff_s)
+		{
+			stash->buff_i = 0;
+			stash->buff_s = read(fd, stash->buff, BUFFER_SIZE);
+		}
+		if (stash->line_i >= stash->line_s)
+			stash->line = ft_realloc(stash, stash->line_s * 2);
+		if (stash->buff_i < stash->buff_s && stash->line)
+			(stash->line)[(stash->line_i)++] = (stash->buff)[(stash->buff_i)++];
+		if ((stash->buff)[stash->buff_i] == '\n')
+			break ;
+	}
+		stash->line = ft_realloc(stash, stash->line_i + 2);
+		if (!stash->line || stash->buff_s <= 0)
+			free(stash);
+		return (stash->line);
+}
 	//buff
 	//buff_i
 	//buff_s
 	//line
 	//line_i
 	//line_s
-
-	while (big_struct->buff_s > 0)
-	{
-		if (big_struct->buff_i >= big_struct->buff_s)
-			big_struct->buff_s = read(fd, big_struct->buff, BUFFER_SIZE);
-		big_struct->line = ft_realloc(line, big_struct->line_s);
-		if (big_struct->buff_i < big_struct->buff_s)
-			(big_struct->line)[(big_struct->line_i)++] = (big_struct->buff)[big_struct->buff_i];
-		if ((big_struct->buff)[big_struct->buff_i] != '\n')
-			break ;
-	}
-}
