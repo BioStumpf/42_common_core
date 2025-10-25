@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/25 14:05:00 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/25 14:18:55 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*ft_realloc(t_fdlist *stash, size_t new_len)
 	if (!new_line)
 		return (NULL);
 	i = 0;
-	while (i < stash->line_i)  
+	while (i < stash->line_i)
 	{
 		new_line[i] = (stash->line)[i];
 		++i;
@@ -79,7 +79,6 @@ char	*get_next_line(int fd)
 		{
 			stash->buff_i = 0;
 			stash->buff_s = read(fd, stash->buff, BUFFER_SIZE);
-			stash->buff[0] = '\0';
 		}
 		if (stash->line_i >= stash->line_s)
 			stash->line = ft_realloc(stash, stash->line_s * 2);
@@ -88,8 +87,8 @@ char	*get_next_line(int fd)
 		if ((stash->buff)[(stash->buff_i)++] == '\n')
 			break ;
 	}
-		out = ft_realloc(stash, stash->line_i + 1);
-		if (!out)
-			free_stash(&stash);
-		return (out);
+	out = ft_realloc(stash, stash->line_i + 1);
+	if (!out)
+		free_stash(&stash);
+	return (out);
 }
