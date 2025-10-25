@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:03:48 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/25 16:16:22 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/25 17:39:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ static char *ft_realloc(t_fdlist *stash, size_t new_len)
 		return (NULL);
 	new_line = malloc(new_len);
 	if (!new_line)
+	{
+		free(stash->line);
+		stash->line = NULL;
 		return (NULL);
+	}
 	i = 0;
 	while (i < stash->line_i)
 	{
