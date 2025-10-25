@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/18 11:47:51 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/25 14:18:55 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/10/25 15:03:48 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/10/25 15:04:36 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_realloc(t_fdlist *stash, size_t new_len)
+static char *ft_realloc(t_fdlist *stash, size_t new_len)
 {
 	char	*new_line;
 	size_t	i;
@@ -48,20 +48,18 @@ static void	free_stash(t_fdlist **stash)
 
 static t_fdlist	*handle_stash(t_fdlist *stash)
 {
-	if (stash && stash->buff_s <= 0)
-	{
-		free_stash(&stash);
-		return (NULL);
-	}
 	if (!stash)
 	{
 		stash = malloc(sizeof(t_fdlist));
 		stash->buff_i = 1;
 		stash->buff_s = 1;
+		(stash->buff)[0] = '\0';
 	}
 	stash->line = malloc(BUFFER_SIZE);
 	stash->line_s = BUFFER_SIZE;
 	stash->line_i = 0;
+	if (stash->buff_s <= 0)
+		free_stash(&stash);
 	return (stash);
 }
 
@@ -70,6 +68,8 @@ char	*get_next_line(int fd)
 	static t_fdlist	*stash;
 	char			*out;
 
+	if (BUFFER_SIZE < 0 || fd < 0)
+		return (NULL);
 	stash = handle_stash(stash);
 	if (!stash)
 		return (NULL);
