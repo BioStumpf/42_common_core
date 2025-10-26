@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 11:51:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/25 16:16:32 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/26 11:23:34 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdbool.h>
-# include <stdint.h>
 
 typedef struct s_fdlist
 {
@@ -33,5 +31,8 @@ typedef struct s_fdlist
 }			t_fdlist;
 
 char	*get_next_line(int fd);
+char	*ft_realloc(t_fdlist *stash, size_t new_len);
+void	init_stash(t_fdlist *stash);
+void	cpy_buff_to_line(t_fdlist *stash, int fd);
 
 #endif

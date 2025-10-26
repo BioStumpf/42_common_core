@@ -6,77 +6,61 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 12:08:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/23 15:42:04 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/26 11:13:44 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_realloc(t_fdlist *stash, size_t new_len)
 {
-	size_t	len;
-
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	unsigned char	cn;
-	unsigned char	*sn;
-
-	cn = (unsigned char)c;
-	sn = (unsigned char *)s;
-	while (*sn)
-	{
-		if (*sn == cn)
-			return ((char *)sn);
-		sn++;
-	}
-	if (*sn == cn)
-		return ((char *)sn);
-	return (0);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
+	char	*new_line;
 	size_t	i;
 
+	new_line = malloc(new_len);
+	if (!new_line || !stash->line || !stash->line_i || stash->buff_s < 0)
+	{
+		free(new_line);
+		free(stash->line);
+		return (NULL);
+	}
 	i = 0;
-	if (size == 0)
+	while (i < stash->line_i)
 	{
-		i = ft_strlen(src);
-		return (i);
+		new_line[i] = (stash->line)[i];
+		++i;
 	}
-	while (src[i] && (i < size - 1))
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = 0;
-	while (src[i])
-		i++;
-	return (i);
+	new_line[i] = '\0';
+	stash->line_s = new_len;
+	free(stash->line);
+	return (new_line);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	init_stash(t_fdlist *stash)
 {
-	char	*out;
-	size_t	s_len;
+	stash->line_s = BUFFER_SIZE;
+	stash->line_i = 0;
+	stash->line = malloc(BUFFER_SIZE * sizeof(char));
+}
 
-	s_len = ft_strlen(s);
-	if (start >= s_len)
+void	cpy_buff_to_line(t_fdlist *stash, int fd)
+{
+	while (stash->line)
 	{
-		start = s_len;
-		len = 0;
+		if (stash->buff_i >= stash->buff_s)
+		{
+			stash->buff_i = 0;
+			stash->buff_s = read(fd, stash->buff, BUFFER_SIZE);
+		}
+		if (stash->buff_s <= 0)
+			break ;
+		if (stash->line_i >= stash->line_s)
+			stash->line = ft_realloc(stash, stash->line_s * 2);
+		if (!stash->line)
+			break ;
+		if (stash->buff_i < stash->buff_s && stash->line)
+			(stash->line)[(stash->line_i)++] = (stash->buff)[stash->buff_i];
+		if ((stash->buff)[(stash->buff_i)++] == '\n')
+			break ;
 	}
-	else if (len > s_len - start)
-		len = s_len - start;
-	out = malloc(len + 1);
-	if (!out)
-		return (NULL);
-	ft_strlcpy(out, s + start, len + 1);
-	return (out);
 }
