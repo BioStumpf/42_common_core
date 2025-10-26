@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:03:48 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/26 11:00:56 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/26 11:10:14 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	cpy_buff_to_line(t_fdlist *stash, int fd)
 			stash->buff_i = 0;
 			stash->buff_s = read(fd, stash->buff, BUFFER_SIZE);
 		}
-		if (!stash->buff_s)
+		if (stash->buff_s <= 0)
 			break ;
 		if (stash->line_i >= stash->line_s)
 			stash->line = ft_realloc(stash, stash->line_s * 2);

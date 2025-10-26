@@ -6,11 +6,11 @@ int main (void)
 {
 	char	*res;
 
-	int fd = open("testfile", O_RDONLY);	
-	while ((res = get_next_line(fd)))
+//	int fd = open("testfile", O_RDONLY);	
+	while ((res = get_next_line(100)))
 	{
 		printf(": %s", res);
 		free(res);
 	}
-	close(fd);
+//	close(fd);
 }
