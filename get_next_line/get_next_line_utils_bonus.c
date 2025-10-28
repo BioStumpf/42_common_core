@@ -6,70 +6,65 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 12:08:16 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/27 11:14:08 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/10/28 15:30:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-void	free_glob_stash(t_fdlist *glob_stash)
+bool	init_line(t_lineinfo *line)
 {
-	if (!glob_stash)
-		return ;
-	free_glob_stash(glob_stash->next);
-	free(glob_stash);
+	line->line_s = BUFFER_SIZE;
+	line->line_i = 0;
+	line->line = malloc(BUFFER_SIZE * sizeof(char));
+	if (!line->line)
+		return (false);
+	return (true);
 }
 
-t_fdlist	*new_stash(int fd)
+char	*ft_realloc(t_fdlist *stash, t_lineinfo *line, size_t new_len)
 {
-	t_fdlist	*new;
+	char	*new_line;
+	size_t	i;
 
-	new = malloc(sizeof(t_fdlist));
-	if (!new)
-		return (NULL);
-	new->next = NULL;
-	new->fd = fd;
-	new->buff_i = 0;
-	new->buff_s = 0;
-	return (new);
-}
-
-t_fdlist	*add_stash(t_fdlist **glob_stash, int fd)
-{
-	t_fdlist	*stash;
-
-	stash = new_stash(fd);
-	if (!stash)
-		return (NULL);
-	if (!*glob_stash)
-		*glob_stash = stash;
-	else
+	new_line = malloc(new_len);
+	if (!new_line || !line->line
+		|| !line->line_i || stash->buff_s < 0)
 	{
-		stash->next = *glob_stash;
-		*glob_stash = stash;
-	}
-	return (stash);
-}
-
-t_fdlist	*find_stash(t_fdlist *stash, int fd)
-{
-	while (stash)
-	{
-		if (fd == stash->fd)
-			return (stash);
-		stash = stash->next;
-	}
-	return (NULL);
-}
-
-t_fdlist	*get_fd_stash(t_fdlist **glob_stash, int fd)
-{
-	t_fdlist	*stash;
-
-	stash = find_stash(*glob_stash, fd);
-	if (!stash)
-		stash = add_stash(glob_stash, fd);
-	if (!stash)
+		free(line->line);
+		free(new_line);
 		return (NULL);
-	return (stash);
+	}
+	i = 0;
+	while (i < line->line_i)
+	{
+		new_line[i] = (line->line)[i];
+		++i;
+	}
+	new_line[i] = '\0';
+	line->line_s = new_len;
+	free(line->line);
+	return (new_line);
+}
+
+void	cpy_buff_to_line(t_fdlist *stash, t_lineinfo *line, int fd)
+{
+	while (line->line)
+	{
+		if (stash->buff_i >= stash->buff_s)
+		{
+			stash->buff_i = 0;
+			stash->buff_s = read(fd, stash->buff, BUFFER_SIZE);
+		}
+		if (stash->buff_s <= 0)
+			break ;
+		if (line->line_i >= line->line_s)
+			line->line = ft_realloc(stash, line, line->line_s * 2);
+		if (!line->line)
+			break ;
+		if (stash->buff_i < stash->buff_s && line->line)
+			(line->line)[(line->line_i)++] = (stash->buff)[stash->buff_i];
+		if ((stash->buff)[(stash->buff_i)++] == '\n')
+			break ;
+	}
 }
