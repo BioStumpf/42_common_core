@@ -1,0 +1,27 @@
+NAME := libftprintf.a
+CC := cc
+INC_DIR := includes
+CFLAGS := -Wall -Wextra -Werror -c -I$(INC_DIR) -g
+SRC_DIR := src
+OBJ_DIR := obj
+SRCS := $(wildcard $(SRC_DIR)/*.c)
+OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	ar rcs $@ $?
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -o $@ $<
+
+clean:
+	rm -rf $(OBJ_DIR)
+
+fclean: clean
+	rm -rf $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
