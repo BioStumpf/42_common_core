@@ -1,11 +1,14 @@
 #include <stdio.h>
 //#include <unistd.h>
-#include "printf.h"
+#include "ft_printf.h"
 int main(void)
 {
+	int ft;
+	int ref;
+
 	printf("some initial tests\n");
-	int ft = ft_printf("%c, hi %s, %d\n", 'A', "David", 2147483647);
-	int ref = printf("%c, hi %s, %d\n", 'A', "David", 2147483647);
+	ft = ft_printf("%c, hi %s, %d\n", 'A', "David", -2147483647);
+	ref = printf("%c, hi %s, %d\n", 'A', "David", -2147483647);
 	printf("ft: %d\n", ft);
 	printf("ref: %d\n", ref);
 	printf("Now test percent only\n");
@@ -23,4 +26,14 @@ int main(void)
 	printf("ref: %p\n", arr);
 	printf("Now test if it can print %% and stuff correctly after it like pointer %%p\n");
 	ft_printf("Now test if it can print %% and stuff correctly after it like pointer %%p\n");
+	printf("test NULL for %%s\n");
+	ft = ft_printf("ftt: %s, %s\n", 0, "Hello");
+	ref = printf("ref: %s, %s\n", 0, "Hello");
+	printf("ft: %d\n", ft);
+	printf("ref: %d\n", ref);
+	printf("test NULL for %%p\n");
+	ft = ft_printf("ftt: %p, %s\n", 0, "Hello");
+	ref = printf("ref: %p, %s\n", 0, "Hello");
+	printf("ft: %d\n", ft);
+	printf("ref: %d\n", ref);
 }

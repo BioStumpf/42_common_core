@@ -1,4 +1,4 @@
-#include "printf.h"
+#include "ft_printf.h"
 
 const char	*find_option(const char *str)
 {
@@ -18,13 +18,13 @@ int	print_arg(va_list args, const char *arg)
 	else if (*arg == 'i')
 		return (ft_putnbr_signed(va_arg(args, int)));
 	else if (*arg == 'x')
-		return (ft_putnbr_base((ulong)va_arg(args, uint), 16, false));
+		return (ft_putnbr_base((t_ulong)va_arg(args, t_uint), 16, false));
 	else if (*arg == 'X')
-		return (ft_putnbr_base((ulong)va_arg(args, uint), 16, true));
+		return (ft_putnbr_base((t_ulong)va_arg(args, t_uint), 16, true));
 	else if (*arg == 'p')
-		return (print_pointer(va_arg(args, ulong)));
+		return (print_pointer(va_arg(args, t_ulong)));
 	else if (*arg == 'u')
-		return (ft_putnbr_base((ulong)va_arg(args, uint), 10, false));
+		return (ft_putnbr_base((t_ulong)va_arg(args, t_uint), 10, false));
 	else if (*arg == '%')
 		return (ft_putchar('%'));
 	else

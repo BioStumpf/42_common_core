@@ -1,6 +1,6 @@
-#include "printf.h"
+#include "ft_printf.h"
 
-static int	putnbr_rec(ulong num, const char *base, uint base_len)
+static int	putnbr_rec(t_ulong num, const char *base, t_uint base_len)
 {
 	int	digits;
 
@@ -14,7 +14,7 @@ static int	putnbr_rec(ulong num, const char *base, uint base_len)
 	return (digits + 1);
 }
  
-int	ft_putnbr_base(ulong num, uint base_len, bool to_up)
+int	ft_putnbr_base(t_ulong num, t_uint base_len, bool to_up)
 {
 	const char	*base;
 
@@ -27,20 +27,22 @@ int	ft_putnbr_base(ulong num, uint base_len, bool to_up)
 
 int	ft_putnbr_signed(int num)
 {
-	ulong	nb;
-
 	if (num < 0)
 	{
 		write(1, "-", 1);
-		nb = (ulong)(-(long)num);
+		return (ft_putnbr_base((t_ulong)(-(long)num), 10, false) + 1);
 	}
 	else
-		nb = (ulong)num;
-	return (ft_putnbr_base(nb, 10, false));
+		return (ft_putnbr_base((t_ulong)num, 10, false));
 }
 
-int	print_pointer(ulong num)
+int	print_pointer(t_ulong num)
 {
+	if (!num)
+	{
+		write(1, "(nil)", 5);
+		return (5);
+	}
 	write(1, "0x", 2);
 	return (ft_putnbr_base(num, 16, false) + 2);
 }
