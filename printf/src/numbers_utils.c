@@ -27,15 +27,16 @@ int	ft_putnbr_base(ulong num, uint base_len, bool to_up)
 
 int	ft_putnbr_signed(int num)
 {
-	long	nb;
+	ulong	nb;
 
 	if (num < 0)
 	{
-		nb = -(long)num;
 		write(1, "-", 1);
-		return (ft_putnbr_base((ulong)nb, 10, false));
+		nb = (ulong)(-(long)num);
 	}
-	return (ft_putnbr_base((ulong)num, 10, false));
+	else
+		nb = (ulong)num;
+	return (ft_putnbr_base(nb, 10, false));
 }
 
 int	print_pointer(ulong num)
