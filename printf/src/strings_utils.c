@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   strings_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/02 21:22:31 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/02 22:55:01 by dstumpf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int	ft_putchar(const char c)
 {
-	write(1, &c, 1);
-	return (1);
+	return (write(1, &c, 1));
 }
 
 int	ft_putstr(const char *str)
@@ -11,13 +22,9 @@ int	ft_putstr(const char *str)
 	int	i;
 
 	if (!str)
-	{
-		write(1, "(null)", 6);
-		return (6);
-	}
+		return (write(1, "(null)", 6));
 	i = 0;
 	while (str[i])
 		i++;
-	write(1, str, i);
-	return (i);
+	return (write(1, str, i));
 }

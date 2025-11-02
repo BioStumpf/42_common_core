@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   numbers_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/02 21:21:46 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/02 22:59:16 by dstumpf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static int	putnbr_rec(t_ulong num, const char *base, t_uint base_len)
@@ -5,20 +17,17 @@ static int	putnbr_rec(t_ulong num, const char *base, t_uint base_len)
 	int	digits;
 
 	if (base_len > num)
-	{
-		write(1, &base[num], 1);
-		return (1);
-	}
+		return (write(1, &base[num], 1));
 	digits = putnbr_rec(num / base_len, base, base_len);
 	write(1, &base[num % base_len], 1);
 	return (digits + 1);
 }
- 
-int	ft_putnbr_base(t_ulong num, t_uint base_len, bool to_up)
+
+int	ft_putnbr_base(t_ulong num, t_uint base_len, char base_id)
 {
 	const char	*base;
 
-	if (to_up)
+	if (base_id == 'X')
 		base = "0123456789ABCDEF";
 	else
 		base = "0123456789abcdef";
@@ -39,10 +48,7 @@ int	ft_putnbr_signed(int num)
 int	print_pointer(t_ulong num)
 {
 	if (!num)
-	{
-		write(1, "(nil)", 5);
-		return (5);
-	}
+		return (write(1, "(nil)", 5));
 	write(1, "0x", 2);
 	return (ft_putnbr_base(num, 16, false) + 2);
 }
