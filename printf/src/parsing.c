@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 21:22:45 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/02 23:01:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/03 15:13:16 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	print_arg(va_list args, const char *arg)
 		return (ft_putchar(va_arg(args, int)));
 	else if (*arg == 's')
 		return (ft_putstr(va_arg(args, char *)));
-	else if (*arg == 'd')
-		return (ft_putnbr_signed(va_arg(args, int)));
-	else if (*arg == 'i')
+	else if (*arg == 'd' || *arg == 'i')
 		return (ft_putnbr_signed(va_arg(args, int)));
 	else if (*arg == 'x')
 		return (ft_putnbr_base((t_ulong)va_arg(args, t_uint), 16, 'x'));

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 21:21:46 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/03 10:45:06 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/03 15:12:40 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	ft_putnbr_signed(int num)
 	{
 		if (write(1, "-", 1) == -1)
 			return (-1);
-		return (ft_putnbr_base((t_ulong)(-(long)num), 10, false) + 1);
+		return (ft_putnbr_base((t_ulong)(-(long)num), 10, 'i') + 1);
 	}
 	else
-		return (ft_putnbr_base((t_ulong)num, 10, false));
+		return (ft_putnbr_base((t_ulong)num, 10, 'i'));
 }
 
 int	print_pointer(t_ulong num)
@@ -55,5 +55,5 @@ int	print_pointer(t_ulong num)
 		return (write(1, "(nil)", 5));
 	if (write(1, "0x", 2) == -1)
 		return (-1);
-	return (ft_putnbr_base(num, 16, false) + 2);
+	return (ft_putnbr_base(num, 16, 'x') + 2);
 }
