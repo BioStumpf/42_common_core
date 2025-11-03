@@ -6,11 +6,12 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 21:22:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/02 22:55:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/03 10:43:17 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
 
 int	ft_putchar(const char c)
 {

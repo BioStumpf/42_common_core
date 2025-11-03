@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 21:21:46 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/02 22:59:16 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/03 10:45:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ static int	putnbr_rec(t_ulong num, const char *base, t_uint base_len)
 	if (base_len > num)
 		return (write(1, &base[num], 1));
 	digits = putnbr_rec(num / base_len, base, base_len);
-	write(1, &base[num % base_len], 1);
+	if (digits == -1)
+		return (-1);
+	if (write(1, &base[num % base_len], 1) == -1)
+		return (-1);
 	return (digits + 1);
 }
 
@@ -38,7 +41,8 @@ int	ft_putnbr_signed(int num)
 {
 	if (num < 0)
 	{
-		write(1, "-", 1);
+		if (write(1, "-", 1) == -1)
+			return (-1);
 		return (ft_putnbr_base((t_ulong)(-(long)num), 10, false) + 1);
 	}
 	else
@@ -49,6 +53,7 @@ int	print_pointer(t_ulong num)
 {
 	if (!num)
 		return (write(1, "(nil)", 5));
-	write(1, "0x", 2);
+	if (write(1, "0x", 2) == -1)
+		return (-1);
 	return (ft_putnbr_base(num, 16, false) + 2);
 }

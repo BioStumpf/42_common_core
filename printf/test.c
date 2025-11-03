@@ -31,9 +31,9 @@ int main(void)
 	printf("------------------------------\n");
 	printf("invalid arg\n");
 	printf("------------------------------\n");
-	ft = ft_printf("ft: hello %k bla % gli");
+	ft = ft_printf("ft: hello %y bla gli");
 	printf("\n");
-	rf = printf("rf: hello %k bla % gli");
+	rf = printf("rf: hello %y bla gli");
 	printf("\n");
 	printf("ft_ret: %d", ft); 
 	printf("\n");
