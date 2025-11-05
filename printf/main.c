@@ -70,7 +70,6 @@ int main(void)
 	ret2 = printf("null string: %s\n", ptr);
 	printf("Return values: ft: %d og: %d\n", ret1, ret2);
 
-
 	printf("\n--- NULL CHAR ---\n");
 	ret1 = ft_printf("null char: %c$\n", '\0');
 	ret2 = printf("null char: %c$\n", '\0');
@@ -82,8 +81,8 @@ int main(void)
 	printf("Return values: ft: %d og: %d\n", ret1, ret2);
 
 	printf("\n--- STRING ENDS WITH %% ---\n");
-	ret1 = ft_printf("invalid: %");
-	ret2 = printf("\ninvalid: %");
+	ret1 = ft_printf("%d in% valid: %", 1);
+	ret2 = printf("\n%d in% valid: %", 1);
 	printf("\nReturn values: ft: %d og: %d\n", ret1, ret2); //return -1 and don't printf % SOLVED
 
 	/* INVALID SPECIFIER - BEHAVIOUR UNDEFINED. WE DON'T HANDLE
@@ -94,8 +93,8 @@ int main(void)
 	*/
 	// THE SAME HERE
 	printf("\n---UNKNOWN FORMATSIGN---\n");
-	ret1 = ft_printf("unknown ft: %q\n", 42); //TODO handle
-	ret2 = printf("unknown og: %q\n", 42);
+	ret1 = ft_printf("unknown ft: %v %d\n", 42); //TODO handle
+	ret2 = printf("unknown og: %v %d\n", 42);
 	printf("Return values: ft: %d orig: %d\n", ret1, ret2);
 
 	printf("\n---CHAINED---\n");
@@ -103,6 +102,11 @@ int main(void)
 	ret2 = printf("int: %d, hex: %x, char: %c, str: %s, percent: %%\n", 42, 255, 'A', "Hallo");
 	printf("Return values: ft: %d\n", ret1);
 	printf("Return values: normal: %d\n", ret2);
+
+	printf("\n--- NULL TEST ---\n");
+	ret1 = ft_printf(NULL);
+	ret2 = printf(NULL);
+	printf("Return values: ft: %d | original: %d\n", ret1, ret2);
 
 	return (0);
 }

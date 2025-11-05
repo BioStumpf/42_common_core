@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 21:23:29 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/03 10:37:00 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/05 11:08:50 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_printf(const char *str, ...)
 	int			tot_bytes;
 	int			printed_bytes;
 
+	if (!str)
+		return (-1);
 	va_start(args, str);
 	tot_bytes = 0;
 	while (*str)
