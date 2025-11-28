@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 10:45:32 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/10 17:15:37 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/11/28 17:39:29 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/28 17:56:34 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	exit_error(char *message)
 {
-	t_list	*last_node;
+	ft_printf("%s\n", message);
+	exit(1);
+}
 
-	if (!lst || !new)
-		return ;
-	last_node = ft_lstlast(*lst);
-	if (!last_node)
-	{
-		*lst = new;
-		return ;
-	}
-	last_node->next = new;
+void	exit_lsterror(t_list *map_lst)
+{
+	ft_lstclear(map_lst, free);
+	exit_error("Malloc failure during linked list generation!");
+}
+
+void	exit_griderror(t_grid *grid, t_list *map_lst)
+{
+	free_mat(grid);
+	ft_lstclear(map_lst, free);
+	exit_error("Malloc failure during grid generation!");
 }

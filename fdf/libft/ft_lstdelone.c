@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/25 15:03:48 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/28 16:12:17 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/10/10 11:15:56 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/26 15:28:51 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "libft.h"
 
-char	*get_next_line(int fd)
+void	ft_lstdelone(t_node *node, void (*del)(void *))
 {
-	static t_fdlist	glob_stash[1024];
-	t_fdlist		*stash;
-	t_lineinfo		line;
-
-	if (BUFFER_SIZE <= 0 || fd < 0)
-		return (NULL);
-	stash = &glob_stash[fd];
-	if (!init_line(&line))
-		return (NULL);
-	cpy_buff_to_line(stash, &line, fd);
-	line.line = ft_realloc(stash, &line, line.line_i + 1);
-	return (line.line);
+	if (!node || !del)
+		return ;
+	del(node->content);
+	free(node);
 }

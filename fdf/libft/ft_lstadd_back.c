@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_complete.h                                   :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/25 16:49:22 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/10/10 10:45:32 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/28 12:03:46 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_COMPLETE_H
-# define LIBFT_COMPLETE_H
+#include "libft.h"
 
-# include "libft.h"
-# include "get_next_line_bonus.h"
-# include "ft_printf.h"
-
-#endif
+void	ft_lstadd_back(t_list *lst, t_node *new)
+{
+	if (!lst || !new)
+		return ;
+	if (!lst->tail)
+	{
+		lst->tail = new;
+		lst->head = new;
+	}
+	else
+	{
+		lst->tail->next = new;
+		lst->tail = new;
+	}
+	lst->len++;
+}

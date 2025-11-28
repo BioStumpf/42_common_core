@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_lstprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 10:28:47 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/10 10:43:40 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/11/28 17:39:50 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/28 17:39:54 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+void	ft_lstprint(t_list *lst, void (*print_fn)(void *content))
 {
-	int	len;
+	t_node	*cursor;
 
-	len = 0;
-	while (lst)
+	cursor = lst->head;
+	while (cursor)
 	{
-		len++;
-		lst = lst->next;
+		print_fn(cursor->content);
+		cursor = cursor->next;
 	}
-	return (len);
 }

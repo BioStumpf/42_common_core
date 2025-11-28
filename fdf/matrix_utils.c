@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 11:15:56 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/10 11:48:04 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/28 18:17:23 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+void	free_mat(t_grid *grid)
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
+	int	i;
+
+	i = 0;
+	while (i < grid->rows)
+		free(grid->mat[i++]);
+	free(grid);
 }

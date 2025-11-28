@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 11:17:57 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/09 15:57:57 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/28 11:25:00 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static int	ft_iswhitespace(const char c)
 int	ft_atoi(const char *nptr)
 {
 	int				sign;
-	unsigned long	res;
-	int				digit;
+	unsigned int	res;
+	unsigned int	digit;
 
 	sign = 1;
 	res = 0;
@@ -36,10 +36,10 @@ int	ft_atoi(const char *nptr)
 	while (ft_isdigit(*nptr))
 	{
 		digit = *nptr - '0';
-		if (sign == 1 && res > ((unsigned long)LONG_MAX - digit) / 10)
-			return (-1);
-		if (sign == -1 && res > ((unsigned long)LONG_MIN - digit) / 10)
-			return (0);
+		if (sign == 1 && res >= ((unsigned int)INT_MAX - digit) / 10)
+			return (INT_MAX);
+		if (sign == -1 && res >= ((unsigned int)INT_MIN - digit) / 10)
+			return (INT_MIN);
 		res = res * 10 + digit;
 		nptr++;
 	}

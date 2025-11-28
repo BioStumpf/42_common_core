@@ -10,8 +10,8 @@ LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 
-CFLAGS_OBJS = -Wall -Wextra -Werror -I$(LIBFT_DIR) -c $< -o $@
-CFLAGS_NAME = -Wall -Wextra -Werror -o $@
+CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -c $< -o $@
+CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 
 all: $(NAME)

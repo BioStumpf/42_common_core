@@ -6,47 +6,70 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:37:37 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/25 19:58:21 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/28 18:29:12 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "libft_complete.h"
 
+//make mybe line to node function
 
-
-void	read_map(int fd, t_list **line_list)
+static t_list	*read_map_lst(int fd)
 {
-	char	*line_buff;
-	t_list	*line_node;
+	t_list	*map_lst;
+	t_node	*node;
+	char	*line;
 
+	map_lst = ft_lstnew();
+	if (!map_lst)
+		exit_error("Malloc failure during list initialization!");
 	while (true)
 	{
-		line_buff = get_next_line(fd);
-		ft_printf("line: %s", line_buff);
-		if (!line_buff)
+		line = get_next_line(fd);
+		if (!line)
 			break ;
-		//make t_list struct different, containing head, tail and current position, addback will change these attributes
-		line_node = ft_lstnew(line_buff);
-		if (!line_node)
-			ft_exit_malloc();
-		ft_lstadd_back(line_list, line_node); 
-		free(line_buff);
+		node = ft_nodenew(line);
+		if (!node)
+			exit_lsterror(map_lst);
+		ft_lstadd_back(map_lst, node);
 	}
+	return (map_lst);
 }
 
-t_grid	**make_grid(t_list line_list)
+//word count function ->libft take from split
+//put wc and atoi in custom split_to_int function
+
+static t_grid	**make_grid(t_list *map_lst)
 {
+	t_grid	*grid;
+	t_node	*cursor;
+	int		i;
+
+	//allocate memory for grid
+	//init rows and cols to 0
+	//allocate memory for grid->mat base on map_lst->len
+	cursor = map_list->head;
+	i = 0;
+	while (i < map_list->len)
+	{
+		//call split_to_int and set grid->mat[i] to it
+			//compute word count
+			//compare word count against grid->cols 
+			//allocate memory for *mat based on word count
+			//iterate through word count using j
+			//convert "word" into int, acess grid->mat[i][j] and set its z value
+		//call isometric conversion funcion to compute x_iso and y_iso and set grid->mat[i][j] values
+		cursor++;
+		i++;
+	}
 }
 
 int	**parse_map(int fd)
 {
-	t_list	*line_list;
+	t_list	*map_lst;
 	t_grid	**grid;
 
-	line_list = NULL;
-	line_list = read_map(fd, &line_list);
-	if (!line_list)
-		return (NULL);
-	grid = make_grid(line_list);
+	map_lst = read_map_lst(fd);
+	grid = make_grid(map_list);
+	ft_lstclear(map, free);
 }

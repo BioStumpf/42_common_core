@@ -6,24 +6,24 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:28:46 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/10 17:35:16 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/26 15:04:23 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_lstclear_rec(t_list *lst_cursor, void (*del)(void *))
+static void	ft_lstclear_rec(t_node *node, void (*del)(void *))
 {
-	if (!lst_cursor)
+	if (!node)
 		return ;
-	ft_lstclear_rec(lst_cursor->next, del);
-	ft_lstdelone(lst_cursor, del);
+	ft_lstclear_rec(node->next, del);
+	ft_lstdelone(node, del);
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_lstclear(t_list *lst, void (*del)(void *))
 {
 	if (!lst || !del)
 		return ;
-	ft_lstclear_rec(*lst, del);
-	*lst = NULL;
+	ft_lstclear_rec(lst->head, del);
+	free(lst);
 }
