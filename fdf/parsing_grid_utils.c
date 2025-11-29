@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 18:37:37 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/29 16:12:28 by dstumpf          ###   ########.fr       */
+/*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/11/29 12:38:58 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static t_list	*read_map_lst(int fd)
+void	free_mat(t_grid *grid)
 {
-	t_list	*map_lst;
-	t_node	*node;
-	char	*line;
+	int	i;
 
-	map_lst = ft_lstnew();
-	if (!map_lst)
-		exit_lsterror(map_lst);
-	while (true)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		node = ft_nodenew(line);
-		if (!node)
-			exit_lsterror(map_lst);
-		ft_lstadd_back(map_lst, node);
-	}
-	return (map_lst);
+	if (!grid)
+		return ;
+	i = 0;
+	while (i < grid->rows)
+		free(grid->mat[i++]);
+	free(grid);
 }
 
 static t_grid	*init_grid(t_list *map_lst)
@@ -49,7 +39,7 @@ static t_grid	*init_grid(t_list *map_lst)
 	grid->mat = NULL;
 }
 
-static t_point	*split_to_int(const char *line, t_grid *grid)
+static t_point	*make_grid_row(const char *line, t_grid *grid)
 {
 	t_point	*row_int;
 	size_t	wc;
@@ -79,37 +69,23 @@ static t_point	*split_to_int(const char *line, t_grid *grid)
 	return (row_int);
 }
 
-static t_grid	*make_grid(t_list *map_lst)
+t_grid	*make_grid(t_list *map_lst)
 {
 	t_grid	*grid;
 	t_node	*cursor;
-	int		i;
 
 	grid = init_grid(map_lst);
-	if (!grid)
-		exit_griderror(grid, map_lst);
-	grid->mat = malloc(sizeof(t_point *) * map_lst->len);
-	if (!grid->mat)
+	if (grid)
+		grid->mat = malloc(sizeof(t_point *) * map_lst->len);
+	if (!grid || !grid->mat)
 		exit_griderror(grid, map_lst);
 	cursor = map_list->head;
-	i = 0;
-	while (i < map_list->len)
+	while (grid->rows < map_list->len)
 	{
-		grid->mat[i] = split_to_int(cursor, grid);
+		grid->mat[i] = make_grid_row(cursor, grid);
 		if (!grid->mat[i])
-			exit_gridfree(grid, map_lst);
+			exit_griderror(grid, map_lst);
 		cursor++;
-		i++;
+		grid->rows++;
 	}
-}
-
-t_grid	*parse_map(int fd)
-{
-	t_list	*map_lst;
-	t_grid	*grid;
-
-	map_lst = read_map_lst(fd);
-	grid = make_grid(map_list);
-	ft_lstclear(map, free);
-	return (grid);
 }
