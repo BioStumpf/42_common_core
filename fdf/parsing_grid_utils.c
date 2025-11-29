@@ -19,8 +19,9 @@ void	free_mat(t_grid *grid)
 	if (!grid)
 		return ;
 	i = 0;
-	while (i < grid->rows)
+	while (grid->mat && i < grid->rows)
 		free(grid->mat[i++]);
+	free(grid->mat);
 	free(grid);
 }
 
@@ -30,18 +31,16 @@ static t_grid	*init_grid(t_list *map_lst)
 
 	grid = malloc(sizeof(t_grid));
 	if (!grid)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
+		exit_griderror(grid, map_lst, ENOMEM);
 	grid->rows = 0;
 	grid->cols = 0;
 	grid->mat = NULL;
 }
 
-static t_point	*make_grid_row(const char *line, t_grid *grid)
+static t_point	*make_grid_row(const char *line, t_grid *grid, t_list *map_lst)
 {
 	t_point	*row_int;
+	char	*line_cpy;
 	size_t	wc;
 	size_t	i;
 
@@ -49,20 +48,15 @@ static t_point	*make_grid_row(const char *line, t_grid *grid)
 	if (grid->cols == 0)
 		grid->cols = wc;
 	if (wc == 0 || wc != grid->cols)
-	{
-		errno = EINVAL;
-		return (NULL);
-	}
+		exit_griderror(grid, map_lst, EINVAL);
 	row_int = malloc(sizeof(t_point) * wc);
 	if (!row_int)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
+		exit_griderror(grid, map_lst, ENOMEM);
 	i = 0;
+	line_cpy = (char *)line;
 	while (i < wc)
 	{
-		row_int[i].z = ft_atoi_arr(&line);	
+		row_int[i].z = ft_atoi_arr(&line_cpy);	
 		//call isometric conversion funcion to compute x_iso and y_iso and set grid->mat[i][j] valuesdd
 		//row_int[i].iso_x = 
 		//row_int[i++].iso_y = 
@@ -75,16 +69,13 @@ t_grid	*make_grid(t_list *map_lst)
 	t_node	*cursor;
 
 	grid = init_grid(map_lst);
-	if (grid)
-		grid->mat = malloc(sizeof(t_point *) * map_lst->len);
-	if (!grid || !grid->mat)
-		exit_griderror(grid, map_lst);
+	grid->mat = malloc(sizeof(t_point *) * map_lst->len);
+	if (!grid->mat)
+		exit_griderror(grid, map_lst, ENOMEM);
 	cursor = map_list->head;
 	while (grid->rows < map_list->len)
 	{
-		grid->mat[i] = make_grid_row(cursor, grid);
-		if (!grid->mat[i])
-			exit_griderror(grid, map_lst);
+		grid->mat[i] = make_grid_row((const char *)cursor->content, grid, map_lst);
 		cursor++;
 		grid->rows++;
 	}

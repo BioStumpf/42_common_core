@@ -18,18 +18,22 @@ void	exit_error(const char *message)
 	exit(1);
 }
 
-void	exit_lsterror(t_list *map_lst)
+void	exit_lsterror(t_list *map_lst, int errnum)
 {
 	ft_lstclear(map_lst, free);
-	errno = ENOMEM;
-	exit_error("Failed to read map.");
+	errno = errnum;
+	if (errnum == EINVAL)
+		exit_error("Map does not have rows or columns.");
+	else
+		exit_error("Failed to read map.");
 }
 
-void	exit_griderror(t_grid *grid, t_list *map_lst)
+void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum)
 {
 	ft_lstclear(map_lst, free);
 	free_grid(grid);
-	if (errno = EINVAL)
+	errno = errnum;
+	if (errnum = EINVAL)
 		exit_error("Map is not rectengular!");
 	else
 		exit_error("Failed to read map.");

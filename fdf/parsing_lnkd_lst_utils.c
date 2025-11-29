@@ -18,7 +18,7 @@ static void	add_line_lst(char *line, t_list *map_lst)
 
 	node = ft_nodenew(line);
 	if (!node)
-		exit_lsterror(map_lst);
+		exit_lsterror(map_lst, ENOMEM);
 	ft_lstadd_back(map_lst, node);
 }	
 
@@ -29,7 +29,7 @@ t_list	*read_map_lst(int fd)
 
 	map_lst = ft_lstnew();
 	if (!map_lst)
-		exit_lsterror(map_lst);
+		exit_lsterror(map_lst, ENOMEM);
 	while (true)
 	{
 		line = get_next_line(fd);
@@ -37,5 +37,7 @@ t_list	*read_map_lst(int fd)
 			break ;
 		add_line_lst(line, map_lst);
 	}
+	if (!map_lst->len)
+		exit_lsterror(map_lst, EINVAL);
 	return (map_lst);
 }
