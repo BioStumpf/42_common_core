@@ -35,15 +35,12 @@ int	main(int argc, char **argv)
 	t_grid	*grid;
 
 	if (argc != 2)
-	{
-		errno = EINVAL; 
-		exit_error("Provide one argument.");
-	}
+		exit_error("Provide one argument.", EINVAL);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		exit_error("Failed to open file.");
+		exit_error("Failed to open file.", errno);
 	grid = parse_map(fd);	
 	if (close(fd) < 0)
-		exit_error("Failed to close file.");
+		exit_error("Failed to close file.", errno);
 	return (0);
 }

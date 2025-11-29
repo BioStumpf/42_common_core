@@ -12,8 +12,9 @@
 
 #include "fdf.h"
 
-void	exit_error(const char *message)
+void	exit_error(const char *message, int errnum)
 {
+	errno = errnum;
 	perror(message);
 	exit(1);
 }
@@ -21,20 +22,18 @@ void	exit_error(const char *message)
 void	exit_lsterror(t_list *map_lst, int errnum)
 {
 	ft_lstclear(map_lst, free);
-	errno = errnum;
 	if (errnum == EINVAL)
-		exit_error("Map does not have rows or columns.");
+		exit_error("Empty map.", errnum);
 	else
-		exit_error("Failed to read map.");
+		exit_error("Failed to read map.", errnum);
 }
 
 void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum)
 {
 	ft_lstclear(map_lst, free);
 	free_grid(grid);
-	errno = errnum;
 	if (errnum = EINVAL)
-		exit_error("Map is not rectengular!");
+		exit_error("Map is not rectengular!", errnum);
 	else
-		exit_error("Failed to read map.");
+		exit_error("Failed to read map.", errnum);
 }

@@ -37,7 +37,7 @@ static t_grid	*init_grid(t_list *map_lst)
 	grid->mat = NULL;
 }
 
-static t_point	*make_grid_row(const char *line, t_grid *grid, t_list *map_lst)
+static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 {
 	t_point	*row_int;
 	char	*line_cpy;
@@ -56,7 +56,7 @@ static t_point	*make_grid_row(const char *line, t_grid *grid, t_list *map_lst)
 	line_cpy = (char *)line;
 	while (i < wc)
 	{
-		row_int[i].z = ft_atoi_arr(&line_cpy);	
+		row_int[i].z = ft_atoi_multi(&line_cpy);	
 		//call isometric conversion funcion to compute x_iso and y_iso and set grid->mat[i][j] valuesdd
 		//row_int[i].iso_x = 
 		//row_int[i++].iso_y = 
@@ -75,7 +75,7 @@ t_grid	*make_grid(t_list *map_lst)
 	cursor = map_list->head;
 	while (grid->rows < map_list->len)
 	{
-		grid->mat[i] = make_grid_row((const char *)cursor->content, grid, map_lst);
+		grid->mat[i] = make_grid_row(cursor->content, grid, map_lst);
 		cursor++;
 		grid->rows++;
 	}
