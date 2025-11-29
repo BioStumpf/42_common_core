@@ -12,10 +12,19 @@
 
 #include "fdf.h"
 
-static t_list	*read_map_lst(int fd)
+static void	add_line_lst(char *line, t_list *map_lst)
+{
+	t_node	*node;
+
+	node = ft_nodenew(line);
+	if (!node)
+		exit_lsterror(map_lst);
+	ft_lstadd_back(map_lst, node);
+}	
+
+t_list	*read_map_lst(int fd)
 {
 	t_list	*map_lst;
-	t_node	*node;
 	char	*line;
 
 	map_lst = ft_lstnew();
@@ -26,10 +35,7 @@ static t_list	*read_map_lst(int fd)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		node = ft_nodenew(line);
-		if (!node)
-			exit_lsterror(map_lst);
-		ft_lstadd_back(map_lst, node);
+		add_line_lst(line, map_lst);
 	}
 	return (map_lst);
 }
