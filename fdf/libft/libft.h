@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 12:40:22 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/29 12:02:54 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ void	ft_lstdelone(t_node *node, void (*del)(void *));
 t_list	*ft_lstnew(void);
 t_node	*ft_nodenew(void *content);
 void	ft_lstprint(t_list *lst, void (*print_fn)(void *content));
+size_t	count_words(const char *s, char c);
 
 #endif

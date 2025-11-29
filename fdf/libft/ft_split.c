@@ -6,32 +6,11 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 16:18:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/10/09 10:57:44 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/29 12:02:21 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static size_t	count_words(const char *s, char c)
-{
-	size_t	word_count;
-	int		word;
-
-	word_count = 0;
-	word = 0;
-	while (*s)
-	{
-		if (!word && *s != c)
-		{
-			word = 1;
-			word_count++;
-		}
-		else if (word && *s == c)
-			word = 0;
-		s++;
-	}
-	return (word_count);
-}
 
 static void	find_word(const char *s, char c, unsigned int *start, size_t *len)
 {

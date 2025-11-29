@@ -6,13 +6,11 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:37:37 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 18:29:12 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/11/29 16:12:28 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-//make mybe line to node function
 
 static t_list	*read_map_lst(int fd)
 {
@@ -22,7 +20,7 @@ static t_list	*read_map_lst(int fd)
 
 	map_lst = ft_lstnew();
 	if (!map_lst)
-		exit_error("Malloc failure during list initialization!");
+		exit_lsterror(map_lst);
 	while (true)
 	{
 		line = get_next_line(fd);
@@ -36,40 +34,82 @@ static t_list	*read_map_lst(int fd)
 	return (map_lst);
 }
 
-//word count function ->libft take from split
-//put wc and atoi in custom split_to_int function
+static t_grid	*init_grid(t_list *map_lst)
+{
+	t_grid	*grid;
 
-static t_grid	**make_grid(t_list *map_lst)
+	grid = malloc(sizeof(t_grid));
+	if (!grid)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	grid->rows = 0;
+	grid->cols = 0;
+	grid->mat = NULL;
+}
+
+static t_point	*split_to_int(const char *line, t_grid *grid)
+{
+	t_point	*row_int;
+	size_t	wc;
+	size_t	i;
+
+	wc = count_words(line, ' ');
+	if (grid->cols == 0)
+		grid->cols = wc;
+	if (wc == 0 || wc != grid->cols)
+	{
+		errno = EINVAL;
+		return (NULL);
+	}
+	row_int = malloc(sizeof(t_point) * wc);
+	if (!row_int)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	i = 0;
+	while (i < wc)
+	{
+		row_int[i].z = ft_atoi_arr(&line);	
+		//call isometric conversion funcion to compute x_iso and y_iso and set grid->mat[i][j] valuesdd
+		//row_int[i].iso_x = 
+		//row_int[i++].iso_y = 
+	return (row_int);
+}
+
+static t_grid	*make_grid(t_list *map_lst)
 {
 	t_grid	*grid;
 	t_node	*cursor;
 	int		i;
 
-	//allocate memory for grid
-	//init rows and cols to 0
-	//allocate memory for grid->mat base on map_lst->len
+	grid = init_grid(map_lst);
+	if (!grid)
+		exit_griderror(grid, map_lst);
+	grid->mat = malloc(sizeof(t_point *) * map_lst->len);
+	if (!grid->mat)
+		exit_griderror(grid, map_lst);
 	cursor = map_list->head;
 	i = 0;
 	while (i < map_list->len)
 	{
-		//call split_to_int and set grid->mat[i] to it
-			//compute word count
-			//compare word count against grid->cols 
-			//allocate memory for *mat based on word count
-			//iterate through word count using j
-			//convert "word" into int, acess grid->mat[i][j] and set its z value
-		//call isometric conversion funcion to compute x_iso and y_iso and set grid->mat[i][j] values
+		grid->mat[i] = split_to_int(cursor, grid);
+		if (!grid->mat[i])
+			exit_gridfree(grid, map_lst);
 		cursor++;
 		i++;
 	}
 }
 
-int	**parse_map(int fd)
+t_grid	*parse_map(int fd)
 {
 	t_list	*map_lst;
-	t_grid	**grid;
+	t_grid	*grid;
 
 	map_lst = read_map_lst(fd);
 	grid = make_grid(map_list);
 	ft_lstclear(map, free);
+	return (grid);
 }
