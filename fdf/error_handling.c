@@ -32,7 +32,7 @@ void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum)
 {
 	ft_lstclear(map_lst, free);
 	free_grid(grid);
-	if (errnum = EINVAL)
+	if (errnum == EINVAL)
 		exit_error("Map is not rectengular!", errnum);
 	else
 		exit_error("Failed to read map.", errnum);

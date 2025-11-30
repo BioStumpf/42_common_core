@@ -12,12 +12,6 @@
 
 #include "libft.h"
 
-static int	ft_iswhitespace(const char c)
-{
-	return (c == ' ' || c == '\f' || c == '\n'
-		||c == '\r' || c == '\t' || c == '\v');
-}
-
 int	ft_atoi(const char *nptr)
 {
 	int				sign;
@@ -36,9 +30,9 @@ int	ft_atoi(const char *nptr)
 	while (ft_isdigit(*nptr))
 	{
 		digit = *nptr - '0';
-		if (sign == 1 && res >= ((unsigned int)INT_MAX - digit) / 10)
+		if (sign == 1 && res > ((unsigned int)INT_MAX - digit) / 10)
 			return (INT_MAX);
-		if (sign == -1 && res >= ((unsigned int)INT_MIN - digit) / 10)
+		if (sign == -1 && res > ((unsigned int)INT_MIN - digit) / 10)
 			return (INT_MIN);
 		res = res * 10 + digit;
 		nptr++;

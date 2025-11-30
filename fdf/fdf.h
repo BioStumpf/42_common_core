@@ -15,7 +15,8 @@
 
 # include <fcntl.h>
 # include <unistd.h>
-# include <string.h>
+//# include <string.h>
+# include <stdio.h>
 # include <errno.h>
 # include "libft.h"
 # include "get_next_line.h"
@@ -35,8 +36,11 @@ typedef struct s_grid
 	t_point	**mat;
 }			t_grid;
 
-void	exit_error(char *message);
-void	exit_lsterror(t_list *map_lst);
+void	exit_error(const char *message, int errnum);
+void	exit_lsterror(t_list *map_lst, int errnum);
+void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum);
+void	free_grid(t_grid *grid);
+t_grid	*make_grid(t_list *map_lst);
 t_list	*read_map_lst(int fd);
 
 #endif

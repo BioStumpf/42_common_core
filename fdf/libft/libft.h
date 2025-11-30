@@ -75,5 +75,8 @@ t_list	*ft_lstnew(void);
 t_node	*ft_nodenew(void *content);
 void	ft_lstprint(t_list *lst, void (*print_fn)(void *content));
 size_t	count_words(const char *s, char c);
+size_t	count_nums(const char *s);
+int		ft_atoi_multi(char **nptr);
+int		ft_iswhitespace(const char c);
 
 #endif

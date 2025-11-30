@@ -15,20 +15,33 @@
 size_t	count_words(const char *s, char c)
 {
 	size_t	word_count;
-	int		word;
 
 	word_count = 0;
-	word = 0;
 	while (*s)
 	{
-		if (!word && *s != c)
-		{
-			word = 1;
+		while (*s == c)
+			s++;
+		if (*s)
 			word_count++;
-		}
-		else if (word && *s == c)
-			word = 0;
-		s++;
+		while (*s && *s != c)
+			s++;	
 	}
 	return (word_count);
+}
+
+size_t	count_nums(const char *s)
+{
+	size_t	num_count;
+
+	num_count = 0;
+	while (*s)
+	{
+		while (*s && !ft_isdigit(*s))
+			s++;
+		if (*s)
+			num_count++;
+		while (*s && ft_isdigit(*s))
+			s++;
+	}
+	return (num_count);
 }

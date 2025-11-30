@@ -17,29 +17,57 @@
 //	ft_printf("%s", (char *)content);
 //}
 
+static void	print_grid(t_grid *grid)
+{
+	t_point	**mat;
+	int		i;
+	int		j;	
+	
+	mat = grid->mat;
+	ft_printf("Rows: %d\n", grid->rows);
+	ft_printf("Cols: %d\n", grid->cols);
+	i = 0;
+	while (i < grid->rows)
+	{
+		j = 0;
+		while (j < grid->cols)
+		{
+			ft_printf("x: %d;  y: %d;  z: %d\n", i, j, mat[i][j].z);
+			j++;
+		}
+		i++;
+	}
+}
+
 t_grid	*parse_map(int fd)
 {
 	t_list	*map_lst;
 	t_grid	*grid;
 
 	map_lst = read_map_lst(fd);
-	grid = make_grid(map_list);
-	ft_lstclear(map, free);
+	grid = make_grid(map_lst);
+	ft_lstclear(map_lst, free);
 	return (grid);
 }
 
 int	main(int argc, char **argv)
 {
 	int		fd;
-	t_list	*map;
 	t_grid	*grid;
+//	t_list	*lst;
 
 	if (argc != 2)
 		exit_error("Provide one argument.", EINVAL);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		exit_error("Failed to open file.", errno);
-	grid = parse_map(fd);	
+//	lst = read_map_lst(fd);
+//	ft_printf("lst len: %u\n", lst->len);
+//	ft_lstprint(lst, print_lst_str);
+//	ft_lstclear(lst, free);
+	grid = parse_map(fd);
+	print_grid(grid);
+	free_grid(grid);
 	if (close(fd) < 0)
 		exit_error("Failed to close file.", errno);
 	return (0);
