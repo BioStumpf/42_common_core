@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 09:38:13 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/02 16:23:01 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
+# include "mlx.h"
+
+# define WIDTH 400 
+# define HEIGHT 400 
 
 typedef struct s_point
 {
@@ -36,12 +40,29 @@ typedef struct s_grid
 	t_point	**mat;
 }			t_grid;
 
+typedef struct s_my_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_pp;
+	int		bytes_pp;
+	int		line_len;
+	int		endian;
+}			t_my_img;
+
+//error parsing
 void	exit_error(const char *message, int errnum);
-void	exit_lsterror(t_list *map_lst, int errnum);
+void	exit_lsterror(t_list *map_lst, int fd, int errnum);
 void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum);
+//parsing utils for linked list and grid
 void	free_grid(t_grid *grid);
 t_grid	*make_grid(t_list *map_lst);
 t_list	*read_map_lst(int fd);
+//math/transformation
 void	transform_iso(t_point *grid_row, int x, int y);
+//bringing the grid to the screen/ rendering/ displaying
+void	display_grid(const t_grid *grid);
+void	make_img(void *mlx, t_my_img *img);
+void	my_pixel_put(t_my_img *img, int x, int y, uint64_t color);
 
 #endif

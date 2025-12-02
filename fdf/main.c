@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:50:15 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/01 17:58:53 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/02 12:48:38 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,29 @@
 //	ft_printf("%s", (char *)content);
 //}
 
-static void	print_grid(t_grid *grid)
-{
-	t_point	**mat;
-	int		i;
-	int		j;
-
-	mat = grid->mat;
-	ft_printf("Rows: %d\n", grid->rows);
-	ft_printf("Cols: %d\n", grid->cols);
-	i = 0;
-	while (i < grid->rows)
-	{
-		j = 0;
-		while (j < grid->cols)
-		{
-			//dont use printf!!!!!!
-			printf("x_iso:%.2f y_iso:%.2f z:%d   ", mat[i][j].x_iso, mat[i][j].y_iso, mat[i][j].z);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-}
+//static void	print_grid(t_grid *grid)
+//{
+//	t_point	**mat;
+//	int		i;
+//	int		j;
+//
+//	mat = grid->mat;
+//	ft_printf("Rows: %d\n", grid->rows);
+//	ft_printf("Cols: %d\n", grid->cols);
+//	i = 0;
+//	while (i < grid->rows)
+//	{
+//		j = 0;
+//		while (j < grid->cols)
+//		{
+//			//dont use printf!!!!!!
+//			printf("x_iso:%.2f y_iso:%.2f z:%d   ", mat[i][j].x_iso, mat[i][j].y_iso, mat[i][j].z);
+//			j++;
+//		}
+//		printf("\n");
+//		i++;
+//	}
+//}
 
 t_grid	*parse_map(int fd)
 {
@@ -47,6 +47,7 @@ t_grid	*parse_map(int fd)
 	t_grid	*grid;
 
 	map_lst = read_map_lst(fd);
+	close(fd);
 	grid = make_grid(map_lst);
 	ft_lstclear(map_lst, free);
 	return (grid);
@@ -67,9 +68,9 @@ int	main(int argc, char **argv)
 //	ft_lstprint(lst, print_lst_str);
 //	ft_lstclear(lst, free);
 	grid = parse_map(fd);
-	print_grid(grid);
+//	print_grid(grid);
+	display_grid(grid);
 	free_grid(grid);
-	if (close(fd) < 0)
-		exit_error("Failed to close file.", errno);
+	close(fd);
 	return (0);
 }

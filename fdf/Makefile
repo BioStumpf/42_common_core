@@ -12,7 +12,7 @@ OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 
 CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -I$(MINI_DIR) -c $< -o $@
-CFLAGS_NAME = -Wall -Wextra -Werror -g -lm -L$(MINI_DIR) -lmlx_Linux -lXext -lX11 -o $@
+CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIBFT) -lm -L$(MINI_DIR) -lmlx_Linux -lXext -lX11
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 
 all: $(NAME)
@@ -21,7 +21,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "======================================"
 	@echo "       Building FDF binary           "
 	@echo "======================================"
-	$(CC) $(CFLAGS_NAME) $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS_NAME)
 	@echo "======================================"
 	@echo "       FDF binary DONE          "
 	@echo "======================================"

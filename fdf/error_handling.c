@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:39:29 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 11:47:26 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/02 12:37:19 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	exit_error(const char *message, int errnum)
 	exit(1);
 }
 
-void	exit_lsterror(t_list *map_lst, int errnum)
+void	exit_lsterror(t_list *map_lst, int fd, int errnum)
 {
 	ft_lstclear(map_lst, free);
+	close(fd);
 	if (errnum == EINVAL)
 		exit_error("Map is not valid.", errnum);
 	else
