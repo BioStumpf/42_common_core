@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_lnkd_lst_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:37:37 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/29 16:12:28 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/02 09:41:05 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	add_line_lst(char *line, t_list *map_lst)
 		exit_lsterror(map_lst, ENOMEM);
 	}
 	ft_lstadd_back(map_lst, node);
-}	
+}
 
 t_list	*read_map_lst(int fd)
 {

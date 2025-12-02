@@ -11,7 +11,7 @@ OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 
 CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -c $< -o $@
-CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@
+CFLAGS_NAME = -Wall -Wextra -Werror -g -lm -o $@
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 
 all: $(NAME)

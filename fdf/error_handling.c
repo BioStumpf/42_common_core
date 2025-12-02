@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:39:29 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/29 15:22:05 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/02 11:47:26 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exit_lsterror(t_list *map_lst, int errnum)
 {
 	ft_lstclear(map_lst, free);
 	if (errnum == EINVAL)
-		exit_error("Empty map.", errnum);
+		exit_error("Map is not valid.", errnum);
 	else
 		exit_error("Failed to read map.", errnum);
 }
@@ -33,7 +33,7 @@ void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum)
 	ft_lstclear(map_lst, free);
 	free_grid(grid);
 	if (errnum == EINVAL)
-		exit_error("Map is not rectengular!", errnum);
+		exit_error("Map is not valid.", errnum);
 	else
 		exit_error("Failed to read map.", errnum);
 }

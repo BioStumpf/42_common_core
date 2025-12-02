@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi_multi.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/01 13:45:29 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/12/01 13:46:18 by dstumpf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static int	ft_issign(int c)
@@ -30,7 +42,7 @@ int	ft_atoi_multi(char **nptr)
 	while (ft_isdigit(**nptr))
 	{
 		digit = **nptr - '0';
-		if (sign == 1 && res > ((long)INT_MAX - digit) / 10)	
+		if (sign == 1 && res > ((long)INT_MAX - digit) / 10)
 			res = INT_MAX;
 		else if (sign == -1 && res > (-(long)INT_MIN - digit) / 10)
 			res = (long)INT_MAX + 1;

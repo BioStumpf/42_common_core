@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:50:15 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/29 15:11:42 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/01 17:58:53 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	print_grid(t_grid *grid)
 {
 	t_point	**mat;
 	int		i;
-	int		j;	
-	
+	int		j;
+
 	mat = grid->mat;
 	ft_printf("Rows: %d\n", grid->rows);
 	ft_printf("Cols: %d\n", grid->cols);
@@ -32,9 +32,11 @@ static void	print_grid(t_grid *grid)
 		j = 0;
 		while (j < grid->cols)
 		{
-			ft_printf("x: %d;  y: %d;  z: %d\n", i, j, mat[i][j].z);
+			//dont use printf!!!!!!
+			printf("x_iso:%.2f y_iso:%.2f z:%d   ", mat[i][j].x_iso, mat[i][j].y_iso, mat[i][j].z);
 			j++;
 		}
+		printf("\n");
 		i++;
 	}
 }
@@ -55,7 +57,6 @@ int	main(int argc, char **argv)
 	int		fd;
 	t_grid	*grid;
 //	t_list	*lst;
-
 	if (argc != 2)
 		exit_error("Provide one argument.", EINVAL);
 	fd = open(argv[1], O_RDONLY);

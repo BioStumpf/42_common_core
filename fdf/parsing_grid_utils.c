@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_utils.c                                     :+:      :+:    :+:   */
+/*   parsing_grid_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/29 12:38:58 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/02 09:40:49 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,28 @@ static t_grid	*init_grid(t_list *map_lst)
 
 static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 {
-	t_point	*row_int;
+	t_point	*grid_row;
 	char	*line_cpy;
-	int		nc;
-	int		i;
+	int		col_count;
+	int		col;
 
-	nc = (int)count_nums(line);
+	col_count = (int)count_nums(line);
 	if (grid->cols == 0)
-		grid->cols = nc;
-	if (nc <= 0 || nc != grid->cols)
+		grid->cols = col_count;
+	if (col_count <= 0 || col_count != grid->cols)
 		exit_griderror(grid, map_lst, EINVAL);
-	row_int = malloc(sizeof(t_point) * nc);
-	if (!row_int)
+	grid_row = malloc(sizeof(t_point) * col_count);
+	if (!grid_row)
 		exit_griderror(grid, map_lst, ENOMEM);
-	i = 0;
+	col = 0;
 	line_cpy = (char *)line;
-	while (i < nc)
+	while (col < grid->cols)
 	{
-		row_int[i++].z = ft_atoi_multi(&line_cpy);	
-		//call isometric conversion funcion to compute x_iso and y_iso and set grid->mat[i][j] valuesdd
-		//row_int[i].iso_x = 
-		//row_int[i++].iso_y = 
+		grid_row[col].z = ft_atoi_multi(&line_cpy);
+		transform_iso(grid_row, col, grid->rows);
+		col++;
 	}
-	return (row_int);
+	return (grid_row);
 }
 
 t_grid	*make_grid(t_list *map_lst)

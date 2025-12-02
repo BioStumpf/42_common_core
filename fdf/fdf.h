@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/28 17:38:16 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/02 09:38:13 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <fcntl.h>
 # include <unistd.h>
-//# include <string.h>
+# include <math.h>
 # include <stdio.h>
 # include <errno.h>
 # include "libft.h"
@@ -24,10 +24,10 @@
 
 typedef struct s_point
 {
-	int	x_iso;
-	int	y_iso;
-	int	z;
-}		t_point;
+	double	x_iso;
+	double	y_iso;
+	int		z;
+}			t_point;
 
 typedef struct s_grid
 {
@@ -42,5 +42,6 @@ void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum);
 void	free_grid(t_grid *grid);
 t_grid	*make_grid(t_list *map_lst);
 t_list	*read_map_lst(int fd);
+void	transform_iso(t_point *grid_row, int x, int y);
 
 #endif
