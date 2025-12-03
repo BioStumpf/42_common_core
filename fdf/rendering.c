@@ -21,14 +21,14 @@ void	grid_to_img(t_my_img *mlx_img, t_grid *grid)
 	int		j;
 
 	i = -1;
-	while (++i < grid->cols)
+	scale = find_scale_factor(grid);
+	while (++i < grid->rows)
 	{
 		j = -1;
-		while (++j < grid->rows)
+		while (++j < grid->cols)
 		{
-			scale = find_scale_factor(grid);
-			x_scaled = (grid->mat[i][j].x_iso + grid->x_min) * scale;
-			y_scaled = (grid->mat[i][j].y_iso + grid->y_min) * scale;
+			x_scaled = (grid->mat[i][j].x_iso - grid->x_min) * scale;
+			y_scaled = (grid->mat[i][j].y_iso - grid->y_min) * scale;
 			pixel_to_img(mlx_img, (int)x_scaled, (int)y_scaled, 0xFFFFFFFF);
 		}
 	}

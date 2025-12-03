@@ -78,5 +78,6 @@ size_t	count_words(const char *s, char c);
 size_t	count_nums(const char *s);
 int		ft_atoi_multi(char **nptr);
 int		ft_iswhitespace(const char c);
+int		ft_atoi_hex_multi(char **nptr);
 
 #endif

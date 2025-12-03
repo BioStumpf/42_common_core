@@ -23,15 +23,16 @@
 # include "ft_printf.h"
 # include "mlx.h"
 
-# define WIDTH 40 
-# define HEIGHT 40 
+# define WIDTH 1024 
+# define HEIGHT 900 
 
 typedef struct s_point
 {
-	double	x_iso;
-	double	y_iso;
-	int		z;
-}			t_point;
+	uint64_t	color;
+	double		x_iso;
+	double		y_iso;
+	int			z;
+}				t_point;
 
 typedef struct s_grid
 {

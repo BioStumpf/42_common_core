@@ -57,14 +57,14 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	grid_row = malloc(sizeof(t_point) * col_count);
 	if (!grid_row)
 		exit_griderror(grid, map_lst, ENOMEM);
-	col = 0;
+	col = -1;
 	line_cpy = (char *)line;
-	while (col < grid->cols)
+	while (++col < grid->cols)
 	{
 		grid_row[col].z = ft_atoi_multi(&line_cpy);
+		grid_row[col].color = extract_color(&line_cpy); //write the color extraction line, which gets the hexadecimal color value given, alternatively returns a default color
 		transform_iso(grid_row, col, grid->rows);
 		set_min_max(grid, &grid_row[col]); 
-		col++;
 	}
 	return (grid_row);
 }
