@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 09:40:49 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:59:55 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ static t_grid	*init_grid(t_list *map_lst)
 	grid = malloc(sizeof(t_grid));
 	if (!grid)
 		exit_griderror(grid, map_lst, ENOMEM);
+	grid->x_min = 0;
+	grid->x_max = 0;
+	grid->y_min = 0;
+	grid->y_max = 0;
 	grid->rows = 0;
 	grid->cols = 0;
 	grid->mat = NULL;
@@ -59,6 +63,7 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	{
 		grid_row[col].z = ft_atoi_multi(&line_cpy);
 		transform_iso(grid_row, col, grid->rows);
+		set_min_max(grid, &grid_row[col]); 
 		col++;
 	}
 	return (grid_row);
@@ -82,3 +87,20 @@ t_grid	*make_grid(t_list *map_lst)
 	}
 	return (grid);
 }
+
+//just and idea if i need to change the matric frequently
+//consider however that you may want to add also t_my_img *img pararmeter to function pointer, since if you change matric you'd also want to change the img
+//void	grid_apply(t_grid *grid, void (*f)(t_grid *grid, int x, int y))
+//{
+//	int	x;
+//	int	y;
+//
+//	x = -1;
+//	while (++x < grid->cols)
+//	{
+//		y = -1;
+//		while (++y < grid->rows)
+//			f(grid, x, y);
+//		x++;
+//	}
+//}

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 14:42:41 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 16:22:46 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:18:13 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	make_img(void *mlx, t_my_img *img)
 {
 	img->img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	mlx_get_data_addr(img->img, &img->bits_pp, &img->line_len, &img->endian);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_pp, &img->line_len, &img->endian);
 	img->bytes_pp = img->bits_pp / 8;
 }
 
-void	my_pixel_put(t_my_img *img, int x, int y, uint64_t color)
+void	pixel_to_img(t_my_img *img, int x, int y, uint64_t color)
 {
 	char	*pixel_addr;
 	int		i;

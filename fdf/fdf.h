@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 16:23:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:58:05 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "ft_printf.h"
 # include "mlx.h"
 
-# define WIDTH 400 
-# define HEIGHT 400 
+# define WIDTH 40 
+# define HEIGHT 40 
 
 typedef struct s_point
 {
@@ -37,6 +37,10 @@ typedef struct s_grid
 {
 	int		rows;
 	int		cols;
+	double	x_min;
+	double	x_max;
+	double	y_min;
+	double	y_max;
 	t_point	**mat;
 }			t_grid;
 
@@ -61,8 +65,11 @@ t_list	*read_map_lst(int fd);
 //math/transformation
 void	transform_iso(t_point *grid_row, int x, int y);
 //bringing the grid to the screen/ rendering/ displaying
-void	display_grid(const t_grid *grid);
+void	display_grid(t_grid *grid);
 void	make_img(void *mlx, t_my_img *img);
-void	my_pixel_put(t_my_img *img, int x, int y, uint64_t color);
+void	pixel_to_img(t_my_img *img, int x, int y, uint64_t color);
+void	grid_to_img(t_my_img *mlx_img, t_grid *grid);
+void	set_min_max(t_grid *grid, t_point *point);
+double	find_scale_factor(t_grid *grid);
 
 #endif

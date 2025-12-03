@@ -6,14 +6,47 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 09:43:07 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:43:08 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	set_min_max(t_grid *grid, t_point *point)
+{
+	if (point->x_iso > grid->x_max)
+		grid->x_max = point->x_iso;
+	if (point->x_iso < grid->x_min)
+		grid->x_min = point->x_iso;
+	if (point->y_iso > grid->y_max)
+		grid->y_max = point->y_iso;
+	if (point->y_iso < grid->y_min)
+		grid->y_min = point->y_iso;
+}
+
 void	transform_iso(t_point *grid_row, int x, int y)
 {
 	grid_row[x].x_iso = (sqrt(2) / 2) * (x + grid_row[x].z);
 	grid_row[x].y_iso = sqrt(2.0 / 3) * (0.5 * x + y - 0.5 * grid_row[x].z);
+}
+
+double	find_scale_factor(t_grid *grid)
+{
+	double	x_diff;
+	double	y_diff;
+	double	x_scale;
+	double	y_scale;
+
+	x_diff = fabs(grid->x_max - grid->x_min);
+	y_diff = fabs(grid->y_max - grid->y_min);
+	x_scale = WIDTH;
+	y_scale = HEIGHT;
+	if (x_diff != 0)
+		x_scale = WIDTH / x_diff; 
+	if (y_diff != 0)
+		y_scale = HEIGHT / y_diff;
+	if (x_scale <= y_scale)
+		return (x_scale);
+	else
+		return (y_scale);
 }
