@@ -14,20 +14,24 @@
 
 void	set_min_max(t_grid *grid, t_point *point)
 {
-	if (point->x_iso > grid->x_max)
-		grid->x_max = point->x_iso;
-	if (point->x_iso < grid->x_min)
-		grid->x_min = point->x_iso;
-	if (point->y_iso > grid->y_max)
-		grid->y_max = point->y_iso;
-	if (point->y_iso < grid->y_min)
-		grid->y_min = point->y_iso;
+	if (point->x > grid->x_max)
+		grid->x_max = point->x;
+	if (point->x < grid->x_min)
+		grid->x_min = point->x;
+	if (point->y > grid->y_max)
+		grid->y_max = point->y;
+	if (point->y < grid->y_min)
+		grid->y_min = point->y;
 }
 
-void	transform_iso(t_point *grid_row, int x, int y)
+void	transform_iso(t_point *grid_row, int col)
 {
-	grid_row[x].x_iso = (sqrt(2) / 2) * (x + grid_row[x].z);
-	grid_row[x].y_iso = sqrt(2.0 / 3) * (0.5 * x + y - 0.5 * grid_row[x].z);
+	rotate_z(&grid_row[col], M_PI / 4);
+	rotate_x(&grid_row[col], atan(1 / sqrt(2)));
+	//grid_row[x].x = (sqrt(2) / 2) * (x - y);
+	//grid_row[x].y = 1 / sqrt(3) * (x + y + grid_row[x].z);
+//	grid_row[col].x = (sqrt(2) / 2) * (grid_row[col].x + grid_row[col].z);
+//	grid_row[col].y = sqrt(2.0 / 3) * (0.5 * grid_row[col].x + grid_row[col].y - 0.5 * grid_row[col].z);
 }
 
 double	find_scale_factor(t_grid *grid)

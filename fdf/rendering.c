@@ -27,9 +27,9 @@ void	grid_to_img(t_my_img *mlx_img, t_grid *grid)
 		j = -1;
 		while (++j < grid->cols)
 		{
-			x_scaled = (grid->mat[i][j].x_iso - grid->x_min) * scale;
-			y_scaled = (grid->mat[i][j].y_iso - grid->y_min) * scale;
-			pixel_to_img(mlx_img, (int)x_scaled, (int)y_scaled, 0xFFFFFFFF);
+			x_scaled = (grid->mat[i][j].x - grid->x_min) * scale;
+			y_scaled = (grid->mat[i][j].y - grid->y_min) * scale;
+			pixel_to_img(mlx_img, (int)x_scaled, (int)y_scaled, (uint64_t)grid->mat[i][j].color);
 		}
 	}
 }
@@ -49,7 +49,7 @@ void	display_grid(t_grid *grid)
 	t_my_img	mlx_img;
 
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Hey there!");
+	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fdf");
 	make_img(mlx, &mlx_img);	
 	grid_to_img(&mlx_img, grid);
 	mlx_put_image_to_window(mlx, mlx_win, mlx_img.img, 0, 0);

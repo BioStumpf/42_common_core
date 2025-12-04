@@ -28,11 +28,11 @@
 
 typedef struct s_point
 {
-	uint64_t	color;
-	double		x_iso;
-	double		y_iso;
-	int			z;
-}				t_point;
+	double	x;
+	double	y;
+	double	z;
+	int		color;
+}			t_point;
 
 typedef struct s_grid
 {
@@ -64,7 +64,8 @@ void	free_grid(t_grid *grid);
 t_grid	*make_grid(t_list *map_lst);
 t_list	*read_map_lst(int fd);
 //math/transformation
-void	transform_iso(t_point *grid_row, int x, int y);
+//void	transform_iso(t_point *grid_row, int x, int y);
+void	transform_iso(t_point *grid_row, int col);
 //bringing the grid to the screen/ rendering/ displaying
 void	display_grid(t_grid *grid);
 void	make_img(void *mlx, t_my_img *img);
@@ -72,5 +73,9 @@ void	pixel_to_img(t_my_img *img, int x, int y, uint64_t color);
 void	grid_to_img(t_my_img *mlx_img, t_grid *grid);
 void	set_min_max(t_grid *grid, t_point *point);
 double	find_scale_factor(t_grid *grid);
+//rotation functions
+void	rotate_x(t_point *point, double angle);
+void	rotate_y(t_point *point, double angle);
+void	rotate_z(t_point *point, double angle);
 
 #endif

@@ -42,6 +42,22 @@ static t_grid	*init_grid(t_list *map_lst)
 	return (grid);
 }
 
+static int	extract_color(char **line)
+{
+	(void)line;
+	return (0xFFFFFF);
+//	int	color;
+//
+//	if (**line && ft_strncmp(*line, ",0x", 3))
+//	{
+//		(*line) += 2;
+//		color = ft_atoi_hex_multi(line);
+//	}
+//	else
+//		color = 0xFFFFFF;
+//	return (color);
+}
+
 static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 {
 	t_point	*grid_row;
@@ -49,7 +65,7 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	int		col_count;
 	int		col;
 
-	col_count = (int)count_nums(line);
+	col_count = (int)count_words(line, ' ');
 	if (grid->cols == 0)
 		grid->cols = col_count;
 	if (col_count <= 0 || col_count != grid->cols)
@@ -62,8 +78,10 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	while (++col < grid->cols)
 	{
 		grid_row[col].z = ft_atoi_multi(&line_cpy);
-		grid_row[col].color = extract_color(&line_cpy); //write the color extraction line, which gets the hexadecimal color value given, alternatively returns a default color
-		transform_iso(grid_row, col, grid->rows);
+		grid_row[col].x = col;
+		grid_row[col].y = grid->rows;
+		grid_row[col].color = extract_color(&line_cpy);
+		transform_iso(grid_row, col);
 		set_min_max(grid, &grid_row[col]); 
 	}
 	return (grid_row);
