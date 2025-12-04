@@ -23,8 +23,10 @@
 # include "ft_printf.h"
 # include "mlx.h"
 
-# define WIDTH 1024 
-# define HEIGHT 900 
+# define WIDTH 1366 
+# define HEIGHT 768 
+# define IMG_W (WIDTH * 0.8) 
+# define IMG_H (IMG_W * ((double)HEIGHT / WIDTH))
 
 typedef struct s_point
 {
@@ -45,7 +47,7 @@ typedef struct s_grid
 	t_point	**mat;
 }			t_grid;
 
-typedef struct s_my_img
+typedef struct s_imge
 {
 	void	*img;
 	char	*addr;
@@ -53,7 +55,7 @@ typedef struct s_my_img
 	int		bytes_pp;
 	int		line_len;
 	int		endian;
-}			t_my_img;
+}			t_imge;
 
 //error parsing
 void	exit_error(const char *message, int errnum);
@@ -68,11 +70,12 @@ t_list	*read_map_lst(int fd);
 void	transform_iso(t_point *grid_row, int col);
 //bringing the grid to the screen/ rendering/ displaying
 void	display_grid(t_grid *grid);
-void	make_img(void *mlx, t_my_img *img);
-void	pixel_to_img(t_my_img *img, int x, int y, uint64_t color);
-void	grid_to_img(t_my_img *mlx_img, t_grid *grid);
+void	make_img(void *mlx, t_imge *img);
+void	pixel_to_img(t_imge *img, int x, int y, uint64_t color);
+void	grid_to_img(t_imge *mlx_img, t_grid *grid);
 void	set_min_max(t_grid *grid, t_point *point);
 double	find_scale_factor(t_grid *grid);
+void	scale_points(t_grid *grid);
 //rotation functions
 void	rotate_x(t_point *point, double angle);
 void	rotate_y(t_point *point, double angle);

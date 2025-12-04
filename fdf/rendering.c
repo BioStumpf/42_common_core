@@ -12,29 +12,27 @@
 
 #include "fdf.h"
 
-void	grid_to_img(t_my_img *mlx_img, t_grid *grid)
+void	grid_to_img(t_imge *mlx_img, t_grid *grid)
 {
-	double	scale;
-	double	x_scaled;
-	double	y_scaled;
-	int		i;
-	int		j;
+	int	x;
+	int	y;
+	int	i;
+	int	j;
 
 	i = -1;
-	scale = find_scale_factor(grid);
 	while (++i < grid->rows)
 	{
 		j = -1;
 		while (++j < grid->cols)
 		{
-			x_scaled = (grid->mat[i][j].x - grid->x_min) * scale;
-			y_scaled = (grid->mat[i][j].y - grid->y_min) * scale;
-			pixel_to_img(mlx_img, (int)x_scaled, (int)y_scaled, (uint64_t)grid->mat[i][j].color);
+			x = (int)grid->mat[i][j].x;
+			y = (int)grid->mat[i][j].y;
+			pixel_to_img(mlx_img, x, y, (uint64_t)grid->mat[i][j].color);
 		}
 	}
 }
 
-void	free_mlx(void *mlx, void *mlx_win, t_my_img *mlx_img)
+void	free_mlx(void *mlx, void *mlx_win, t_imge *mlx_img)
 {
 	mlx_destroy_image(mlx, mlx_img->img);
 	mlx_destroy_window(mlx, mlx_win);
@@ -46,7 +44,7 @@ void	display_grid(t_grid *grid)
 {
 	void		*mlx;
 	void		*mlx_win;
-	t_my_img	mlx_img;
+	t_imge	mlx_img;
 
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fdf");

@@ -12,14 +12,14 @@
 
 #include "fdf.h"
 
-void	make_img(void *mlx, t_my_img *img)
+void	make_img(void *mlx, t_imge *img)
 {
 	img->img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_pp, &img->line_len, &img->endian);
 	img->bytes_pp = img->bits_pp / 8;
 }
 
-void	pixel_to_img(t_my_img *img, int x, int y, uint64_t color)
+void	pixel_to_img(t_imge *img, int x, int y, uint64_t color)
 {
 	char	*pixel_addr;
 	int		i;

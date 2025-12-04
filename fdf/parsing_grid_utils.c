@@ -44,18 +44,18 @@ static t_grid	*init_grid(t_list *map_lst)
 
 static int	extract_color(char **line)
 {
-	(void)line;
-	return (0xFFFFFF);
-//	int	color;
-//
-//	if (**line && ft_strncmp(*line, ",0x", 3))
-//	{
-//		(*line) += 2;
-//		color = ft_atoi_hex_multi(line);
-//	}
-//	else
-//		color = 0xFFFFFF;
-//	return (color);
+//	(void)line;
+//	return (0xFFFFFF);
+	int	color;
+
+	if (**line && !ft_strncmp((*line), ",0x", 3))
+	{
+		(*line) += 2;
+		color = ft_atoi_hex_multi(line);
+	}
+	else
+		color = 0xFFFFFF;
+	return (color);
 }
 
 static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
@@ -78,6 +78,8 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	while (++col < grid->cols)
 	{
 		grid_row[col].z = ft_atoi_multi(&line_cpy);
+		if (!*line_cpy)
+			exit_griderror(grid, map_lst, EINVAL);	
 		grid_row[col].x = col;
 		grid_row[col].y = grid->rows;
 		grid_row[col].color = extract_color(&line_cpy);

@@ -12,8 +12,8 @@ static void	set_hex_digit(char c, int *hex_digit)
 
 static int	ft_ishex(char c)
 {
-	return (('A' <= c && c <= 'Z') || 
-			('a' <= c && c <= 'z') ||
+	return (('A' <= c && c <= 'F') || 
+			('a' <= c && c <= 'f') ||
 			('0' <= c && c <= '9'));
 }
 

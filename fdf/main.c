@@ -68,6 +68,7 @@ int	main(int argc, char **argv)
 //	ft_lstprint(lst, print_lst_str);
 //	ft_lstclear(lst, free);
 	grid = parse_map(fd);
+	scale_points(grid);
 //	print_grid(grid);
 	display_grid(grid);
 	free_grid(grid);

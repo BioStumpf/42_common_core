@@ -24,9 +24,9 @@ void	exit_lsterror(t_list *map_lst, int fd, int errnum)
 	ft_lstclear(map_lst, free);
 	close(fd);
 	if (errnum == EINVAL)
-		exit_error("Map is not valid.", errnum);
+		exit_error("Map is not valid", errnum);
 	else
-		exit_error("Failed to read map.", errnum);
+		exit_error("Failed to read map", errnum);
 }
 
 void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum)
@@ -34,7 +34,9 @@ void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum)
 	ft_lstclear(map_lst, free);
 	free_grid(grid);
 	if (errnum == EINVAL)
-		exit_error("Map is not valid.", errnum);
+		exit_error("Map is not valid", errnum);
 	else
-		exit_error("Failed to read map.", errnum);
+		exit_error("Failed to read map", errnum);
 }
+
+//void	exit_mlxerror(void *mlx, void *mlx_window, t_imge *img, t_grid * grid)

@@ -41,16 +41,39 @@ double	find_scale_factor(t_grid *grid)
 	double	x_scale;
 	double	y_scale;
 
-	x_diff = fabs(grid->x_max - grid->x_min);
-	y_diff = fabs(grid->y_max - grid->y_min);
-	x_scale = WIDTH;
-	y_scale = HEIGHT;
+	x_diff = grid->x_max - grid->x_min;
+	y_diff = grid->y_max - grid->y_min;
+	x_scale = IMG_W;
+	y_scale = IMG_H;
 	if (x_diff != 0)
-		x_scale = WIDTH / x_diff; 
+		x_scale = x_scale / x_diff; 
 	if (y_diff != 0)
-		y_scale = HEIGHT / y_diff;
+		y_scale = x_scale / y_diff;
 	if (x_scale <= y_scale)
 		return (x_scale);
 	else
 		return (y_scale);
 }
+
+void	scale_points(t_grid *grid)
+{
+	double	scale;
+	double	mid_x;
+	double	mid_y;
+	int		row;
+	int		col;
+
+	scale = find_scale_factor(grid);
+	row = -1;
+	while (++row < grid->rows)
+	{
+		col = -1;
+		while (++col < grid->cols)
+		{
+			mid_x = 0.5 * (grid->x_max - grid->x_min);
+			mid_y = 0.5 * (grid->y_max - grid->y_min);
+			grid->mat[row][col].x = (grid->mat[row][col].x - grid->x_min + mid_x) * scale;
+			grid->mat[row][col].y = (grid->mat[row][col].y - grid->y_min + mid_y) * scale;
+		}
+	}
+}	
