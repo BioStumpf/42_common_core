@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/03 18:43:08 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/05 13:03:40 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,36 @@ double	find_scale_factor(t_grid *grid)
 	if (x_diff != 0)
 		x_scale = x_scale / x_diff; 
 	if (y_diff != 0)
-		y_scale = x_scale / y_diff;
+		y_scale = y_scale / y_diff;
 	if (x_scale <= y_scale)
 		return (x_scale);
 	else
 		return (y_scale);
 }
 
+double	find_offset
+
 void	scale_points(t_grid *grid)
 {
 	double	scale;
-	double	mid_x;
-	double	mid_y;
+//	double	mid_x;
+//	double	mid_y;
 	int		row;
 	int		col;
 
 	scale = find_scale_factor(grid);
+//	mid_x = 0.5 * (grid->x_max - grid->x_min);
+//	mid_y = 0.5 * (grid->y_max - grid->y_min); 
 	row = -1;
 	while (++row < grid->rows)
 	{
 		col = -1;
 		while (++col < grid->cols)
 		{
-			mid_x = 0.5 * (grid->x_max - grid->x_min);
-			mid_y = 0.5 * (grid->y_max - grid->y_min);
-			grid->mat[row][col].x = (grid->mat[row][col].x - grid->x_min + mid_x) * scale;
-			grid->mat[row][col].y = (grid->mat[row][col].y - grid->y_min + mid_y) * scale;
+			//grid->mat[row][col].x = (grid->mat[row][col].x - grid->x_min + mid_x) * scale;
+			//grid->mat[row][col].y = (grid->mat[row][col].y - grid->y_min + mid_y) * scale;
+			grid->mat[row][col].x = (grid->mat[row][col].x - grid->x_min) * scale + 0.5 * IMG_W;
+			grid->mat[row][col].y = (grid->mat[row][col].y - grid->y_min) * scale + 0.5 * IMG_H;
 		}
 	}
 }	

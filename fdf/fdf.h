@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/03 18:58:05 by dstumpf          ###   ########.fr       */
+/*   Updated: 2025/12/05 12:49:28 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 
 # define WIDTH 1366 
 # define HEIGHT 768 
-# define IMG_W (WIDTH * 0.8) 
-# define IMG_H (IMG_W * ((double)HEIGHT / WIDTH))
+# define IMG_W (WIDTH * 0.5) 
+# define IMG_H (IMG_W * 0.5)
 
 typedef struct s_point
 {
