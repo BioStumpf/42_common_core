@@ -79,12 +79,12 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	{
 		grid_row[col].z = ft_atoi_multi(&line_cpy);
 		if (!*line_cpy)
-			exit_griderror(grid, map_lst, EINVAL);	
+			exit_griderror(grid, map_lst, EINVAL);
 		grid_row[col].x = col;
 		grid_row[col].y = grid->rows;
 		grid_row[col].color = extract_color(&line_cpy);
 		transform_iso(grid_row, col);
-		set_min_max(grid, &grid_row[col]); 
+		set_min_max(grid, &grid_row[col]);
 	}
 	return (grid_row);
 }

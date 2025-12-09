@@ -15,8 +15,8 @@
 void	make_img(void *mlx, t_imge *img)
 {
 	img->img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	img->addr = mlx_get_data_addr(img->img, &img->bits_pp, &img->line_len, &img->endian);
-	img->bytes_pp = img->bits_pp / 8;
+	img->addr = mlx_get_data_addr(img->img, &img->bits, &img->len, &img->end);
+	img->bytes = img->bits / 8;
 }
 
 void	pixel_to_img(t_imge *img, int x, int y, uint64_t color)
@@ -24,8 +24,8 @@ void	pixel_to_img(t_imge *img, int x, int y, uint64_t color)
 	char	*pixel_addr;
 	int		i;
 
-	pixel_addr = img->addr + (y * img->line_len + x * img->bytes_pp);
+	pixel_addr = img->addr + (y * img->len + x * img->bytes);
 	i = -1;
-	while (++i < img->bytes_pp)
+	while (++i < img->bytes)
 		pixel_addr[i] = (color >> (8 * i)) & 0xFF;
 }

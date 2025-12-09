@@ -42,13 +42,13 @@ void	free_mlx(void *mlx, void *mlx_win, t_imge *mlx_img)
 
 void	display_grid(t_grid *grid)
 {
-	void		*mlx;
-	void		*mlx_win;
+	void	*mlx;
+	void	*mlx_win;
 	t_imge	mlx_img;
 
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fdf");
-	make_img(mlx, &mlx_img);	
+	make_img(mlx, &mlx_img);
 	grid_to_img(&mlx_img, grid);
 	mlx_put_image_to_window(mlx, mlx_win, mlx_img.img, 0, 0);
 	mlx_loop(mlx);

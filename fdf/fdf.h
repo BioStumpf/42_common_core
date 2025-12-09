@@ -51,10 +51,10 @@ typedef struct s_imge
 {
 	void	*img;
 	char	*addr;
-	int		bits_pp;
-	int		bytes_pp;
-	int		line_len;
-	int		endian;
+	int		bits;
+	int		bytes;
+	int		len;
+	int		end;
 }			t_imge;
 
 //error parsing

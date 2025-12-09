@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi_hex_multi.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 18:51:31 by dstumpf           #+#    #+#             */
+/*   Updated: 2025/12/09 18:54:00 by dstumpf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static void	set_hex_digit(char c, int *hex_digit)
@@ -12,9 +24,9 @@ static void	set_hex_digit(char c, int *hex_digit)
 
 static int	ft_ishex(char c)
 {
-	return (('A' <= c && c <= 'F') || 
-			('a' <= c && c <= 'f') ||
-			('0' <= c && c <= '9'));
+	return (('A' <= c && c <= 'F')
+		|| ('a' <= c && c <= 'f')
+		|| ('0' <= c && c <= '9'));
 }
 
 int	ft_atoi_hex_multi(char **nptr)
