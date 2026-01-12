@@ -6,15 +6,20 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 14:42:41 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/03 15:18:13 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/12 14:20:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	make_img(void *mlx, t_imge *img)
+void	make_img(void *mlx, t_imge *img, t_grid *grid)
 {
-	img->img = mlx_new_image(mlx, WIDTH, HEIGHT);
+	int	width;
+	int	height;
+
+	width = grid->x_max - grid->x_min + 1;
+	height = grid->y_max - grid->y_min + 1;
+	img->img = mlx_new_image(mlx, width, height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits, &img->len, &img->end);
 	img->bytes = img->bits / 8;
 }

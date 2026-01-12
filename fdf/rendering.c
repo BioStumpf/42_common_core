@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:26:17 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/03 18:58:22 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/12 12:58:12 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,16 @@ void	display_grid(t_grid *grid)
 	void	*mlx;
 	void	*mlx_win;
 	t_imge	mlx_img;
+	int		offset_x;
+	int		offset_y;
 
+	offset_x = (WIDTH - (grid->x_max - grid->x_min)) / 2;
+	offset_y = (HEIGHT - (grid->y_max - grid->y_min)) / 2;
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fdf");
-	make_img(mlx, &mlx_img);
+	make_img(mlx, &mlx_img, grid);
 	grid_to_img(&mlx_img, grid);
-	mlx_put_image_to_window(mlx, mlx_win, mlx_img.img, 0, 0);
+	mlx_put_image_to_window(mlx, mlx_win, mlx_img.img, offset_x, offset_y);
 	mlx_loop(mlx);
 	free_mlx(mlx, mlx_win, &mlx_img);
 }

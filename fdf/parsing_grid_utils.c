@@ -83,8 +83,9 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 		grid_row[col].x = col;
 		grid_row[col].y = grid->rows;
 		grid_row[col].color = extract_color(&line_cpy);
-		transform_iso(grid_row, col);
-		set_min_max(grid, &grid_row[col]);
+		//transform_iso(grid_row, col);
+		transform_iso(&grid_row[col]);
+		set_min_max(grid, col, &grid_row[col]);
 	}
 	return (grid_row);
 }

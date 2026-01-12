@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:50:15 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 12:48:38 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/12 16:29:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 //	int		j;
 //
 //	mat = grid->mat;
-//	ft_printf("Rows: %d\n", grid->rows);
-//	ft_printf("Cols: %d\n", grid->cols);
+////	ft_printf("Rows: %d\n", grid->rows);
+////	ft_printf("Cols: %d\n", grid->cols);
 //	i = 0;
 //	while (i < grid->rows)
 //	{
@@ -33,10 +33,10 @@
 //		while (j < grid->cols)
 //		{
 //			//dont use printf!!!!!!
-//			printf("x_iso:%.2f y_iso:%.2f z:%d   ", mat[i][j].x_iso, mat[i][j].y_iso, mat[i][j].z);
+//			printf("x_iso:%.2f y_iso:%.2f   ", mat[i][j].x, mat[i][j].y);
 //			j++;
 //		}
-//		printf("\n");
+//		printf("\n\n");
 //		i++;
 //	}
 //}

@@ -6,28 +6,38 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/05 13:03:40 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/12 14:28:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	set_min_max(t_grid *grid, t_point *point)
+//may be a bit confusing, but if we are at the first point, we set all min/max values to those of that point
+//everything after that is compared to the first point
+void	set_min_max(t_grid *grid, int col, t_point *point)
 {
+	if (grid->rows == 0 && col == 0)
+	{
+		grid->x_max = point->x;
+		grid->x_min = point->x;
+		grid->y_max = point->y;
+		grid->y_min = point->y;
+		return ;
+	}
 	if (point->x > grid->x_max)
 		grid->x_max = point->x;
-	if (point->x < grid->x_min)
+	else if (point->x < grid->x_min)
 		grid->x_min = point->x;
 	if (point->y > grid->y_max)
 		grid->y_max = point->y;
-	if (point->y < grid->y_min)
+	else if (point->y < grid->y_min)
 		grid->y_min = point->y;
 }
 
-void	transform_iso(t_point *grid_row, int col)
+void	transform_iso(t_point *point)
 {
-	rotate_z(&grid_row[col], M_PI / 4);
-	rotate_x(&grid_row[col], atan(1 / sqrt(2)));
+	rotate_z(point, M_PI / 4);
+	rotate_x(point, atan(1 / sqrt(2)));
 	//grid_row[x].x = (sqrt(2) / 2) * (x - y);
 	//grid_row[x].y = 1 / sqrt(3) * (x + y + grid_row[x].z);
 //	grid_row[col].x = (sqrt(2) / 2) * (grid_row[col].x + grid_row[col].z);
@@ -43,8 +53,8 @@ double	find_scale_factor(t_grid *grid)
 
 	x_diff = grid->x_max - grid->x_min;
 	y_diff = grid->y_max - grid->y_min;
-	x_scale = IMG_W;
-	y_scale = IMG_H;
+	x_scale = WIDTH * 0.8;
+	y_scale = HEIGHT * 0.8;
 	if (x_diff != 0)
 		x_scale = x_scale / x_diff; 
 	if (y_diff != 0)
@@ -55,29 +65,29 @@ double	find_scale_factor(t_grid *grid)
 		return (y_scale);
 }
 
-double	find_offset
+//double	find_offset
 
 void	scale_points(t_grid *grid)
 {
 	double	scale;
-//	double	mid_x;
-//	double	mid_y;
 	int		row;
 	int		col;
 
 	scale = find_scale_factor(grid);
-//	mid_x = 0.5 * (grid->x_max - grid->x_min);
-//	mid_y = 0.5 * (grid->y_max - grid->y_min); 
 	row = -1;
 	while (++row < grid->rows)
 	{
 		col = -1;
 		while (++col < grid->cols)
 		{
-			//grid->mat[row][col].x = (grid->mat[row][col].x - grid->x_min + mid_x) * scale;
-			//grid->mat[row][col].y = (grid->mat[row][col].y - grid->y_min + mid_y) * scale;
-			grid->mat[row][col].x = (grid->mat[row][col].x - grid->x_min) * scale + 0.5 * IMG_W;
-			grid->mat[row][col].y = (grid->mat[row][col].y - grid->y_min) * scale + 0.5 * IMG_H;
+			//grid->mat[row][col].x = (grid->mat[row][col].x - grid->x_min) * scale + 0.25 * WIDTH;
+			//grid->mat[row][col].y = (grid->mat[row][col].y - grid->y_min) * scale + 0.25 * HEIGHT;
+			grid->mat[row][col].x = (grid->mat[row][col].x - grid->x_min) * scale;
+			grid->mat[row][col].y = (grid->mat[row][col].y - grid->y_min) * scale;
 		}
 	}
+	grid->x_max = (grid->x_max - grid->x_min) * scale;
+	grid->x_min = (grid->x_min - grid->x_min) * scale;
+	grid->y_max = (grid->y_max - grid->y_min) * scale;
+	grid->y_min = (grid->y_min - grid->y_min) * scale;
 }	
