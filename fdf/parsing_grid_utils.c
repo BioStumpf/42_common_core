@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/03 18:59:55 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/12 20:45:30 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	int		col_count;
 	int		col;
 
-	col_count = (int)count_words(line, ' ');
+	col_count = (int)count_words(line, " \t\n\v\f\r");
 	if (grid->cols == 0)
 		grid->cols = col_count;
 	if (col_count <= 0 || col_count != grid->cols)
@@ -75,11 +75,9 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 		exit_griderror(grid, map_lst, ENOMEM);
 	col = -1;
 	line_cpy = (char *)line;
-	while (++col < grid->cols)
+	while (++col < grid->cols && *line_cpy)
 	{
 		grid_row[col].z = ft_atoi_multi(&line_cpy);
-		if (!*line_cpy)
-			exit_griderror(grid, map_lst, EINVAL);
 		grid_row[col].x = col;
 		grid_row[col].y = grid->rows;
 		grid_row[col].color = extract_color(&line_cpy);
@@ -87,6 +85,8 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 		transform_iso(&grid_row[col]);
 		set_min_max(grid, col, &grid_row[col]);
 	}
+	if (col != grid->cols)
+		exit_griderror(grid, map_lst, EINVAL);
 	return (grid_row);
 }
 

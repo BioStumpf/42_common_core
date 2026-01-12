@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 16:18:11 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/29 12:02:21 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/12 19:24:40 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**ft_split(char const *s, char c)
 	char			**out;
 	size_t			wc;
 
-	wc = count_words(s, c);
+	wc = count_words(s, &c);
 	if (!*s || wc == 0)
 		wc = 0;
 	out = malloc(sizeof(char *) * (wc + 1));

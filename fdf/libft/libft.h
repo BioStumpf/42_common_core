@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/11/29 12:02:54 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/12 19:56:18 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdint.h>
 # include <limits.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 typedef struct s_node
 {
@@ -74,7 +75,7 @@ void	ft_lstdelone(t_node *node, void (*del)(void *));
 t_list	*ft_lstnew(void);
 t_node	*ft_nodenew(void *content);
 void	ft_lstprint(t_list *lst, void (*print_fn)(void *content));
-size_t	count_words(const char *s, char c);
+size_t	count_words(const char *s, const char *sep);
 size_t	count_nums(const char *s);
 int		ft_atoi_multi(char **nptr);
 int		ft_iswhitespace(const char c);
