@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/13 16:23:21 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/13 20:02:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 # include "mlx.h"
-#include <X11/keysym.h>
+# include <X11/keysym.h>
 
 # define WIDTH 600 
 # define HEIGHT 500 
@@ -67,7 +67,7 @@ typedef struct s_grid
 void	exit_error(const char *message, int errnum);
 void	exit_lsterror(t_list *map_lst, int fd, int errnum);
 void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum);
-void	exit_mlxerror(t_mlx_dat *mlx, t_grid * grid);
+void	exit_mlxerror(t_mlx_dat *mlx, t_grid *grid);
 //parsing utils for linked list and grid
 void	free_grid(t_grid *grid);
 t_grid	*make_grid(t_list *map_lst);

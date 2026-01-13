@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/12 20:45:30 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/13 20:06:09 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static t_grid	*init_grid(t_list *map_lst)
 
 static int	extract_color(char **line)
 {
-//	(void)line;
-//	return (0xFFFFFF);
 	int	color;
 
 	if (**line && !ft_strncmp((*line), ",0x", 3))
@@ -81,7 +79,6 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 		grid_row[col].x = col;
 		grid_row[col].y = grid->rows;
 		grid_row[col].color = extract_color(&line_cpy);
-		//transform_iso(grid_row, col);
 		transform_iso(&grid_row[col]);
 		set_min_max(grid, col, &grid_row[col]);
 	}
@@ -110,7 +107,8 @@ t_grid	*make_grid(t_list *map_lst)
 }
 
 //just and idea if i need to change the matric frequently
-//consider however that you may want to add also t_my_img *img pararmeter to function pointer, since if you change matric you'd also want to change the img
+//consider however that you may want to add also t_my_img *img pararmeter to function pointer
+//, since if you change matric you'd also want to change the img
 //void	grid_apply(t_grid *grid, void (*f)(t_grid *grid, int x, int y))
 //{
 //	int	x;

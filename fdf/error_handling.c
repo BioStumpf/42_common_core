@@ -39,7 +39,7 @@ void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum)
 		exit_error("Failed to read map", errnum);
 }
 
-void	exit_mlxerror(t_mlx_dat *mlx, t_grid * grid)
+void	exit_mlxerror(t_mlx_dat *mlx, t_grid *grid)
 {
 	free_mlx(mlx);
 	free_grid(grid);

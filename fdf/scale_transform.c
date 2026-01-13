@@ -6,13 +6,14 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/12 14:28:06 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/13 20:08:58 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-//may be a bit confusing, but if we are at the first point, we set all min/max values to those of that point
+//may be a bit confusing, but if we are at the first point, 
+//we set all min/max values to those of that point
 //everything after that is compared to the first point
 void	set_min_max(t_grid *grid, int col, t_point *point)
 {
@@ -56,7 +57,7 @@ double	find_scale_factor(t_grid *grid)
 	x_scale = WIDTH * 0.8;
 	y_scale = HEIGHT * 0.8;
 	if (x_diff != 0)
-		x_scale = x_scale / x_diff; 
+		x_scale = x_scale / x_diff;
 	if (y_diff != 0)
 		y_scale = y_scale / y_diff;
 	if (x_scale <= y_scale)
@@ -90,4 +91,4 @@ void	scale_points(t_grid *grid)
 	grid->x_min = (grid->x_min - grid->x_min) * scale;
 	grid->y_max = (grid->y_max - grid->y_min) * scale;
 	grid->y_min = (grid->y_min - grid->y_min) * scale;
-}	
+}
