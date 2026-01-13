@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:26:17 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/12 12:58:12 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/13 16:24:53 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,51 @@ void	grid_to_img(t_imge *mlx_img, t_grid *grid)
 	}
 }
 
-void	free_mlx(void *mlx, void *mlx_win, t_imge *mlx_img)
+void	free_mlx(t_mlx_dat *mlx)
 {
-	mlx_destroy_image(mlx, mlx_img->img);
-	mlx_destroy_window(mlx, mlx_win);
-	mlx_destroy_display(mlx);
-	free(mlx);
+	if (!mlx->dis)
+		return ;
+	if (!mlx->win)
+	{
+		mlx_destroy_display(mlx->dis);
+		free(mlx->dis);
+		return ;
+	}
+	if (!mlx->img)
+	{
+		mlx_destroy_window(mlx->dis, mlx->win);
+		mlx_destroy_display(mlx->dis);
+		free(mlx->dis);
+		return ;
+	}
+	mlx_destroy_image(mlx->dis, mlx->img->img);
+	mlx_destroy_window(mlx->dis, mlx->win);
+	mlx_destroy_display(mlx->dis);
+	free(mlx->dis);
 }
 
 void	display_grid(t_grid *grid)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_imge	mlx_img;
-	int		offset_x;
-	int		offset_y;
+	t_mlx_dat	mlx;
+	t_imge		img;
+	int			offset_x;
+	int			offset_y;
 
+	mlx.img = &img;
 	offset_x = (WIDTH - (grid->x_max - grid->x_min)) / 2;
 	offset_y = (HEIGHT - (grid->y_max - grid->y_min)) / 2;
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fdf");
-	make_img(mlx, &mlx_img, grid);
-	grid_to_img(&mlx_img, grid);
-	mlx_put_image_to_window(mlx, mlx_win, mlx_img.img, offset_x, offset_y);
-	mlx_loop(mlx);
-	free_mlx(mlx, mlx_win, &mlx_img);
+	mlx.dis = mlx_init();
+	if (!mlx.dis)
+		exit_mlxerror(&mlx, grid);
+	mlx.win = mlx_new_window(mlx.dis, WIDTH, HEIGHT, "Fdf");
+	if (!mlx.win)
+		exit_mlxerror(&mlx, grid);
+	if ((make_img(&mlx, &img, grid) == -1))
+		exit_mlxerror(&mlx, grid);
+	grid_to_img(&img, grid);
+	mlx_put_image_to_window(mlx.dis, mlx.win, img.img, offset_x, offset_y);
+	mlx_key_hook(mlx.win, &handle_keyrelease, &mlx);
+	mlx_loop(mlx.dis);
+	mlx_destroy_display(mlx.dis);
+	free(mlx.dis);
 }

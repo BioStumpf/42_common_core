@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:37:37 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 12:36:54 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/13 19:37:42 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ t_list	*read_map_lst(int fd)
 		exit_lsterror(map_lst, fd, ENOMEM);
 	while (true)
 	{
+		errno = 0;
 		line = get_next_line(fd);
+		if (errno != 0)
+			exit_lsterror(map_lst, fd, errno);
 		if (!line)
 			break ;
 		add_line_lst(line, fd, map_lst);

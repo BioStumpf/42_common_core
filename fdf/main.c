@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:50:15 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/12 16:29:35 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/13 15:26:19 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,5 @@ int	main(int argc, char **argv)
 //	print_grid(grid);
 	display_grid(grid);
 	free_grid(grid);
-	close(fd);
 	return (0);
 }

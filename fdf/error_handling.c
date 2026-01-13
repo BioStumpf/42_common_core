@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:39:29 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/02 12:37:19 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/13 16:05:08 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,9 @@ void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum)
 		exit_error("Failed to read map", errnum);
 }
 
-//void	exit_mlxerror(void *mlx, void *mlx_window, t_imge *img, t_grid * grid)
+void	exit_mlxerror(t_mlx_dat *mlx, t_grid * grid)
+{
+	free_mlx(mlx);
+	free_grid(grid);
+	exit(1);
+}
