@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:50:15 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/13 15:26:19 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/14 12:32:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 //	}
 //}
 
-t_grid	*parse_map(int fd)
+static t_grid	*parse_map(int fd)
 {
 	t_list	*map_lst;
 	t_grid	*grid;

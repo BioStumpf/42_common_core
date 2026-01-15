@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/13 20:06:09 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/14 15:58:17 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,6 @@ void	free_grid(t_grid *grid)
 	free(grid);
 }
 
-static t_grid	*init_grid(t_list *map_lst)
-{
-	t_grid	*grid;
-
-	grid = malloc(sizeof(t_grid));
-	if (!grid)
-		exit_griderror(grid, map_lst, ENOMEM);
-	grid->x_min = 0;
-	grid->x_max = 0;
-	grid->y_min = 0;
-	grid->y_max = 0;
-	grid->rows = 0;
-	grid->cols = 0;
-	grid->mat = NULL;
-	return (grid);
-}
-
 static int	extract_color(char **line)
 {
 	int	color;
@@ -56,6 +39,14 @@ static int	extract_color(char **line)
 	return (color);
 }
 
+static void	set_grid_point(char **line, t_point *point, int row, int col)
+{
+	point->z = ft_atoi_multi(line);
+	point->x = col;
+	point->y = row;
+	point->color = extract_color(line);
+}
+
 static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 {
 	t_point	*grid_row;
@@ -64,7 +55,7 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	int		col;
 
 	col_count = (int)count_words(line, " \t\n\v\f\r");
-	if (grid->cols == 0)
+	if (grid->rows == 0)
 		grid->cols = col_count;
 	if (col_count <= 0 || col_count != grid->cols)
 		exit_griderror(grid, map_lst, EINVAL);
@@ -75,12 +66,9 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	line_cpy = (char *)line;
 	while (++col < grid->cols && *line_cpy)
 	{
-		grid_row[col].z = ft_atoi_multi(&line_cpy);
-		grid_row[col].x = col;
-		grid_row[col].y = grid->rows;
-		grid_row[col].color = extract_color(&line_cpy);
+		set_grid_point(&line_cpy, &grid_row[col], grid->rows, col);
 		transform_iso(&grid_row[col]);
-		set_min_max(grid, col, &grid_row[col]);
+		set_grid_range(grid, col, &grid_row[col]);
 	}
 	if (col != grid->cols)
 		exit_griderror(grid, map_lst, EINVAL);
@@ -92,11 +80,14 @@ t_grid	*make_grid(t_list *map_lst)
 	t_grid	*grid;
 	t_node	*cursor;
 
-	grid = init_grid(map_lst);
+	grid = malloc(sizeof(t_grid));
+	if (!grid)
+		exit_griderror(grid, map_lst, ENOMEM);
 	grid->mat = malloc(sizeof(t_point *) * map_lst->len);
 	if (!grid->mat)
 		exit_griderror(grid, map_lst, ENOMEM);
 	cursor = map_lst->head;
+	grid->rows = 0;
 	while (grid->rows < (int)map_lst->len)
 	{
 		grid->mat[grid->rows] = make_grid_row(cursor->content, grid, map_lst);
@@ -107,7 +98,8 @@ t_grid	*make_grid(t_list *map_lst)
 }
 
 //just and idea if i need to change the matric frequently
-//consider however that you may want to add also t_my_img *img pararmeter to function pointer
+//consider however that you may want to add also t_my_img *img pararmeter 
+//to function pointer
 //, since if you change matric you'd also want to change the img
 //void	grid_apply(t_grid *grid, void (*f)(t_grid *grid, int x, int y))
 //{
