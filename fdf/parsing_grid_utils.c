@@ -6,24 +6,11 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/14 15:58:17 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/15 12:57:46 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	free_grid(t_grid *grid)
-{
-	int	i;
-
-	if (!grid)
-		return ;
-	i = 0;
-	while (grid->mat && i < grid->rows)
-		free(grid->mat[i++]);
-	free(grid->mat);
-	free(grid);
-}
 
 static int	extract_color(char **line)
 {
@@ -97,21 +84,22 @@ t_grid	*make_grid(t_list *map_lst)
 	return (grid);
 }
 
-//just and idea if i need to change the matric frequently
-//consider however that you may want to add also t_my_img *img pararmeter 
-//to function pointer
-//, since if you change matric you'd also want to change the img
-//void	grid_apply(t_grid *grid, void (*f)(t_grid *grid, int x, int y))
-//{
-//	int	x;
-//	int	y;
-//
-//	x = -1;
-//	while (++x < grid->cols)
-//	{
-//		y = -1;
-//		while (++y < grid->rows)
-//			f(grid, x, y);
-//		x++;
-//	}
-//}
+//used later to change values inside the grid
+//data is the struct containing the grid amongst other info (data->grid)
+//x and y are col and row of the grid that are used/ changed inside func
+void	grid_apply(t_data *data, void (*f)(t_data *data, int x, int y))
+{
+	int		x;
+	int		y;
+	t_grid	*grid;
+
+	grid = data->grid;
+	x = -1;
+	while (++x < grid->cols)
+	{
+		y = -1;
+		while (++y < grid->rows)
+			f(data, x, y);
+	}
+}
+

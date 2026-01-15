@@ -6,30 +6,36 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:26:17 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/14 12:29:33 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/15 12:51:24 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	grid_to_img(t_imge *mlx_img, t_grid *grid)
+int	make_img(t_data *data, t_imge *img, t_grid *grid)
 {
-	int	x;
-	int	y;
-	int	i;
-	int	j;
+	int	width;
+	int	height;
 
+	width = grid->x_range.max - grid->x_range.min + 1;
+	height = grid->y_range.max - grid->y_range.min + 1;
+	img->img = mlx_new_image(data->mlx, width, height);
+	if (!img->img)
+		return (-1);
+	img->addr = mlx_get_data_addr(img->img, &img->bits, &img->len, &img->end);
+	img->bytes = img->bits / 8;
+	return (0);
+}
+
+void	pixel_to_img(t_imge *img, int x, int y, uint64_t color)
+{
+	char	*pixel_addr;
+	int		i;
+
+	pixel_addr = img->addr + (y * img->len + x * img->bytes);
 	i = -1;
-	while (++i < grid->rows)
-	{
-		j = -1;
-		while (++j < grid->cols)
-		{
-			x = (int)grid->mat[i][j].x;
-			y = (int)grid->mat[i][j].y;
-			pixel_to_img(mlx_img, x, y, (uint64_t)grid->mat[i][j].color);
-		}
-	}
+	while (++i < img->bytes)
+		pixel_addr[i] = (color >> (8 * i)) & 0xFF;
 }
 
 void	display_grid(t_grid *grid)

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:51:53 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/14 16:43:15 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/15 12:11:30 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	draw_img(t_data *data)
 
 	off_x = (WIDTH - (data->grid->x_range.max - data->grid->x_range.min)) / 2;
 	off_y = (HEIGHT - (data->grid->y_range.max - data->grid->y_range.min)) / 2;
-	grid_to_img(data->img, data->grid);
+	grid_apply(data, draw_point_line);	
 	mlx_put_image_to_window(data->mlx, data->win, data->img->img, off_x, off_y);
 	return (0);
 }

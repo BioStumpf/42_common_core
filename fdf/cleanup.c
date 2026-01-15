@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering_helpers.c                                :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 14:42:41 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/14 16:40:23 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/01/15 12:54:27 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/01/15 12:54:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	make_img(t_data *data, t_imge *img, t_grid *grid)
+void	free_grid(t_grid *grid)
 {
-	int	width;
-	int	height;
+	int	i;
 
-	width = grid->x_range.max - grid->x_range.min + 1;
-	height = grid->y_range.max - grid->y_range.min + 1;
-	img->img = mlx_new_image(data->mlx, width, height);
-	if (!img->img)
-		return (-1);
-	img->addr = mlx_get_data_addr(img->img, &img->bits, &img->len, &img->end);
-	img->bytes = img->bits / 8;
-	return (0);
-}
-
-void	pixel_to_img(t_imge *img, int x, int y, uint64_t color)
-{
-	char	*pixel_addr;
-	int		i;
-
-	pixel_addr = img->addr + (y * img->len + x * img->bytes);
-	i = -1;
-	while (++i < img->bytes)
-		pixel_addr[i] = (color >> (8 * i)) & 0xFF;
+	if (!grid)
+		return ;
+	i = 0;
+	while (grid->mat && i < grid->rows)
+		free(grid->mat[i++]);
+	free(grid->mat);
+	free(grid);
 }
 
 void	free_mlx(t_data *data)
