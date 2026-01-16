@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/15 12:59:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/16 14:44:33 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 # define WIDTH 600 
 # define HEIGHT 500 
+# define LOWEST 0x0000FF
+# define HIGHEST 0xFF0000
 
 typedef struct s_imge
 {
@@ -57,6 +59,7 @@ typedef struct s_grid
 	int		cols;
 	t_range	x_range;
 	t_range	y_range;
+	t_range	z_range;
 	t_point	**mat;
 }			t_grid;
 

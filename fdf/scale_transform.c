@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/14 16:14:04 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/16 14:43:56 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ void	set_grid_range(t_grid *grid, int col, t_point *point)
 	{
 		set_range(&grid->x_range, point->x, point->x);
 		set_range(&grid->y_range, point->y, point->y);
+		set_range(&grid->z_range, point->z, point->z);
 		return ;
 	}
 	expand_range(&grid->x_range, point->x);
 	expand_range(&grid->y_range, point->y);
+	expand_range(&grid->z_range, point->z);
 }
 
 static double	find_scale_factor(t_grid *grid)
@@ -65,11 +67,13 @@ void	scale_points(t_grid *grid)
 	int		col;
 	double	x_min;
 	double	y_min;
+	double	z_min;
 
 	scale = find_scale_factor(grid);
 	row = -1;
 	x_min = grid->x_range.min;
 	y_min = grid->y_range.min;
+	z_min = grid->z_range.min;
 	while (++row < grid->rows)
 	{
 		col = -1;
@@ -77,8 +81,10 @@ void	scale_points(t_grid *grid)
 		{
 			grid->mat[row][col].x = (grid->mat[row][col].x - x_min) * scale;
 			grid->mat[row][col].y = (grid->mat[row][col].y - y_min) * scale;
+			grid->mat[row][col].z = (grid->mat[row][col].z - z_min) * scale;
 		}
 	}
 	set_range(&grid->x_range, 0, (grid->x_range.max - x_min) * scale);
 	set_range(&grid->y_range, 0, (grid->y_range.max - y_min) * scale);
+	set_range(&grid->z_range, 0, (grid->z_range.max - z_min) * scale);
 }
