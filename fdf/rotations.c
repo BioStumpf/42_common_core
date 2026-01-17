@@ -16,6 +16,8 @@ void	rotate_x(t_point *point, double angle)
 {
 	double	y;
 
+	if (angle == 0)
+		return ;
 	y = point->y;
 	point->y = y * cos(angle) - point->z * sin(angle);
 	point->z = y * sin(angle) + point->z * cos(angle);
@@ -25,6 +27,8 @@ void	rotate_y(t_point *point, double angle)
 {
 	double	x;
 
+	if (angle == 0)
+		return ;
 	x = point->x;
 	point->x = x * cos(angle) + point->z * sin(angle);
 	point->z = -x * sin(angle) + point->z * cos(angle);
@@ -34,6 +38,8 @@ void	rotate_z(t_point *point, double angle)
 {
 	double	x;
 
+	if (angle == 0)
+		return ;
 	x = point->x;
 	point->x = x * cos(angle) - point->y * sin(angle);
 	point->y = x * sin(angle) + point->y * cos(angle);
@@ -41,11 +47,15 @@ void	rotate_z(t_point *point, double angle)
 
 void	transform_iso(t_point *point)
 {
-	rotate_z(point, M_PI / 4);
-	rotate_x(point, atan(1 / sqrt(2)));
-	//grid_row[x].x = (sqrt(2) / 2) * (x - y);
-	//grid_row[x].y = 1 / sqrt(3) * (x + y + grid_row[x].z);
-//	grid_row[col].x = (sqrt(2) / 2) * (grid_row[col].x + grid_row[col].z);
-//	grid_row[col].y = sqrt(2.0 / 3) * (0.5 * grid_row[col].x + grid_row[col].y - 0.5 * grid_row[col].z);
+	double	x;
+	double	y;
+
+	x = point->x;
+	y = point->y;
+	point->x = sqrt(2) / 2 * (x - y);
+	point->y = 1 / sqrt(3) * (x + y - point->z);
+	point->z = sqrt((2 / 3)) * (0.5 * x - 0.5 * y + point->z);
+	//rotate_z(point, M_PI / 4);
+	//rotate_x(point, atan(1 / sqrt(2)));
 }
 

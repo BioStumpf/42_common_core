@@ -12,30 +12,40 @@
 
 #include "fdf.h"
 
-void	scale_color(t_data data, int x, int y)
-{
-	t_grid	*grid;
-	int		z;
-	int		min;
-	int		max;
+//static double	height_factor(double z, double z_min, double z_max)
+//{
+//	if (z_min == z_max)
+//		return (0.5);
+//	return ((z - z_min) / (z_max - z_min));
+//}
+//
+//void	scale_color(t_data *data, int x, int y)
+//{
+//	t_grid	*grid;
+//	double	hf;
+//	int		red;
+//	int		green;
+//	int		blue;
+//
+//	grid = data->grid;
+//	hf = height_factor(grid->mat[y][x].z, grid->z_range.min, grid->z_range.max);
+//	hf = 0.3 + 0.7 * hf;
+//	red = ((grid->mat[y][x].color >> 16) & 0xFF) * hf;
+//	green = ((grid->mat[y][x].color >> 8) & 0xFF) * hf;
+//	blue = (grid->mat[y][x].color & 0xFF) * hf;
+//	grid->mat[y][x].color = red << 16 | green << 8 | blue;
+//	printf("Col: %d\n", grid->mat[y][x].color);
+//}
 
-	grid = data->grid;
-	z = grid->mat[x][y].z;
-	min = grid->z_range.min;
-	max = grid->z_range.max;
-	grid->mat[x][y].color = LOWEST (z - min) * (max - min);
-	grid->mat[x][y].color = LOWEST (z - min) * (max - min);
-}
-
-static int	interpolate_color(t_point *a, t_point *b, double ratio)
+static int	interpolate_color(int ca, int cb, double r)
 {
 	int	red;
 	int	green;
 	int	blue;
 
-	red = ((a->color >> 16) & 0xFF) + ratio * (((b->color >> 16) & 0xFF)- ((a->color >> 16) & 0xFF));
-	green = ((a->color >> 8) & 0xFF) + ratio * (((b->color >> 8) & 0xFF) - ((a->color >> 8) & 0xFF));
-	blue = (a->color & 0xFF) + ratio * ((b->color & 0xFF) - (a->color & 0xFF));
+	red = ((ca >> 16) & 0xFF) + r * (((cb >> 16) & 0xFF) - ((ca >> 16) & 0xFF));
+	green = ((ca >> 8) & 0xFF) + r * (((cb >> 8) & 0xFF) - ((ca>> 8) & 0xFF));
+	blue = (ca & 0xFF) + r * ((cb & 0xFF) - (ca & 0xFF));
 	return (red << 16 | green << 8 | blue);
 }
 
@@ -60,18 +70,34 @@ static void	dda(t_point a, t_point b, t_imge *img)
 	i = -1;
 	while (++i <= step)
 	{
-		color = interpolate_color(&a, &b, i / step); 
+		color = interpolate_color(a.color, b.color, i / step); 
 		pixel_to_img(img, (int)round(a.x + i * dx), (int)round(a.y + i * dy), color);
 	}
 }
 
-void	draw_point_line(t_data *data, int x, int y)
+void	lines_to_img(t_data *data, int x, int y)
 {
 	t_grid	*grid;
 	
 	grid = data->grid;
+	if (x == 0 && y == 0)
+	{
+		rotate_x(&grid->mat[y][x], grid->x_angle);
+		rotate_y(&grid->mat[y][x], grid->y_angle);
+		rotate_z(&grid->mat[y][x], grid->z_angle);
+	}
 	if (x + 1 < grid->cols)
+	{
+		rotate_x(&grid->mat[y][x + 1], grid->x_angle);
+		rotate_y(&grid->mat[y][x + 1], grid->y_angle);
+		rotate_z(&grid->mat[y][x + 1], grid->z_angle);
 		dda(grid->mat[y][x], grid->mat[y][x + 1], data->img);
+	}
 	if (y + 1 < grid->rows)
+	{
+		rotate_x(&grid->mat[y + 1][x], grid->x_angle);
+		rotate_y(&grid->mat[y + 1][x], grid->y_angle);
+		rotate_z(&grid->mat[y + 1][x], grid->z_angle);
 		dda(grid->mat[y][x], grid->mat[y + 1][x], data->img);
+	}
 }

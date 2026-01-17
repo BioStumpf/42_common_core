@@ -26,13 +26,15 @@
 
 # define WIDTH 600 
 # define HEIGHT 500 
-# define LOWEST 0x0000FF
-# define HIGHEST 0xFF0000
+//# define LOWEST 0x0000FF
+//# define HIGHEST 0xFF0000
 
 typedef struct s_imge
 {
 	void	*img;
 	char	*addr;
+	int		height;
+	int		width;
 	int		bits;
 	int		bytes;
 	int		len;
@@ -60,6 +62,9 @@ typedef struct s_grid
 	t_range	x_range;
 	t_range	y_range;
 	t_range	z_range;
+	double	x_angle;
+	double	y_angle;
+	double	z_angle;
 	t_point	**mat;
 }			t_grid;
 
@@ -98,6 +103,7 @@ void	scale_points(t_grid *grid);
 //event functions
 void	attach_hooks(t_data *data);
 //line drawing and color gradient
-void	draw_point_line(t_data *data, int x, int y);
+void	lines_to_img(t_data *data, int x, int y);
+//void	scale_color(t_data *data, int x, int y);
 
 #endif

@@ -81,6 +81,9 @@ t_grid	*make_grid(t_list *map_lst)
 		cursor = cursor->next;
 		grid->rows++;
 	}
+	grid->x_angle = 0;
+	grid->y_angle = 0;
+	grid->z_angle = 0;
 	return (grid);
 }
 

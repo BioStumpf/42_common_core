@@ -12,13 +12,6 @@
 
 #include "fdf.h"
 
-static int	handle_keyrelease(int keysym, t_data *data)
-{
-	if (keysym == XK_Escape)
-		mlx_loop_end(data->mlx);
-	return (0);
-}
-
 static int	draw_img(t_data *data)
 {
 	int		off_x;
@@ -26,8 +19,22 @@ static int	draw_img(t_data *data)
 
 	off_x = (WIDTH - (data->grid->x_range.max - data->grid->x_range.min)) / 2;
 	off_y = (HEIGHT - (data->grid->y_range.max - data->grid->y_range.min)) / 2;
-	grid_apply(data, draw_point_line);	
+	grid_apply(data, lines_to_img);	
 	mlx_put_image_to_window(data->mlx, data->win, data->img->img, off_x, off_y);
+	return (0);
+}
+
+static int	handle_keyrelease(int keysym, t_data *data)
+{
+	if (keysym == XK_Escape)
+		mlx_loop_end(data->mlx);
+	else if (keysym == XK_z)
+	{
+		ft_bzero(data->img->addr, data->img->len * data->img->width);
+		data->grid->z_angle = M_PI / 6;
+		draw_img(data);
+		data->grid->z_angle = 0;
+	}
 	return (0);
 }
 
