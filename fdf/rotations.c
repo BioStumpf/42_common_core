@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 18:49:08 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/14 16:17:15 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/19 20:04:41 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	rotate_z(t_point *point, double angle)
 void	transform_iso(t_point *point)
 {
 	double	x;
-	double	y;
 
 	x = point->x;
-	y = point->y;
-	point->x = sqrt(2) / 2 * (x - y);
-	point->y = 1 / sqrt(3) * (x + y - point->z);
-	point->z = sqrt((2 / 3)) * (0.5 * x - 0.5 * y + point->z);
+	//y = point->y;
+	point->x = sqrt(2) / 2 * (x - point->y);
+	point->y = 1 / sqrt(3) * (x + point->y - point->z);
+	//point->y = 1 / sqrt(3) * (x + y - point->z);
+	//point->z = sqrt((2 / 3)) * (0.5 * x - 0.5 * y + point->z);
 	//rotate_z(point, M_PI / 4);
 	//rotate_x(point, atan(1 / sqrt(2)));
 }

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/16 15:40:19 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/19 20:29:51 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,29 +75,39 @@ static void	dda(t_point a, t_point b, t_imge *img)
 	}
 }
 
+static void	zoom_and_translate(t_point *point, t_grid *grid)
+{
+	point->x = point->x * grid->zoom + grid->offset_x;
+	point->y = point->y * grid->zoom + grid->offset_y;
+}
+
+static void	transform_point(t_point *point, t_grid *grid)
+{
+	rotate_x(point, grid->x_angle);
+	rotate_y(point, grid->y_angle);
+	rotate_z(point, grid->z_angle);
+	transform_iso(point);
+	zoom_and_translate(point, grid);
+}
+
 void	lines_to_img(t_data *data, int x, int y)
 {
-	t_grid	*grid;
-	
-	grid = data->grid;
-	if (x == 0 && y == 0)
+	t_point p;
+	t_point p_next;
+
+	p = data->grid->mat[y][x];
+//	if (x == 0 && y == 0)
+	transform_point(&p, data->grid);
+	if (x + 1 < data->grid->cols)
 	{
-		rotate_x(&grid->mat[y][x], grid->x_angle);
-		rotate_y(&grid->mat[y][x], grid->y_angle);
-		rotate_z(&grid->mat[y][x], grid->z_angle);
+		p_next = data->grid->mat[y][x + 1];
+		transform_point(&p_next, data->grid);
+		dda(p, p_next, data->img);
 	}
-	if (x + 1 < grid->cols)
+	if (y + 1 < data->grid->rows)
 	{
-		rotate_x(&grid->mat[y][x + 1], grid->x_angle);
-		rotate_y(&grid->mat[y][x + 1], grid->y_angle);
-		rotate_z(&grid->mat[y][x + 1], grid->z_angle);
-		dda(grid->mat[y][x], grid->mat[y][x + 1], data->img);
-	}
-	if (y + 1 < grid->rows)
-	{
-		rotate_x(&grid->mat[y + 1][x], grid->x_angle);
-		rotate_y(&grid->mat[y + 1][x], grid->y_angle);
-		rotate_z(&grid->mat[y + 1][x], grid->z_angle);
-		dda(grid->mat[y][x], grid->mat[y + 1][x], data->img);
+		p_next = data->grid->mat[y + 1][x];
+		transform_point(&p_next, data->grid);
+		dda(p, p_next, data->img);
 	}
 }

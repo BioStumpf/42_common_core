@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:50:15 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/14 12:32:06 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/19 19:10:39 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv)
 //	ft_lstprint(lst, print_lst_str);
 //	ft_lstclear(lst, free);
 	grid = parse_map(fd);
-	scale_points(grid);
+//	scale_points(grid);
 //	print_grid(grid);
 	display_grid(grid);
 	free_grid(grid);

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/16 14:44:33 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/19 20:03:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ typedef struct s_imge
 {
 	void	*img;
 	char	*addr;
-	int		height;
-	int		width;
+	//int		height;
+	//int		width;
 	int		bits;
 	int		bytes;
 	int		len;
@@ -65,6 +65,9 @@ typedef struct s_grid
 	double	x_angle;
 	double	y_angle;
 	double	z_angle;
+	double	zoom;
+	int		offset_x;
+	int		offset_y;
 	t_point	**mat;
 }			t_grid;
 
@@ -88,7 +91,8 @@ t_list	*read_map_lst(int fd);
 void	grid_apply(t_data *data, void (*f)(t_data *data, int x, int y));
 //bringing the grid to the screen/ rendering/ displaying
 void	display_grid(t_grid *grid);
-int		make_img(t_data *data, t_imge *img, t_grid *grid);
+//int		make_img(t_data *data, t_imge *img, t_grid *grid);
+int		make_img(t_data *data, t_imge *img);
 void	pixel_to_img(t_imge *img, int x, int y, uint64_t color);
 void	grid_to_img(t_imge *mlx_img, t_grid *grid);
 void	free_mlx(t_data *data);
@@ -99,10 +103,12 @@ void	rotate_z(t_point *point, double angle);
 void	transform_iso(t_point *point);
 void	set_grid_range(t_grid *grid, int col, t_point *point);
 //double	find_scale_factor(t_grid *grid);
-void	scale_points(t_grid *grid);
-//event functions
+void	scale_points(t_data *data);
+//void	scale_points(t_grid *grid);
+//event functions   
 void	attach_hooks(t_data *data);
 //line drawing and color gradient
+int		draw_img(t_data *data);
 void	lines_to_img(t_data *data, int x, int y);
 //void	scale_color(t_data *data, int x, int y);
 
