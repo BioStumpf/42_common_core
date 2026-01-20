@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/19 20:29:51 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/20 16:23:30 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ static void	zoom_and_translate(t_point *point, t_grid *grid)
 
 static void	transform_point(t_point *point, t_grid *grid)
 {
-	rotate_x(point, grid->x_angle);
-	rotate_y(point, grid->y_angle);
-	rotate_z(point, grid->z_angle);
+	double	center_x;
+	double	center_y;
+
+	center_x = grid->cols / 2;
+	center_y = grid->rows / 2;
+	rotate_x(point, grid->x_angle, center_y);
+	rotate_y(point, grid->y_angle, center_x);
+	rotate_z(point, grid->z_angle, center_x, center_y);
 	transform_iso(point);
 	zoom_and_translate(point, grid);
 }

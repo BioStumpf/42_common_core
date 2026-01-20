@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/19 20:05:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/20 14:42:09 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ static void	expand_range(t_range *range, double val)
 		range->min = val;
 }
 
-void	set_grid_range(t_grid *grid, int col, t_point *point)
+void	set_grid_range(t_grid *grid, int col, int row, t_point *point)
 {
-	if (grid->rows == 0 && col == 0)
+	if (row == 0 && col == 0)
 	{
 		set_range(&grid->x_range, point->x, point->x);
 		set_range(&grid->y_range, point->y, point->y);
-		//set_range(&grid->z_range, point->z, point->z);
+		set_range(&grid->z_range, point->z, point->z);
 		return ;
 	}
 	expand_range(&grid->x_range, point->x);
 	expand_range(&grid->y_range, point->y);
-	//expand_range(&grid->z_range, point->z);
+	expand_range(&grid->z_range, point->z);
 }
 
 static double	find_scale_factor(t_grid *grid)
@@ -49,8 +49,8 @@ static double	find_scale_factor(t_grid *grid)
 
 	x_diff = grid->x_range.max - grid->x_range.min;
 	y_diff = grid->y_range.max - grid->y_range.min;
-	x_scale = WIDTH * 0.8;
-	y_scale = HEIGHT * 0.8;
+	x_scale = 0.8 * WIDTH;
+	y_scale = 0.8 * HEIGHT;
 	if (x_diff != 0)
 		x_scale = x_scale / x_diff;
 	if (y_diff != 0)
@@ -70,36 +70,19 @@ void	scale_points(t_data *data)
 	y_range = &data->grid->y_range;
 	zoom = find_scale_factor(data->grid);
 	data->grid->zoom = zoom; 
-	//scale before zoom??? how to include negatives reliably???
-	data->grid->offset_x = WIDTH / 2 - ((zoom * (x_range->max + x_range->min)) / 2);
-	data->grid->offset_y = HEIGHT / 2 - ((zoom * (y_range->max + y_range->min)) / 2);
+	data->grid->offset_x = (WIDTH / 2.0) - (zoom * ((x_range->max + x_range->min) / 2));
+	data->grid->offset_y = (HEIGHT / 2.0) - (zoom * ((y_range->max + y_range->min) / 2));
 }
 
-//void	scale_points(t_grid *grid)
-//{
-//	double	scale;
-//	int		row;
-//	int		col;
-//	double	x_min;
-//	double	y_min;
-//	double	z_min;
-//
-//	scale = find_scale_factor(grid);
-//	row = -1;
-//	x_min = grid->x_range.min;
-//	y_min = grid->y_range.min;
-//	z_min = grid->z_range.min;
-//	while (++row < grid->rows)
-//	{
-//		col = -1;
-//		while (++col < grid->cols)
-//		{
-//			grid->mat[row][col].x = (grid->mat[row][col].x - x_min) * scale;
-//			grid->mat[row][col].y = (grid->mat[row][col].y - y_min) * scale;
-//			grid->mat[row][col].z = (grid->mat[row][col].z - z_min) * scale;
-//		}
-//	}
-//	set_range(&grid->x_range, 0, (grid->x_range.max - x_min) * scale);
-//	set_range(&grid->y_range, 0, (grid->y_range.max - y_min) * scale);
-//	set_range(&grid->z_range, 0, (grid->z_range.max - z_min) * scale);
-//}
+void	refine_coordinates(t_data *data, int x, int y)
+{
+	t_point	point;
+
+	point = data->grid->mat[y][x];
+	point.x = point.x - (data->grid->x_range.max + data->grid->x_range.min) / 2;
+	point.y = point.y - (data->grid->y_range.max + data->grid->y_range.min) / 2;
+	//point.z -= (data->grid->z_range.max + data->grid->z_range.min) / 2;
+	data->grid->mat[y][x] = point;
+	transform_iso(&point);
+	set_grid_range(data->grid, x, y, &point);
+}

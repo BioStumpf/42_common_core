@@ -6,43 +6,49 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 18:49:08 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/19 20:04:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/20 16:54:37 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	rotate_x(t_point *point, double angle)
+void	rotate_x(t_point *point, double angle, double center_y)
 {
 	double	y;
 
 	if (angle == 0)
 		return ;
-	y = point->y;
+	y = point->y - center_y;
 	point->y = y * cos(angle) - point->z * sin(angle);
 	point->z = y * sin(angle) + point->z * cos(angle);
+	point->y += center_y;
 }
 
-void	rotate_y(t_point *point, double angle)
+void	rotate_y(t_point *point, double angle, double center_x)
 {
 	double	x;
 
 	if (angle == 0)
 		return ;
-	x = point->x;
+	x = point->x - center_x;
 	point->x = x * cos(angle) + point->z * sin(angle);
 	point->z = -x * sin(angle) + point->z * cos(angle);
+	point->x += center_x;	
 }
 
-void	rotate_z(t_point *point, double angle)
+void	rotate_z(t_point *point, double angle, double center_x, double center_y)
 {
 	double	x;
+	double	y;
 
 	if (angle == 0)
 		return ;
-	x = point->x;
-	point->x = x * cos(angle) - point->y * sin(angle);
-	point->y = x * sin(angle) + point->y * cos(angle);
+	x = point->x - center_x;
+	y = point->y - center_y;
+	point->x = x * cos(angle) - y * sin(angle);
+	point->y = x * sin(angle) + y * cos(angle);
+	point->x += center_x;	
+	point->y += center_y;	
 }
 
 void	transform_iso(t_point *point)
@@ -50,12 +56,7 @@ void	transform_iso(t_point *point)
 	double	x;
 
 	x = point->x;
-	//y = point->y;
 	point->x = sqrt(2) / 2 * (x - point->y);
 	point->y = 1 / sqrt(3) * (x + point->y - point->z);
-	//point->y = 1 / sqrt(3) * (x + y - point->z);
-	//point->z = sqrt((2 / 3)) * (0.5 * x - 0.5 * y + point->z);
-	//rotate_z(point, M_PI / 4);
-	//rotate_x(point, atan(1 / sqrt(2)));
 }
 

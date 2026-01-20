@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/19 20:03:35 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/20 16:22:39 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ typedef struct s_imge
 {
 	void	*img;
 	char	*addr;
-	//int		height;
-	//int		width;
 	int		bits;
 	int		bytes;
 	int		len;
@@ -97,13 +95,16 @@ void	pixel_to_img(t_imge *img, int x, int y, uint64_t color);
 void	grid_to_img(t_imge *mlx_img, t_grid *grid);
 void	free_mlx(t_data *data);
 //math helpers
-void	rotate_x(t_point *point, double angle);
-void	rotate_y(t_point *point, double angle);
-void	rotate_z(t_point *point, double angle);
+void	rotate_x(t_point *point, double angle, double center_y);
+void	rotate_y(t_point *point, double angle, double center_x);
+//void	rotate_x(t_point *point, double angle);
+//void	rotate_y(t_point *point, double angle);
+void	rotate_z(t_point *point, double angle, double center_x, double center_y);
 void	transform_iso(t_point *point);
-void	set_grid_range(t_grid *grid, int col, t_point *point);
+void	set_grid_range(t_grid *grid, int col, int row, t_point *point);
 //double	find_scale_factor(t_grid *grid);
 void	scale_points(t_data *data);
+void	refine_coordinates(t_data *data, int x, int y);
 //void	scale_points(t_grid *grid);
 //event functions   
 void	attach_hooks(t_data *data);

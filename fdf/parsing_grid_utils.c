@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/19 20:20:58 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/20 14:28:15 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ static t_point	*make_grid_row(void *line, t_grid *grid, t_list *map_lst)
 	{
 		set_grid_point(&line_cpy, &grid_row[col], grid->rows, col);
 		transform_iso(&grid_row[col]);
-		grid_row[col].x = col;
-		grid_row[col].y = grid->rows;
-		set_grid_range(grid, col, &grid_row[col]);
+        set_grid_range(grid, col, grid->rows, &grid_row[col]);
+        grid_row[col].x = col;
+        grid_row[col].y = grid->rows;
 	}
 	if (col != grid->cols)
 		exit_griderror(grid, map_lst, EINVAL);
