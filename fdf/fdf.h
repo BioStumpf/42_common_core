@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/20 16:22:39 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/21 15:08:49 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@
 # define HEIGHT 500 
 //# define LOWEST 0x0000FF
 //# define HIGHEST 0xFF0000
+
+typedef struct s_mouse
+{
+	bool	pressed;
+	int		x_last;
+	int		y_last;
+}			t_mouse;
 
 typedef struct s_imge
 {
@@ -75,6 +82,7 @@ typedef struct s_data
 	void	*win;
 	t_imge	*img;
 	t_grid	*grid;
+	t_mouse	*mouse;
 }			t_data;
 
 //error parsing
