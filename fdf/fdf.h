@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/21 15:08:49 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/22 17:27:52 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@
 # include "mlx.h"
 # include <X11/keysym.h>
 
-# define WIDTH 600 
-# define HEIGHT 500 
-//# define LOWEST 0x0000FF
-//# define HIGHEST 0xFF0000
+# define WIDTH 1000 
+# define HEIGHT 800 
+# define LOWEST 0x0000FF
+# define HIGHEST 0xFF0000
 
 typedef struct s_mouse
 {
-	bool	pressed;
+	bool	left;
+	bool	right;
+	bool	wheel;
 	int		x_last;
 	int		y_last;
 }			t_mouse;
@@ -105,20 +107,15 @@ void	free_mlx(t_data *data);
 //math helpers
 void	rotate_x(t_point *point, double angle, double center_y);
 void	rotate_y(t_point *point, double angle, double center_x);
-//void	rotate_x(t_point *point, double angle);
-//void	rotate_y(t_point *point, double angle);
 void	rotate_z(t_point *point, double angle, double center_x, double center_y);
 void	transform_iso(t_point *point);
 void	set_grid_range(t_grid *grid, int col, int row, t_point *point);
 //double	find_scale_factor(t_grid *grid);
 void	scale_points(t_data *data);
-void	refine_coordinates(t_data *data, int x, int y);
-//void	scale_points(t_grid *grid);
 //event functions   
 void	attach_hooks(t_data *data);
 //line drawing and color gradient
-int		draw_img(t_data *data);
 void	lines_to_img(t_data *data, int x, int y);
-//void	scale_color(t_data *data, int x, int y);
+void	scale_color(t_data *data, int x, int y);
 
 #endif

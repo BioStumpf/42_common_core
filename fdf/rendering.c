@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:26:17 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/20 14:28:26 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/22 12:09:37 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	display_grid(t_grid *grid)
 {
 	t_data	data;
 	t_imge	img;
+	t_mouse	mouse;
 
+	data.mouse = &mouse;
 	data.img = &img;
 	data.grid = grid;
 	data.mlx = mlx_init();
@@ -59,13 +61,11 @@ void	display_grid(t_grid *grid)
 	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Fdf");
 	if (!data.win)
 		exit_mlxerror(&data, grid);
-	//if ((make_img(&data, &img, grid) == -1))
 	if ((make_img(&data, &img) == -1))
 		exit_mlxerror(&data, grid);
-//	grid_apply(&data, refine_coordinates);
 	scale_points(&data);
 //	draw_img(&data);
-//	grid_apply(&data, scale_color);
+	grid_apply(&data, scale_color);
 	attach_hooks(&data);
 	mlx_loop(data.mlx);
 	free_mlx(&data);

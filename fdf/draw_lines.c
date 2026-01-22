@@ -6,36 +6,18 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/20 16:23:30 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/22 17:43:07 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-//static double	height_factor(double z, double z_min, double z_max)
-//{
-//	if (z_min == z_max)
-//		return (0.5);
-//	return ((z - z_min) / (z_max - z_min));
-//}
-//
-//void	scale_color(t_data *data, int x, int y)
-//{
-//	t_grid	*grid;
-//	double	hf;
-//	int		red;
-//	int		green;
-//	int		blue;
-//
-//	grid = data->grid;
-//	hf = height_factor(grid->mat[y][x].z, grid->z_range.min, grid->z_range.max);
-//	hf = 0.3 + 0.7 * hf;
-//	red = ((grid->mat[y][x].color >> 16) & 0xFF) * hf;
-//	green = ((grid->mat[y][x].color >> 8) & 0xFF) * hf;
-//	blue = (grid->mat[y][x].color & 0xFF) * hf;
-//	grid->mat[y][x].color = red << 16 | green << 8 | blue;
-//	printf("Col: %d\n", grid->mat[y][x].color);
-//}
+static double	height_factor(double z, double z_min, double z_max)
+{
+	if (z_min == z_max)
+		return (0.5);
+	return ((z - z_min) / (z_max - z_min));
+}
 
 static int	interpolate_color(int ca, int cb, double r)
 {
@@ -47,6 +29,18 @@ static int	interpolate_color(int ca, int cb, double r)
 	green = ((ca >> 8) & 0xFF) + r * (((cb >> 8) & 0xFF) - ((ca>> 8) & 0xFF));
 	blue = (ca & 0xFF) + r * ((cb & 0xFF) - (ca & 0xFF));
 	return (red << 16 | green << 8 | blue);
+}
+
+void	scale_color(t_data *data, int x, int y)
+{
+	t_grid	*grid;
+	double	hf;
+	int		height;
+
+	grid = data->grid;
+	hf = height_factor(grid->mat[y][x].z, grid->z_range.min, grid->z_range.max);
+	height = interpolate_color(LOWEST, HIGHEST, hf);
+	grid->mat[y][x].color = interpolate_color(height, grid->mat[y][x].color, 0.5);
 }
 
 static void	dda(t_point a, t_point b, t_imge *img)
@@ -101,7 +95,6 @@ void	lines_to_img(t_data *data, int x, int y)
 	t_point p_next;
 
 	p = data->grid->mat[y][x];
-//	if (x == 0 && y == 0)
 	transform_point(&p, data->grid);
 	if (x + 1 < data->grid->cols)
 	{

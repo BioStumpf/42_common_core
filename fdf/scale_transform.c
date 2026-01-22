@@ -73,16 +73,3 @@ void	scale_points(t_data *data)
 	data->grid->offset_x = (WIDTH / 2.0) - (zoom * ((x_range->max + x_range->min) / 2));
 	data->grid->offset_y = (HEIGHT / 2.0) - (zoom * ((y_range->max + y_range->min) / 2));
 }
-
-void	refine_coordinates(t_data *data, int x, int y)
-{
-	t_point	point;
-
-	point = data->grid->mat[y][x];
-	point.x = point.x - (data->grid->x_range.max + data->grid->x_range.min) / 2;
-	point.y = point.y - (data->grid->y_range.max + data->grid->y_range.min) / 2;
-	//point.z -= (data->grid->z_range.max + data->grid->z_range.min) / 2;
-	data->grid->mat[y][x] = point;
-	transform_iso(&point);
-	set_grid_range(data->grid, x, y, &point);
-}
