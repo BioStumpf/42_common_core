@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/22 17:27:52 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/23 16:49:40 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@
 # define HEIGHT 800 
 # define LOWEST 0x0000FF
 # define HIGHEST 0xFF0000
+# define ISO 1
+# define CABINET 2
+# define INTERPOLATE 3
+# define ZSCALE 4
+# define USER 5
 
 typedef struct s_mouse
 {
 	bool	left;
-	bool	right;
-	bool	wheel;
 	int		x_last;
 	int		y_last;
 }			t_mouse;
@@ -46,6 +49,7 @@ typedef struct s_imge
 	int		bytes;
 	int		len;
 	int		end;
+	int		color;
 }			t_imge;
 
 typedef struct s_point
@@ -54,6 +58,8 @@ typedef struct s_point
 	double	y;
 	double	z;
 	int		color;
+	int		icolor;
+	int		zcolor;
 }			t_point;
 
 typedef struct s_range
@@ -73,8 +79,11 @@ typedef struct s_grid
 	double	y_angle;
 	double	z_angle;
 	double	zoom;
+	double	z_scale;
 	int		offset_x;
 	int		offset_y;
+	int		projection;
+	bool	def_view;
 	t_point	**mat;
 }			t_grid;
 
@@ -109,6 +118,7 @@ void	rotate_x(t_point *point, double angle, double center_y);
 void	rotate_y(t_point *point, double angle, double center_x);
 void	rotate_z(t_point *point, double angle, double center_x, double center_y);
 void	transform_iso(t_point *point);
+void	transform_cab(t_point *point);
 void	set_grid_range(t_grid *grid, int col, int row, t_point *point);
 //double	find_scale_factor(t_grid *grid);
 void	scale_points(t_data *data);

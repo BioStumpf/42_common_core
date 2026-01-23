@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:51:53 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/22 17:49:38 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/23 17:22:34 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ static int	draw_img(void *param)
 
 	data = (t_data *)param;
 	ft_bzero(data->img->addr, data->img->len * HEIGHT);
+	if (data->grid->def_view)
+	{
+		data->grid->x_angle = 0;
+		data->grid->y_angle = 0;
+		data->grid->z_angle = 0;
+		data->grid->def_view = false;
+		scale_points(data);
+		grid_apply(data, scale_color);
+	}
 	grid_apply(data, lines_to_img);	
 	mlx_put_image_to_window(data->mlx, data->win, data->img->img, 0, 0);
 	return (0);
@@ -39,10 +48,6 @@ static int	mouse_release(int button, int x, int y, void *param)
 	(void)y;
 	if (button == 1)
 		data->mouse->left = false;
-	else if (button == 2)
-		data->mouse->wheel = false;
-	else if (button == 3)
-		data->mouse->right = false;
 	return (0);
 }
 
@@ -51,20 +56,10 @@ static int	mouse_move(int x, int y, void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (data->mouse->wheel)
+	if (data->mouse->left)
 	{
 		data->grid->offset_x += x - data->mouse->x_last;
 		data->grid->offset_y += y - data->mouse->y_last;
-	}
-	else if (data->mouse->left)
-	{
-		data->grid->x_angle += (x - data->mouse->x_last) * 0.01;
-		data->grid->y_angle += (y - data->mouse->y_last) * 0.01;
-	}
-	else if (data->mouse->right)
-	{
-		data->grid->z_angle += (x - data->mouse->x_last) * 0.01;
-		data->grid->z_angle += (y - data->mouse->y_last) * 0.01;
 	}
 	data->mouse->x_last = x;
 	data->mouse->y_last = y;
@@ -91,12 +86,10 @@ static int	mouse_press(int button, int x, int y, void *param)
 	data = (t_data *)param;
 	if (button == 1)
 		mouse_clicked(x, y, data, &data->mouse->left);
-	else if (button == 3)
-		mouse_clicked(x, y, data, &data->mouse->right);
-	else if (button == 2)
-		mouse_clicked(x, y, data, &data->mouse->wheel);
 	else if (button == 4 || button == 5)
 		mouse_zoom(button, x, y, data);
+	else if (button == 3)
+		data->img->color = (data->img->color + 1) % 3 + 3;
 	return (0);
 }
 
@@ -107,6 +100,31 @@ static int	key_press(int keysym, void *param)
 	data = (t_data *)param;
 	if (keysym == XK_Escape)
 		mlx_loop_end(data->mlx);
+	if (keysym == XK_w)
+		data->grid->x_angle += 0.05;
+	if (keysym == XK_s)
+		data->grid->x_angle -= 0.05;
+	if (keysym == XK_e)
+		data->grid->y_angle += 0.05;
+	if (keysym == XK_q)
+		data->grid->y_angle -= 0.05;
+	if (keysym == XK_d)
+		data->grid->z_angle += 0.05;
+	if (keysym == XK_a)
+		data->grid->z_angle -= 0.05;
+	if (keysym == XK_r || keysym == XK_c || keysym == XK_i)
+	{
+		data->grid->def_view = true;
+		data->grid->z_scale = 1;
+	}
+	if (keysym == XK_c)
+		data->grid->projection = CABINET;
+	if (keysym == XK_i)
+		data->grid->projection = ISO;
+	if (keysym == XK_Up)
+		data->grid->z_scale += 0.1;
+	if (keysym == XK_Down)
+		data->grid->z_scale -= 0.1;
 	return (0);
 }
 
@@ -119,8 +137,7 @@ static int	key_press(int keysym, void *param)
 void	attach_hooks(t_data *data)
 {
 	data->mouse->left = false;
-	data->mouse->right = false;
-	data->mouse->wheel = false;
+	data->grid->z_scale = 1;
 	mlx_hook(data->win, 2, 1L<<0, &key_press, data);
 	mlx_hook(data->win, 17, 0, mlx_loop_end, data->mlx);
 	mlx_expose_hook(data->win, draw_img, data);

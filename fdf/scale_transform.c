@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/20 14:42:09 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/23 16:44:41 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,25 @@ static double	find_scale_factor(t_grid *grid)
 	return (y_scale);
 }
 
+static void	range_finder(t_data *data, int x, int y)
+{
+	t_point	p;
+
+	p = data->grid->mat[y][x];
+	if (data->grid->projection == ISO)
+		transform_iso(&p);
+	else if (data->grid->projection == CABINET)
+		transform_cab(&p);
+	set_grid_range(data->grid, x, y, &p);
+}
+
 void	scale_points(t_data *data)
 {
 	t_range	*x_range;
 	t_range	*y_range;
 	double	zoom;
 
+	grid_apply(data, range_finder); 
 	x_range = &data->grid->x_range;
 	y_range = &data->grid->y_range;
 	zoom = find_scale_factor(data->grid);

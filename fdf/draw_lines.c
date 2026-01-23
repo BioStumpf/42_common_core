@@ -6,14 +6,19 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/22 17:43:07 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/23 17:21:46 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static double	height_factor(double z, double z_min, double z_max)
+static double	height_factor(t_grid *grid, double z)
 {
+	double	z_min;
+	double	z_max;
+
+	z_min = grid->z_range.min * grid->z_scale;
+	z_max = grid->z_range.max * grid->z_scale;
 	if (z_min == z_max)
 		return (0.5);
 	return ((z - z_min) / (z_max - z_min));
@@ -38,9 +43,10 @@ void	scale_color(t_data *data, int x, int y)
 	int		height;
 
 	grid = data->grid;
-	hf = height_factor(grid->mat[y][x].z, grid->z_range.min, grid->z_range.max);
+	hf = height_factor(grid, grid->mat[y][x].z);
 	height = interpolate_color(LOWEST, HIGHEST, hf);
-	grid->mat[y][x].color = interpolate_color(height, grid->mat[y][x].color, 0.5);
+	grid->mat[y][x].zcolor = height;
+	grid->mat[y][x].icolor = interpolate_color(height, grid->mat[y][x].color, 0.5);
 }
 
 static void	dda(t_point a, t_point b, t_imge *img)
@@ -64,7 +70,12 @@ static void	dda(t_point a, t_point b, t_imge *img)
 	i = -1;
 	while (++i <= step)
 	{
-		color = interpolate_color(a.color, b.color, i / step); 
+		if (img->color == INTERPOLATE)
+			color = interpolate_color(a.icolor, b.icolor, i / step); 
+		if (img->color == USER)
+			color = interpolate_color(a.color, b.color, i / step); 
+		if (img->color == ZSCALE)
+			color = interpolate_color(a.zcolor, b.zcolor, i / step); 
 		pixel_to_img(img, (int)round(a.x + i * dx), (int)round(a.y + i * dy), color);
 	}
 }
@@ -82,10 +93,15 @@ static void	transform_point(t_point *point, t_grid *grid)
 
 	center_x = grid->cols / 2;
 	center_y = grid->rows / 2;
+	point->z *= grid->z_scale;
+	//set_grid_range(grid, point->x, point->y, point);
 	rotate_x(point, grid->x_angle, center_y);
 	rotate_y(point, grid->y_angle, center_x);
 	rotate_z(point, grid->z_angle, center_x, center_y);
-	transform_iso(point);
+	if (grid->projection == ISO)
+		transform_iso(point);
+	else if (grid->projection == CABINET)
+		transform_cab(point);
 	zoom_and_translate(point, grid);
 }
 
