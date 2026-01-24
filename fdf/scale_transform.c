@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/23 16:44:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/24 16:39:58 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	expand_range(t_range *range, double val)
 		range->min = val;
 }
 
-void	set_grid_range(t_grid *grid, int col, int row, t_point *point)
+static void	set_grid_range(t_grid *grid, int col, int row, t_point *point)
 {
 	if (row == 0 && col == 0)
 	{
@@ -65,10 +65,7 @@ static void	range_finder(t_data *data, int x, int y)
 	t_point	p;
 
 	p = data->grid->mat[y][x];
-	if (data->grid->projection == ISO)
-		transform_iso(&p);
-	else if (data->grid->projection == CABINET)
-		transform_cab(&p);
+	data->grid->project(&p);
 	set_grid_range(data->grid, x, y, &p);
 }
 

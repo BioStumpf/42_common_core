@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:26:17 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/23 11:13:10 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/24 15:17:40 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ void	display_grid(t_grid *grid)
 		exit_mlxerror(&data, grid);
 	if ((make_img(&data, &img) == -1))
 		exit_mlxerror(&data, grid);
-	//scale_points(&data);
-//	draw_img(&data);
-	//grid_apply(&data, scale_color);
 	attach_hooks(&data);
 	mlx_loop(data.mlx);
 	free_mlx(&data);

@@ -4,15 +4,17 @@ CC := cc
 DEP_DIR := dep/
 OBJ_DIR := obj/
 LIBFT_DIR := libft/
-MINI_DIR := minilibx-linux/
+#MINI_DIR := minilibx-linux/
 
 SRCS = $(wildcard *.c)
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 
-CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -I$(MINI_DIR) -c $< -o $@
-CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIBFT) -lm -L$(MINI_DIR) -lmlx_Linux -lXext -lX11
+#CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -I$(MINI_DIR) -c $< -o $@
+#CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIBFT) -lm -L$(MINI_DIR)  -lXext -lX11 -lmlx -lm -Lmlx
+CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -c $< -o $@
+CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIBFT) -lm -lXext -lX11 -lmlx
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
 
 all: $(NAME)
@@ -30,7 +32,7 @@ $(LIBFT):
 	@echo "======================================"
 	@echo "       Building Libft           "
 	@echo "======================================"
-	$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) --no-print-directory -sC $(LIBFT_DIR)
 	@echo "======================================"
 	@echo "       Libft DONE          "
 	@echo "======================================"
@@ -64,7 +66,7 @@ clean: localclean
 	@echo "======================================"
 	@echo "       CLEAN LIBFT          "
 	@echo "======================================"
-	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
 	@echo "======================================"
 	@echo "       DONE         "
 	@echo "======================================"
@@ -80,7 +82,7 @@ fclean: localclean
 	@echo "======================================"
 	@echo "       FCLEAN libft        "
 	@echo "======================================"
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean
 	@echo "======================================"
 	@echo "       DONE        "
 	@echo "======================================"

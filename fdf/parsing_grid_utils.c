@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 17:30:38 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/23 10:36:45 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/24 16:39:28 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_grid	*make_grid(t_list *map_lst)
 	grid->x_angle = 0;
 	grid->y_angle = 0;
 	grid->z_angle = 0;
-	grid->projection = ISO;
+	grid->project = transform_iso;
 	grid->def_view = true;
 	return (grid);
 }

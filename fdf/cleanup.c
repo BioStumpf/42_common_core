@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 12:54:27 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/15 12:54:35 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/24 16:52:26 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_mlx(t_data *data)
 		free(data->mlx);
 		return ;
 	}
-	if (!data->img)
+	if (data->img)
 	{
 		mlx_destroy_window(data->mlx, data->win);
 		mlx_destroy_display(data->mlx);

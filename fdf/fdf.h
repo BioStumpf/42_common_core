@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/23 16:49:40 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/24 16:47:00 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
-# include "mlx.h"
+# include <mlx.h>
 # include <X11/keysym.h>
 
 # define WIDTH 1000 
 # define HEIGHT 800 
 # define LOWEST 0x0000FF
 # define HIGHEST 0xFF0000
-# define ISO 1
-# define CABINET 2
 # define INTERPOLATE 3
 # define ZSCALE 4
 # define USER 5
@@ -82,7 +80,7 @@ typedef struct s_grid
 	double	z_scale;
 	int		offset_x;
 	int		offset_y;
-	int		projection;
+	void	(*project)(t_point *point);
 	bool	def_view;
 	t_point	**mat;
 }			t_grid;
@@ -101,14 +99,13 @@ void	exit_error(const char *message, int errnum);
 void	exit_lsterror(t_list *map_lst, int fd, int errnum);
 void	exit_griderror(t_grid *grid, t_list *map_lst, int errnum);
 void	exit_mlxerror(t_data *data, t_grid *grid);
-//parsing utils for linked list and grid
+//utils for linked list and grid
 void	free_grid(t_grid *grid);
 t_grid	*make_grid(t_list *map_lst);
 t_list	*read_map_lst(int fd);
 void	grid_apply(t_data *data, void (*f)(t_data *data, int x, int y));
 //bringing the grid to the screen/ rendering/ displaying
 void	display_grid(t_grid *grid);
-//int		make_img(t_data *data, t_imge *img, t_grid *grid);
 int		make_img(t_data *data, t_imge *img);
 void	pixel_to_img(t_imge *img, int x, int y, uint64_t color);
 void	grid_to_img(t_imge *mlx_img, t_grid *grid);
@@ -118,14 +115,11 @@ void	rotate_x(t_point *point, double angle, double center_y);
 void	rotate_y(t_point *point, double angle, double center_x);
 void	rotate_z(t_point *point, double angle, double center_x, double center_y);
 void	transform_iso(t_point *point);
-void	transform_cab(t_point *point);
-void	set_grid_range(t_grid *grid, int col, int row, t_point *point);
-//double	find_scale_factor(t_grid *grid);
+void	transform_cav(t_point *point);
 void	scale_points(t_data *data);
 //event functions   
 void	attach_hooks(t_data *data);
 //line drawing and color gradient
 void	lines_to_img(t_data *data, int x, int y);
-void	scale_color(t_data *data, int x, int y);
 
 #endif

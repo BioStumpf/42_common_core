@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:51:53 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/23 17:22:34 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/24 16:38:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	draw_img(void *param)
 		data->grid->z_angle = 0;
 		data->grid->def_view = false;
 		scale_points(data);
-		grid_apply(data, scale_color);
 	}
 	grid_apply(data, lines_to_img);	
 	mlx_put_image_to_window(data->mlx, data->win, data->img->img, 0, 0);
@@ -118,9 +117,9 @@ static int	key_press(int keysym, void *param)
 		data->grid->z_scale = 1;
 	}
 	if (keysym == XK_c)
-		data->grid->projection = CABINET;
+		data->grid->project = transform_cav;
 	if (keysym == XK_i)
-		data->grid->projection = ISO;
+		data->grid->project = transform_iso;
 	if (keysym == XK_Up)
 		data->grid->z_scale += 0.1;
 	if (keysym == XK_Down)

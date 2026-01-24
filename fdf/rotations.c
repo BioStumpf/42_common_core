@@ -60,7 +60,7 @@ void	transform_iso(t_point *point)
 	point->y = 1 / sqrt(3) * (x + point->y - point->z);
 }
 
-void	transform_cab(t_point *point)
+void	transform_cav(t_point *point)
 {
 	point->x = point->x - point->z * -cos(M_PI / 4);
 	point->y = point->y - point->z * sin(M_PI / 4);
