@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/24 16:47:00 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/25 12:18:38 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,9 @@ void	scale_points(t_data *data);
 void	attach_hooks(t_data *data);
 //line drawing and color gradient
 void	lines_to_img(t_data *data, int x, int y);
+//color functions
+void	scale_color(t_grid *grid, t_point *point);
+int		fetch_color(t_imge *img, t_point *a, t_point *b, double r);
+
 
 #endif

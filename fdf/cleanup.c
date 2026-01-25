@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 12:54:27 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/24 16:52:26 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/25 11:47:58 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,13 @@ void	free_grid(t_grid *grid)
 
 void	free_mlx(t_data *data)
 {
-	if (!data->mlx)
-		return ;
-	if (!data->win)
-	{
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		return ;
-	}
-	if (data->img)
-	{
+	if (data->win)
 		mlx_destroy_window(data->mlx, data->win);
+	if (data->img->img)
+		mlx_destroy_image(data->mlx, data->img->img);
+	if (data->mlx)
+	{
 		mlx_destroy_display(data->mlx);
 		free(data->mlx);
-		return ;
 	}
-	mlx_destroy_image(data->mlx, data->img->img);
-	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
 }

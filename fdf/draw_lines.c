@@ -6,50 +6,11 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/24 16:33:59 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/25 12:26:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static double	height_factor(t_grid *grid, double z)
-{
-	double	z_min;
-	double	z_max;
-	//double	hf;
-
-	z_min = grid->z_range.min * grid->z_scale;
-	z_max = grid->z_range.max * grid->z_scale;
-	if (z_min == z_max)
-		return (0.5);
-	else if (z_min > z_max)
-		return ((z - z_max) / (z_min - z_max));
-	else
-		return ((z - z_min) / (z_max - z_min));
-}
-
-static int	interpolate_color(int ca, int cb, double r)
-{
-	int	red;
-	int	green;
-	int	blue;
-
-	red = ((ca >> 16) & 0xFF) + r * (((cb >> 16) & 0xFF) - ((ca >> 16) & 0xFF));
-	green = ((ca >> 8) & 0xFF) + r * (((cb >> 8) & 0xFF) - ((ca>> 8) & 0xFF));
-	blue = (ca & 0xFF) + r * ((cb & 0xFF) - (ca & 0xFF));
-	return (red << 16 | green << 8 | blue);
-}
-
-static void	scale_color(t_grid *grid, t_point *point)
-{
-	double	hf;
-	int		height;
-
-	hf = height_factor(grid, point->z);
-	height = interpolate_color(LOWEST, HIGHEST, hf);
-	point->zcolor = height;
-	point->icolor = interpolate_color(height, point->color, 0.5);
-}
 
 static void	dda(t_point a, t_point b, t_imge *img)
 {
@@ -72,13 +33,9 @@ static void	dda(t_point a, t_point b, t_imge *img)
 	i = -1;
 	while (++i <= step)
 	{
-		if (img->color == INTERPOLATE)
-			color = interpolate_color(a.icolor, b.icolor, i / step); 
-		if (img->color == USER)
-			color = interpolate_color(a.color, b.color, i / step); 
-		if (img->color == ZSCALE)
-			color = interpolate_color(a.zcolor, b.zcolor, i / step); 
-		pixel_to_img(img, (int)round(a.x + i * dx), (int)round(a.y + i * dy), color);
+		color = fetch_color(img, &a, &b, i / step);
+		pixel_to_img(img, (int)round(a.x + i * dx), \
+		(int)round(a.y + i * dy), color);
 	}
 }
 
@@ -106,8 +63,8 @@ static void	transform_point(t_point *point, t_grid *grid)
 
 void	lines_to_img(t_data *data, int x, int y)
 {
-	t_point p;
-	t_point p_next;
+	t_point	p;
+	t_point	p_next;
 
 	p = data->grid->mat[y][x];
 	transform_point(&p, data->grid);

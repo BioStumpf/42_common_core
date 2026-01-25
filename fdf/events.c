@@ -26,7 +26,7 @@ static int	draw_img(void *param)
 		data->grid->def_view = false;
 		scale_points(data);
 	}
-	grid_apply(data, lines_to_img);	
+	grid_apply(data, lines_to_img);
 	mlx_put_image_to_window(data->mlx, data->win, data->img->img, 0, 0);
 	return (0);
 }

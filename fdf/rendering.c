@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:26:17 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/24 15:17:40 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/25 11:44:25 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void	display_grid(t_grid *grid)
 	data.mouse = &mouse;
 	data.img = &img;
 	data.grid = grid;
+	data.mlx = NULL;
+	data.win = NULL;
+	data.img->img = NULL;
 	data.mlx = mlx_init();
 	if (!data.mlx)
 		exit_mlxerror(&data, grid);
