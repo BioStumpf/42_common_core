@@ -1,6 +1,4 @@
-<p align="left">
-  <img width="1000" height="200" alt="Design ohne Titel" src="https://github.com/user-attachments/assets/68771695-266a-4724-b816-fc72554f803f" />
-</p>
+<img width="912" height="125" alt="ChatGPT Image 25  Jan  2026, 19_54_33" src="https://github.com/user-attachments/assets/76365126-ac70-4490-8c9b-c1c9d884096c" />
 
 # About
 This repository collects all the projects I completed during the Common Core of my studies at 42 Vienna.
