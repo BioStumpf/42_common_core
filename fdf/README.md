@@ -22,19 +22,25 @@ This project focuses on:
 ## Instructions
 ### Requirements
 - **Linux**
-- **clang** (sudo apt install clang)
-- **make** (sudo apt install make)
+- **clang** (```sudo apt install clang```)
+- **make** (```sudo apt install make```)
 - **MiniLibX** 
-    - on the 42 infrastructure, the library is preinstalled, the makefile includes it during compilation (-lmlx)
-    - if not at 42:
-    - install the required libraries on your system (sudo apt install ...)
-    -  install mlx in the project folder:   
-      - ```git clone https://github.com/42paris/minilibx-linux.git | cd minilibx-linux | make```    
-      - add/replace in the makefile:
-        - ```MINI_DIR := minilibx-linux/```
-        - ```CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -I$(MINI_DIR) -c $< -o $@```
-        - ```CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIBFT) -lm -L$(MINI_DIR) -lmlx_Linux -lXext -lX11```
-
+    - on the 42 infrastructure, the library is preinstalled
+    - outside the 42 infrastructure:   
+      - install dependencies:
+      ```
+      sudo apt install sudo install xorg libxext-dev zlib1g-dev libbsd-dev
+      ```
+      - clone and make minilibx inside the fdf project folder:
+      ```
+      git clone https://github.com/42paris/minilibx-linux.git && cd minilibx-linux && make && cd ..
+      ```    
+       - add/replace in the makefile:
+      ```
+      MINI_DIR := minilibx-linux/
+      CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -I$(MINI_DIR) -c $< -o $@
+      CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIBFT) -lm -L$(MINI_DIR) -lmlx_Linux -lXext -lX11
+      ```
 ### Compilation
 - ```make``` will compile a binary called fdf
 - ```make clean``` will remove all object and dependency files
