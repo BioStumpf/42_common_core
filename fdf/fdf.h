@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:54:14 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/25 12:18:38 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/25 14:28:08 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,19 +111,23 @@ void	pixel_to_img(t_imge *img, int x, int y, uint64_t color);
 void	grid_to_img(t_imge *mlx_img, t_grid *grid);
 void	free_mlx(t_data *data);
 //math helpers
-void	rotate_x(t_point *point, double angle, double center_y);
-void	rotate_y(t_point *point, double angle, double center_x);
-void	rotate_z(t_point *point, double angle, double center_x, double center_y);
-void	transform_iso(t_point *point);
-void	transform_cav(t_point *point);
+void	rotate_x(t_point *p, double angle, double center_y);
+void	rotate_y(t_point *p, double angle, double center_x);
+void	rotate_z(t_point *p, double angle, double center_x, double center_y);
+void	transform_iso(t_point *p);
+void	transform_cav(t_point *p);
 void	scale_points(t_data *data);
-//event functions   
-void	attach_hooks(t_data *data);
 //line drawing and color gradient
 void	lines_to_img(t_data *data, int x, int y);
 //color functions
-void	scale_color(t_grid *grid, t_point *point);
+void	scale_color(t_grid *grid, t_point *p);
 int		fetch_color(t_imge *img, t_point *a, t_point *b, double r);
-
+//event/hook functions:
+//expose, loop and key hook events
+void	attach_hooks(t_data *data);
+//mouse hook events
+int		mouse_release(int button, int x, int y, void *param);
+int		mouse_move(int x, int y, void *param);
+int		mouse_press(int button, int x, int y, void *param);
 
 #endif

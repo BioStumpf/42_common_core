@@ -103,4 +103,3 @@ void	grid_apply(t_data *data, void (*f)(t_data *data, int x, int y))
 			f(data, x, y);
 	}
 }
-

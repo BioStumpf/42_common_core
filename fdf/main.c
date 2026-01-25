@@ -35,7 +35,6 @@ int	main(int argc, char **argv)
 	if (fd < 0)
 		exit_error("Failed to open file.", errno);
 	grid = parse_map(fd);
-	
 	display_grid(grid);
 	free_grid(grid);
 	return (0);

@@ -6,17 +6,11 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/24 16:39:58 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/25 14:35:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static void	set_range(t_range *range, double min, double max)
-{
-	range->min = min;
-	range->max = max;
-}
 
 static void	expand_range(t_range *range, double val)
 {
@@ -26,18 +20,18 @@ static void	expand_range(t_range *range, double val)
 		range->min = val;
 }
 
-static void	set_grid_range(t_grid *grid, int col, int row, t_point *point)
+static void	set_grid_range(t_grid *grid, int col, int row, t_point *p)
 {
 	if (row == 0 && col == 0)
 	{
-		set_range(&grid->x_range, point->x, point->x);
-		set_range(&grid->y_range, point->y, point->y);
-		set_range(&grid->z_range, point->z, point->z);
+		grid->x_range = (t_range){p->x, p->x};
+		grid->y_range = (t_range){p->y, p->y};
+		grid->z_range = (t_range){p->z, p->z};
 		return ;
 	}
-	expand_range(&grid->x_range, point->x);
-	expand_range(&grid->y_range, point->y);
-	expand_range(&grid->z_range, point->z);
+	expand_range(&grid->x_range, p->x);
+	expand_range(&grid->y_range, p->y);
+	expand_range(&grid->z_range, p->z);
 }
 
 static double	find_scale_factor(t_grid *grid)
@@ -75,11 +69,13 @@ void	scale_points(t_data *data)
 	t_range	*y_range;
 	double	zoom;
 
-	grid_apply(data, range_finder); 
+	grid_apply(data, range_finder);
 	x_range = &data->grid->x_range;
 	y_range = &data->grid->y_range;
 	zoom = find_scale_factor(data->grid);
-	data->grid->zoom = zoom; 
-	data->grid->offset_x = (WIDTH / 2.0) - (zoom * ((x_range->max + x_range->min) / 2));
-	data->grid->offset_y = (HEIGHT / 2.0) - (zoom * ((y_range->max + y_range->min) / 2));
+	data->grid->zoom = zoom;
+	data->grid->offset_x = (WIDTH / 2.0) - \
+	(zoom * ((x_range->max + x_range->min) / 2));
+	data->grid->offset_y = (HEIGHT / 2.0) - \
+	(zoom * ((y_range->max + y_range->min) / 2));
 }

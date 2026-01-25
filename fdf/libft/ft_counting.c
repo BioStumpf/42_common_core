@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static bool in_charset(char c, const char *charset)
+static bool	in_charset(char c, const char *charset)
 {
 	while (*charset)
 	{
