@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:51:53 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/25 14:17:31 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/26 17:37:32 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	attach_hooks(t_data *data)
 	data->grid->z_scale = 1;
 	mlx_hook(data->win, 2, 1L << 0, &key_press, data);
 	mlx_hook(data->win, 17, 0, mlx_loop_end, data->mlx);
-	mlx_expose_hook(data->win, draw_img, data);
 	mlx_mouse_hook(data->win, mouse_press, data);
 	mlx_hook(data->win, 5, 1L << 3, mouse_release, data);
 	mlx_hook(data->win, 6, 1L << 6, mouse_move, data);
