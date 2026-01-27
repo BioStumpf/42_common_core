@@ -73,6 +73,7 @@ void	ft_lstadd_front(t_list *lst, t_node *new);
 void	ft_lstclear(t_list *lst, void (*del)(void *));
 void	ft_lstdelone(t_node *node, void (*del)(void *));
 void	ft_lstinit(t_list *lst);
+t_node	*ft_lstfind(t_list *lst, void *new_content, size_t n);
 t_node	*ft_nodenew(void *content);
 void	ft_lstprint(t_list *lst, void (*print_fn)(void *content));
 size_t	count_words(const char *s, const char *sep);

@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_lstfind.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 11:28:46 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/27 14:18:20 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/01/27 14:26:54 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/01/27 15:35:50 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list *lst, void (*del)(void *))
+t_node	*ft_lstfind(t_list *lst, void *new_content, size_t n)
 {
 	t_node	*tmp;
-	t_node	*next;
 
-	if (!lst || !del)
-		return ;
-	next = lst->head;
-	while (next)
+	tmp = lst->head;
+	while (tmp)
 	{
-		tmp = next;
-		next = tmp->next;
-		ft_lstdelone(tmp, del);
+		if (ft_memcmp(tmp->content, new_content, n) == 0)
+			return (tmp);
+		tmp = tmp->next;
 	}
+	return (NULL);
 }

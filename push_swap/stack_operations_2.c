@@ -1,44 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   stack_operations_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 14:25:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/27 20:45:30 by dstumpf          ###   ########.fr       */
+/*   Created: 2026/01/27 16:02:28 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/01/27 20:21:50 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "ft_printf.h"
 
-void	error(void)
+void	push(t_list *origin, t_list *dest, char dest_stack)
 {
-	write(2, "Error\n", 6);
-	exit (1);
-}
+	t_node	*tmp;
 
-void print_fn(void *content)
-{
-	ft_printf("%d\n", *(int *)content);
-}
-
-int main(int ac, char **av)
-{
-	t_list	sa;
-	t_list	sb;
-
-	if (ac < 2)
-		error();
-	ft_lstinit(&sa);
-	ft_lstinit(&sb);
-	if (!parse_inpt(ac, av, &sa))
-		error();
-	ft_lstprint(&sa, print_fn); 
-	//ft_printf("\n\n");
-	//ft_lstprint(&sb, print_fn); 
-	ft_lstclear(&sa, free);
-	ft_lstclear(&sb, free);
-	return (0);
+	tmp = origin->head;
+	origin->head = origin->head->next;
+	tmp->next = dest->head;
+	dest->head = tmp;
+	origin->len--;
+	dest->len++;
+	ft_printf("p%c\n", dest_stack);
 }
