@@ -52,3 +52,5 @@ bool	parse_inpt(int ac, char **av, t_list *lst)
 	}
 	return (true);
 }
+
+

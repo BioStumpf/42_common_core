@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:04:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/12 19:56:18 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/01/28 14:41:24 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 typedef struct s_node
 {
 	void			*content;
+	size_t			indx;
 	struct s_node	*next;
 }					t_node;
 
@@ -81,5 +82,6 @@ size_t	count_nums(const char *s);
 int		ft_atoi_multi(char **nptr);
 int		ft_iswhitespace(const char c);
 int		ft_atoi_hex_multi(char **nptr);
+void	ft_lstiter(t_list *lst, void (*f)(t_node *node));
 
 #endif
