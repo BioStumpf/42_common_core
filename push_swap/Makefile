@@ -12,7 +12,7 @@ OBJ_DIR := obj/
 LIBFT_DIR := libft/
 
 #SRCS = $(wildcard *.c)
-SRCS = main.c parsing.c stack_operations_1.c stack_operations_2.c
+SRCS = main.c parsing.c stack_operations_1.c stack_operations_2.c sorting_logic.c
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
@@ -25,12 +25,12 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) 
 	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       FDF OBJS DONE          $(RESET)"
+	@echo "$(BOLD)$(BLUE)       OBJS DONE          $(RESET)"
 	@echo "$(GREEN)======================================$(RESET)"
 	@echo
 	$(CC) $(CFLAGS_NAME)
 	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       FDF binary DONE          $(RESET)"
+	@echo "$(BOLD)$(BLUE)       Binary DONE          $(RESET)"
 	@echo "$(GREEN)======================================$(RESET)"
 
 $(LIBFT):
@@ -53,7 +53,7 @@ localclean:
 	rm -rf $(OBJ_DIR)
 	rm -rf $(DEP_DIR)
 	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       FDF CLEANING DONE          $(RESET)"
+	@echo "$(BOLD)$(BLUE)       LOCAL CLEANING DONE          $(RESET)"
 	@echo "$(GREEN)======================================$(RESET)"
 	@echo 
 
@@ -67,7 +67,7 @@ clean: localclean
 fclean: localclean
 	rm -rf $(NAME)
 	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       FDF FCLEANING DONE       $(RESET)"
+	@echo "$(BOLD)$(BLUE)       LOCAL FCLEANING DONE       $(RESET)"
 	@echo "$(GREEN)======================================$(RESET)"
 	@echo 
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean
