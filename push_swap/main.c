@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:25:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/28 15:58:48 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/02 09:56:25 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,15 @@ int main(int ac, char **av)
 	//swap(&sa, 'a');
 	normalize_numbers(&sa);
 	init_data(&dat, &sa, &sb);
-	ft_lstprint(&sa, print_fn); 
+//	ft_lstprint(&sa, print_fn); 
 	chunks_to_sb(&dat);
-	ft_printf("\n\n");
+	sort_to_sa(&dat);
+//	ft_printf("\n\n");
 	ft_lstprint(&sa, print_fn); 
-	ft_printf("\n\n");
+//	ft_printf("\n\n");
 	//print_indx(&sa);
 	//ft_printf("\n\n");
-	ft_lstprint(&sb, print_fn); 
+	//ft_lstprint(&sb, print_fn); 
 	ft_lstclear(&sa, free);
 	ft_lstclear(&sb, free);
 	return (0);

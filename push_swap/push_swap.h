@@ -38,5 +38,6 @@ void	rotate(t_list *lst, char stack);
 void	rot_or_rrot_both(t_list *a, t_list *b, int direction);
 void	push(t_list *origin, t_list *dest, char dest_stack);
 void	chunks_to_sb(t_data *dat);
+void	sort_to_sa(t_data *dat);
 
 #endif
