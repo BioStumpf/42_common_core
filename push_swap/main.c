@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:25:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/02 12:42:55 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/02 14:49:24 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	init_data(t_data *dat, t_list *sa, t_list *sb)
 	dat->sb = sb;
 	dat->sa_min = 0;
 	dat->sb_max = 0;
-	dat->chunk_s = sa->len / 5;
+	dat->chunk_s = sa->len / 7;
 	if (dat->chunk_s == 0)
 		dat->chunk_s = 1;
 }

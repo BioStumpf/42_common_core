@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 08:56:07 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/02 12:58:04 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/02 18:18:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,16 @@ static size_t	find_next_push_sb(t_list *sb)
 	return (target_idx);
 }
 
+static bool	check_rotate_b(t_list *sb)
+{
+	size_t	next;
+
+	next = find_next_push_sb(sb);
+	if (next != 0 && (next < sb->len / 2))
+		return (true);
+	return (false);
+}
+
 static void	do_next_push(t_list *ori, t_list *dest, size_t idx, char ori_id, char dest_id)
 {
 	size_t	i;
@@ -82,24 +92,29 @@ static void	do_next_push(t_list *ori, t_list *dest, size_t idx, char ori_id, cha
 
 	i = 0;
 	mid = ori->len / 2;
-	if (ori->len <= 2)
+	if (idx == 0)
 	{
 		push(ori, dest, dest_id);
 		return ;
 	}
-	if (idx > mid || (dat->sb->len % 2 && idx == mid))
+	if (idx > mid || (ori->len % 2 && idx == mid))
 	{
-		ops = dat->sb->len - idx;
+		ops = ori->len - idx;
 		while (i++ < ops)
-			rrotate(dat->sb, ori_id);
+			rrotate(ori, ori_id);
 	}
 	else
 	{
 		ops = idx;
 		while (i++ < ops)
-			rotate(dat->sb, ori_id);
+		{
+			if (ori_id == 'a' && check_rotate_b(dest))
+				rot_or_rrot_both(ori, dest, FOR);
+			else
+			rotate(ori, ori_id);
+		}
 	}
-	push(dat->sb, dat->sa, dest_id);
+	push(ori, dest, dest_id);
 }
 
 void	sort_to_sa(t_data *dat)
@@ -109,18 +124,29 @@ void	sort_to_sa(t_data *dat)
 	while (dat->sb->len)
 	{
 		next = find_next_push_sb(dat->sb);
-		do_next_push(dat, next);
+		do_next_push(dat->sb, dat->sa, next, 'b', 'a');
 	}
 }
 
-static bool	check_rotate_b(t_list *sb)
+void	chunks_to_sb(t_data *dat)
 {
 	size_t	next;
+	size_t	i;
 
-	next = find_next_push_sb(sb);
-	if (next != 0 && (next < sb->len / 2))
-		return (true);
-	return (false);
+	i = 0;
+	if (dat->sa->len < 6)
+		sort_five(dat->sa, dat->sb);
+	while (dat->sa->len)
+	{
+		next = find_next_push_a(dat);
+		do_next_push(dat->sa, dat->sb, next, 'a', 'b');
+		++i;
+		if (i == dat->chunk_s)
+		{
+			dat->sa_min = dat->sa_min + dat->chunk_s;
+			i = 0;
+		}
+	}
 }
 
 //void	chunks_to_sb(t_data *dat)
@@ -148,22 +174,3 @@ static bool	check_rotate_b(t_list *sb)
 //		}
 //	}
 //}
-
-void	chunks_to_sb(t_data *dat)
-{
-	size_t	next;
-	size_t	i;
-
-	i = 0;
-	while (dat->sa->len)
-	{
-		next = find_next_push_a(dat);
-		do_next_push(dat, next);
-		++i;
-		if (i == dat->chunk_s)
-		{
-			dat->sa_min = dat->sa_min + dat->chunk_s;
-			i = 0;
-		}
-	}
-}
