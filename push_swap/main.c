@@ -6,12 +6,26 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:25:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/02 14:49:24 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/03 10:37:20 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "ft_printf.h"
+
+static bool	check_sorted(t_list *stack)
+{
+	t_node	*tmp;
+
+	tmp = stack->head;
+	while (tmp && tmp->next)
+	{
+		if (tmp->indx > tmp->next->indx)
+			return (false);
+		tmp = tmp->next;
+	}
+	return (true);
+}
 
 static void	error(void)
 {
@@ -19,10 +33,10 @@ static void	error(void)
 	exit (1);
 }
 
-//static void print_fn(void *content)
-//{
-//	ft_printf("%d\n", *(int *)content);
-//}
+static void print_fn(void *content)
+{
+	ft_printf("%d\n", *(int *)content);
+}
 
 static int	find_indx(t_node *head, int val)
 {
@@ -88,9 +102,12 @@ int main(int ac, char **av)
 	//swap(&sa, 'a');
 	normalize_numbers(&sa);
 	init_data(&dat, &sa, &sb);
-//	ft_lstprint(&sa, print_fn); 
-	chunks_to_sb(&dat);
-	sort_to_sa(&dat);
+	if (!check_sorted(&sa))
+	{
+		chunks_to_sb(&dat);
+		sort_to_sa(&dat);
+	}
+	ft_lstprint(&sa, print_fn); 
 //	ft_printf("\n\n");
 //	ft_lstprint(&sa, print_fn); 
 //	ft_printf("\n\n");

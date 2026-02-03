@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 08:56:07 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/02 18:18:47 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/03 10:26:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,10 @@ void	chunks_to_sb(t_data *dat)
 
 	i = 0;
 	if (dat->sa->len < 6)
-		sort_five(dat->sa, dat->sb);
+	{
+		sort_five(dat);
+		return ;
+	}
 	while (dat->sa->len)
 	{
 		next = find_next_push_a(dat);
