@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:43:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/03 12:35:45 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/03 15:19:24 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,20 @@ static void	sort_three(t_list *sa)
 
 static size_t	find_optimal_place(t_list *stack, size_t target)
 {
-	t_node	*tmp;
+	t_node	*prev;
+	t_node	*cur;
 	size_t	idx;
 
 	idx = 0;
-	tmp = stack->head;
-	while (tmp)
+	cur = stack->head;
+	prev = NULL;
+	while (cur)
 	{
-		if (target > tmp->indx)
-			idx++;
-		tmp = tmp->next;
+		if (prev && cur->indx > target && target > prev->indx)
+			return (idx);
+		prev = cur;
+		cur = cur->next;
+		++idx;
 	}
 	return (idx);
 }
