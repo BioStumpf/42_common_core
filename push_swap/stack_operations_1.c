@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_operations.c                                 :+:      :+:    :+:   */
+/*   stack_operations_1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:02:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/27 19:47:19 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/04 17:48:30 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	swap(t_list *lst, char stack)
 {
 	t_node	*tmp;
 
+	if (lst->len < 2)
+		return ;
 	tmp = lst->head;
 	lst->head = lst->head->next;
 	tmp->next = lst->head->next;
@@ -36,6 +38,8 @@ void	rotate(t_list *lst, char stack)
 {
 	t_node	*tmp;
 
+	if (lst->len < 2)
+		return ;
 	tmp = lst->head;
 	lst->head = lst->head->next;
 	lst->tail->next = tmp;
@@ -50,6 +54,8 @@ void	rrotate(t_list *lst, char stack)
 	t_node	*sec_last;
 	size_t	len;
 
+	if (lst->len < 2)
+		return ;
 	len = lst->len;
 	sec_last = lst->head;
 	while (len > 2)

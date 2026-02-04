@@ -17,6 +17,8 @@ void	push(t_list *origin, t_list *dest, char dest_stack)
 {
 	t_node	*tmp;
 
+	if (origin->len <= 0)
+		return ;
 	tmp = origin->head;
 	origin->head = origin->head->next;
 	tmp->next = dest->head;

@@ -12,7 +12,7 @@ OBJ_DIR := obj/
 LIBFT_DIR := libft/
 
 #SRCS = $(wildcard *.c)
-SRCS = main.c parsing.c stack_operations_1.c stack_operations_2.c sorting_logic.c sorting_lower5.c
+SRCS = main.c parsing.c stack_operations_1.c stack_operations_2.c sorting_logic.c sorting_lower6.c sorting_helpers.c
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 

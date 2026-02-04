@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:25:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/03 10:37:20 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/04 15:26:11 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ static void	error(void)
 	exit (1);
 }
 
-static void print_fn(void *content)
-{
-	ft_printf("%d\n", *(int *)content);
-}
+//static void print_fn(void *content)
+//{
+//	ft_printf("%d\n", *(int *)content);
+//}
 
 static int	find_indx(t_node *head, int val)
 {
@@ -99,7 +99,6 @@ int main(int ac, char **av)
 	ft_lstinit(&sb);
 	if (!parse_inpt(ac, av, &sa))
 		error();
-	//swap(&sa, 'a');
 	normalize_numbers(&sa);
 	init_data(&dat, &sa, &sb);
 	if (!check_sorted(&sa))
@@ -107,7 +106,7 @@ int main(int ac, char **av)
 		chunks_to_sb(&dat);
 		sort_to_sa(&dat);
 	}
-	ft_lstprint(&sa, print_fn); 
+//	ft_lstprint(&sa, print_fn); 
 //	ft_printf("\n\n");
 //	ft_lstprint(&sa, print_fn); 
 //	ft_printf("\n\n");
