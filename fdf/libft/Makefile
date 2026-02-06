@@ -27,10 +27,10 @@ $(OBJ_DIR):
 
 clean:
 	rm -rf $(OBJ_DIR)
+	rm -rf $(DEP_DIR)
 
 fclean: clean
 	rm -rf $(NAME)
-	rm -rf $(DEP_DIR)
 
 re: fclean all
 

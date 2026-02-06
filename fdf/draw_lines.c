@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/25 12:26:47 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/06 09:50:26 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static void	dda(t_point a, t_point b, t_imge *img)
 	while (++i <= step)
 	{
 		color = fetch_color(img, &a, &b, i / step);
-		pixel_to_img(img, (int)round(a.x + i * dx), \
-		(int)round(a.y + i * dy), color);
+		pixel_to_img(img, (int)round(a.x + i * dx),
+			(int)round(a.y + i * dy), color);
 	}
 }
 

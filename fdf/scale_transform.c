@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 09:37:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/25 14:35:35 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/06 09:52:21 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ void	scale_points(t_data *data)
 	y_range = &data->grid->y_range;
 	zoom = find_scale_factor(data->grid);
 	data->grid->zoom = zoom;
-	data->grid->offset_x = (WIDTH / 2.0) - \
-	(zoom * ((x_range->max + x_range->min) / 2));
-	data->grid->offset_y = (HEIGHT / 2.0) - \
-	(zoom * ((y_range->max + y_range->min) / 2));
+	data->grid->offset_x = (WIDTH / 2.0)
+		- (zoom * ((x_range->max + x_range->min) / 2));
+	data->grid->offset_y = (HEIGHT / 2.0)
+		- (zoom * ((y_range->max + y_range->min) / 2));
 }

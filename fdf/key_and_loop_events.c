@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:51:53 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/26 17:37:32 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/06 12:37:12 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int	key_press(int keysym, void *param)
 //6 = PointerMove
 //17 = DestroyNotify
 //mouse_hook = ButtonPress
-
 void	attach_hooks(t_data *data)
 {
 	data->mouse->left = false;
