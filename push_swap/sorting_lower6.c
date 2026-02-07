@@ -66,6 +66,16 @@ static void	sort_three_empty(t_list *sa)
 		swap(sa, 'a');
 }
 
+void	sort_three_or_lower(t_list *sa, size_t range)
+{
+	if (range == 2)
+		sort_two(sa);
+	else if (sa->len == 3)
+		sort_three_empty(sa);
+	else 
+		sort_three_noempty(sa);
+}
+
 //bool	check_opt_sb(t_node *cur, t_node *prev, size_t target)
 //{
 //	if (cur->indx < target && target < prev->indx)
