@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/06 09:50:26 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/07 13:37:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	dda(t_point a, t_point b, t_imge *img)
 	step = fmax(fabs(dx), fabs(dy));
 	if (step == 0)
 	{
-		pixel_to_img(img, a.x, a.y, 0xFFFFFF);
+		color = fetch_color(img, &a, &b, 0.5);
+		pixel_to_img(img, a.x, a.y, color);
 		return ;
 	}
 	dx = dx / step;
