@@ -12,32 +12,34 @@
 
 #include "push_swap.h"
 
-static void	sa_to_sb(t_data *dat, t_rec_dat *rec, size_t idx)
+static void	sa_to_sb(t_data *dat, size_t mid)
 {
-	if (idx <= rec->mid)
+	if (dat->sa->head->indx < mid)
 		push(dat->sa, dat->sb, 'b');
+	else
+		rotate(dat->sa, 'a');
 }
 
-static void	split_halves(t_data *dat, t_rec_dat *rec)
+static void	split_halves(t_data *dat, size_t range, size_t mid)
 {
 	size_t	i;
 
 	i = 0;
-	while (i++ < rec->range)
-		rec->f(dat, rec, i);
+	while (i++ < range)
+		dat->f(dat, mid);
 }
 
 void	qsort_a(t_data *dat, size_t range, size_t mid)
 {
-	if (range < 3)
+	if (range <= 3)
 	{
 		sort_three_or_lower(dat->sa, range);
 		return ;
 	}
 	dat->f = sa_to_sb;
-	split_halves(&rec, sa_to_sb);
-	qsort_a(dat, rec.range / 2, rec.mid + rec.mid / 2);
-	dat->f = sb_to_sa;
+	split_halves(dat, range, mid);
+	qsort_a(dat, range / 2, mid + mid / 2);
+	// dat->f = sb_to_sa;
 	//qsort_b(dat, range / 2, mid - mid / 2);
 }
 

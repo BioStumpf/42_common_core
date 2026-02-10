@@ -14,7 +14,7 @@
 
 static void	sort_two(t_list *sa)
 {
-	if (sa->head->indx < sa->tail->indx)
+	if (sa->head->indx > sa->tail->indx)
 		swap(sa, 'a');
 }
 

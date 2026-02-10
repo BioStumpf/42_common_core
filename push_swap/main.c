@@ -103,8 +103,8 @@ int main(int ac, char **av)
 	init_data(&dat, &sa, &sb);
 	if (!check_sorted(&sa))
 	{
-		sort_five(&dat);
-		//qsort_a(dat, dat->sat->len);
+		// sort_five(&dat);
+		qsort_a(&dat, dat.sa->len, dat.sa->len / 2);
 		//chunks_to_sb(&dat);
 		//sort_to_sa(&dat);
 	}

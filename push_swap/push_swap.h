@@ -29,18 +29,18 @@
 //	bool	(*f)(t_node *cur, t_node *prev, size_t target);
 //}			t_insert_plan;
 
-typedef struct s_rec_dat
-{
-	size_t	range;
-	size_t	mid;
-}			t_rec_dat;
+// typedef struct s_rec_dat
+// {
+// 	size_t	range;
+// 	size_t	mid;
+// }			t_rec_dat;
 
 typedef struct s_data
 {
 	//t_insert_plan	plan;
 	t_list			*sa;
 	t_list			*sb;
-	void			*(f)(t_data *dat, t_rec_dat *rec, size_t idx);
+	void			(*f)();
 	//size_t			chunk_s;
 	//size_t			sa_min;
 	//size_t			sb_max;
@@ -64,6 +64,7 @@ void	sort_three_or_lower(t_list *sa, size_t range);
 void	optimal_rrotation(t_list *stack, size_t idx, char id);
 void	put_in_optimal_place(t_data *dat);
 void	resort(t_list *stack, char id);
+void	qsort_a(t_data *dat, size_t range, size_t mid);
 //bool	check_opt_sa(t_node *cur, t_node *prev, size_t target);
 //bool	check_opt_sb(t_node *cur, t_node *prev, size_t target);
 
