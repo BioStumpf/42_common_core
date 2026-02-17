@@ -31,11 +31,11 @@ Every programmer starts with a “Hello, World!” program, but this project goe
 ## Circle 2
 In this circle, push_swap is mandatory. In addition, you must complete either minitalk or pipex, along with one of the three graphical projects: FdF, fract-ol, or so_long.  
 
-**FDF ⏳ Ongoing**   
+**FDF ✅ 125/100**   
 (*Fil de Fer*, French for “wireframe”*)* is a 42 graphics project that introduces
 basic computer graphics, 3D transformations, and event handling using the **MiniLibX**
 library.   
 
-**push_swap 💤** 
+**push_swap ⏳ Ongoing** 
 
 **Minitalk 💤**
