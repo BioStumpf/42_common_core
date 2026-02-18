@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:25:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/05 12:36:04 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/18 20:52:05 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ int main(int ac, char **av)
 	if (!check_sorted(&sa))
 	{
 		// sort_five(&dat);
-		qsort_a(&dat, dat.sa->len, dat.sa->len / 2);
+		//qsort_a(&dat, dat.sa->len, 0);
+		qsort_a(&dat, 0, dat.sa->len - 1);
 		//chunks_to_sb(&dat);
 		//sort_to_sa(&dat);
 	}

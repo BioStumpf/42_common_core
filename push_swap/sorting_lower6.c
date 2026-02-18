@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:43:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/05 14:25:02 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/18 18:49:52 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	sort_two(t_list *sa)
 {
-	if (sa->head->indx > sa->tail->indx)
+	if (sa->head->indx > sa->head->next->indx)
 		swap(sa, 'a');
 }
 

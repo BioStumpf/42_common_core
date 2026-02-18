@@ -81,7 +81,7 @@ void	resort(t_list *stack, char id)
 	idx = 1;
 	while (tmp)
 	{
-		if (tmp->next && tmp->indx > tmp->next->indx)
+		if (id == 'a' && tmp->next && tmp->indx > tmp->next->indx)
 			break ;
 		idx++;
 		tmp = tmp->next;

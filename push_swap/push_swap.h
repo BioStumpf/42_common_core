@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:50:53 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/07 15:39:13 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/18 18:33:36 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_data
 	//t_insert_plan	plan;
 	t_list			*sa;
 	t_list			*sb;
-	void			(*f)();
+//	void			(*f)();
 	//size_t			chunk_s;
 	//size_t			sa_min;
 	//size_t			sb_max;
@@ -65,6 +65,8 @@ void	optimal_rrotation(t_list *stack, size_t idx, char id);
 void	put_in_optimal_place(t_data *dat);
 void	resort(t_list *stack, char id);
 void	qsort_a(t_data *dat, size_t range, size_t mid);
+void	qsort_a(t_data *dat, size_t range, size_t start);
+void	qsort_b(t_data *dat, size_t range, size_t start);
 //bool	check_opt_sa(t_node *cur, t_node *prev, size_t target);
 //bool	check_opt_sb(t_node *cur, t_node *prev, size_t target);
 
