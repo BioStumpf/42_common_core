@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:25:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/19 19:09:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/19 19:22:29 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,6 @@ void	init_data(t_data *dat, t_list *sa, t_list *sb)
 {
 	dat->sa = sa;
 	dat->sb = sb;
-	//dat->sa_min = 0;
-	//dat->sb_max = 0;
-	//dat->chunk_s = sa->len / 7;
-	//if (dat->chunk_s == 0)
-	//	dat->chunk_s = 1;
 }
 
 int main(int ac, char **av)
@@ -102,13 +97,7 @@ int main(int ac, char **av)
 	normalize_numbers(&sa);
 	init_data(&dat, &sa, &sb);
 	if (!check_sorted(&sa))
-	{
-		// sort_five(&dat);
-		//qsort_a(&dat, dat.sa->len, 0);
 		qsort_a(&dat, 0, dat.sa->len - 1);
-		//chunks_to_sb(&dat);
-		//sort_to_sa(&dat);
-	}
 //	ft_lstprint(&sa, print_fn); 
 //	ft_printf("\n\n");
 //	ft_lstprint(&sa, print_fn); 
