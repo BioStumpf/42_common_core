@@ -6,11 +6,29 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:43:31 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/18 18:49:52 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/19 19:05:52 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+size_t	targets_at_bottom(t_list *stack, size_t min, size_t max)
+{
+	t_node	*tmp;
+	size_t	bottom_targets;
+	size_t	range;
+
+	tmp = stack->head;
+	range = max - min + 1;
+	bottom_targets = range;
+	while (range--)
+	{
+		if (tmp->indx >= min && tmp->indx <= max)
+			bottom_targets--;
+		tmp = tmp->next;
+	}
+	return (bottom_targets);
+}
 
 static void	sort_two(t_list *sa)
 {
@@ -66,10 +84,19 @@ static void	sort_three_empty(t_list *sa)
 		swap(sa, 'a');
 }
 
-void	sort_three_or_lower(t_list *sa, size_t range)
+void	sort_three_or_lower(t_list *sa, size_t min, size_t max)
 {
+	size_t	range;
+	size_t	bottom_targets;
+
+	range = max - min + 1;
+	bottom_targets = targets_at_bottom(sa, min, max);
+	while (bottom_targets--)
+		rrotate(sa, 'a');
 	if (range == 2)
+	{
 		sort_two(sa);
+	}
 	else if (sa->len == 3)
 		sort_three_empty(sa);
 	else 
@@ -86,19 +113,19 @@ void	sort_three_or_lower(t_list *sa, size_t range)
 //}
 //
 
-void	sort_five(t_data *dat)
-{
-//	dat->plan.ori = 'b';
-//	dat->plan.dest = 'a';
-//	dat->plan.f = check_opt_sa;
-	while (dat->sa->len > 3)
-		push(dat->sa, dat->sb, 'b');
-	//sort_three_empty(dat->sa);
-	sort_three_empty(dat->sa);
-	while (dat->sb->len)
-	{
-		//dat->plan.target = dat->sb->head->indx;
-		put_in_optimal_place(dat);
-	}
-	resort(dat->sa, 'a');
-}
+//void	sort_five(t_data *dat)
+//{
+////	dat->plan.ori = 'b';
+////	dat->plan.dest = 'a';
+////	dat->plan.f = check_opt_sa;
+//	while (dat->sa->len > 3)
+//		push(dat->sa, dat->sb, 'b');
+//	//sort_three_empty(dat->sa);
+//	sort_three_empty(dat->sa);
+//	while (dat->sb->len)
+//	{
+//		//dat->plan.target = dat->sb->head->indx;
+//		put_in_optimal_place(dat);
+//	}
+//	resort(dat->sa, 'a');
+//}

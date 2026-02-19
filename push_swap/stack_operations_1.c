@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:02:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/04 17:48:30 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/19 15:58:27 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	swap(t_list *lst, char stack)
 	lst->head = lst->head->next;
 	tmp->next = lst->head->next;
 	lst->head->next = tmp;
+	if (lst->head == lst->tail)
+		lst->tail = tmp;
 	if (stack)
 		ft_printf("s%c\n", stack);
 }
