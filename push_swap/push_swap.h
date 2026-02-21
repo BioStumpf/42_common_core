@@ -20,6 +20,14 @@
 
 # define FOR 1
 # define REV -1
+# define RA 0
+# define RB 1 
+# define RRA 2 
+# define RRB 3 
+# define PA 4 
+# define PB 5 
+# define SA 6 
+# define STOP 7
 
 typedef struct s_data
 {
@@ -36,6 +44,7 @@ void	rrotate(t_list *lst, char stack);
 void	rotate(t_list *lst, char stack);
 void	rot_or_rrot_both(t_list *a, t_list *b, int direction);
 void	push(t_list *origin, t_list *dest, char dest_stack);
+void	check_n_store_ops(t_list *sa, t_list *sb, int select);
 //sorting
 size_t	targets_at_bottom(t_list *stack, size_t min, size_t max);
 void	sort_three_or_lower(t_list *sa, size_t min, size_t max);

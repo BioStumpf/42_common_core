@@ -97,7 +97,10 @@ int main(int ac, char **av)
 	normalize_numbers(&sa);
 	init_data(&dat, &sa, &sb);
 	if (!check_sorted(&sa))
+	{
 		qsort_a(&dat, 0, dat.sa->len - 1);
+		check_n_store_ops(dat->sa, dat->sb, STOP);
+	}
 //	ft_lstprint(&sa, print_fn); 
 //	ft_printf("\n\n");
 //	ft_lstprint(&sa, print_fn); 
