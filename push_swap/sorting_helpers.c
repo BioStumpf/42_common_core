@@ -12,35 +12,41 @@
 
 #include "push_swap.h"
 
-static bool	check_opt_sa(t_node *cur, t_node *prev, size_t target)
+static size_t	moves_to_top(size_t idx, size_t stack_len)
 {
-	if (cur->indx > target && target > prev->indx)
-		return (true);
-	if (cur->indx < prev->indx && (target > prev->indx || target < cur->indx))
-		return (true);
-	return (false);
+	size_t	mid;
+
+	mid = stack_len / 2;
+	if (idx == stack_len)
+		return (stack_len);
+	if (idx > mid)
+		return (stack_len - idx);
+	return (idx);
 }
 
-static size_t	find_optimal_place(t_list *stack, size_t target)
+size_t	find_next_push(t_list *stack, size_t min, size_t max, char s_id)
 {
-	t_node	*cur;
-	t_node	*prev;
-	size_t	i;
-	size_t	opt_idx;
+	t_node	*tmp;
+	size_t	cur_indx;
+	size_t	best_indx;
+	size_t	mid;
 
-	i = 0;
-	opt_idx = 0;
-	cur = stack->head;
-	prev = stack->tail;
-	while (cur)
+	tmp = stack->head;
+	cur_indx = 0;
+	best_indx = stack->len;
+	mid = (max + min + 1) / 2;
+	while (tmp)
 	{
-		if (prev && check_opt_sa(cur, prev, target))
-			opt_idx = i;
-		prev = cur;
-		cur = cur->next;
-		++i;
+		if (s_id == 'a' && tmp->indx < mid && tmp->indx >= min 
+		&& moves_to_top(cur_indx, stack->len) < moves_to_top(best_indx, stack->len))
+			best_indx = cur_indx;
+		else if (s_id == 'b' && tmp->indx >= mid && tmp->indx <= max
+		&& moves_to_top(cur_indx, stack->len) < moves_to_top(best_indx, stack->len))
+			best_indx = cur_indx;
+		tmp = tmp->next;
+		cur_indx++;
 	}
-	return (opt_idx);
+	return (best_indx);
 }
 
 void	optimal_rrotation(t_list *stack, size_t idx, char id)
@@ -62,73 +68,3 @@ void	optimal_rrotation(t_list *stack, size_t idx, char id)
 			rotate(stack, id);
 	}
 }
-
-void	put_in_optimal_place(t_data *dat)
-{
-	size_t	idx;
-
-	idx = find_optimal_place(dat->sa, dat->sb->head->indx);
-	optimal_rrotation(dat->sa, idx, 'a');
-	push(dat->sb, dat->sa, 'a');
-}
-
-void	resort(t_list *stack, char id)
-{
-	t_node	*tmp;
-	size_t	idx;
-
-	tmp = stack->head;
-	idx = 1;
-	while (tmp)
-	{
-		if (tmp->next && tmp->indx > tmp->next->indx)
-			break ;
-		idx++;
-		tmp = tmp->next;
-	}
-	if (idx < stack->len)
-		optimal_rrotation(stack, idx, id);
-}
-
-//void	put_in_optimal_place(t_data *dat)
-//{
-//	size_t	idx;
-//	t_list	*ori;
-//	t_list	*dest;
-//
-//	if (dat->plan.ori == 'a')
-//	{
-//		ori = dat->sa;
-//		dest = dat->sb;
-//	}
-//	else
-//	{
-//		ori = dat->sb;
-//		dest = dat->sa;
-//	}
-//	idx = find_optimal_place(dest, &dat->plan);
-//	optimal_rrotation(dest, idx, dat->plan.dest);
-//	push(ori, dest, dat->plan.dest);
-//}
-
-//static size_t	find_optimal_place(t_list *stack, t_insert_plan *plan)
-//{
-//	t_node	*cur;
-//	t_node	*prev;
-//	size_t	i;
-//	size_t	opt_idx;
-//
-//	i = 0;
-//	opt_idx = 0;
-//	cur = stack->head;
-//	prev = NULL;
-//	while (cur)
-//	{
-//		if (prev && plan->f(cur, prev, plan->target))
-//			opt_idx = i;
-//		prev = cur;
-//		cur = cur->next;
-//		++i;
-//	}
-//	return (opt_idx);
-//}

@@ -102,30 +102,3 @@ void	sort_three_or_lower(t_list *sa, size_t min, size_t max)
 	else 
 		sort_three_noempty(sa);
 }
-
-//bool	check_opt_sb(t_node *cur, t_node *prev, size_t target)
-//{
-//	if (cur->indx < target && target < prev->indx)
-//		return (true);
-//	if (cur->indx > prev->indx && (target > prev->indx || target < cur->indx))
-//		return (true);
-//	return (false);
-//}
-//
-
-//void	sort_five(t_data *dat)
-//{
-////	dat->plan.ori = 'b';
-////	dat->plan.dest = 'a';
-////	dat->plan.f = check_opt_sa;
-//	while (dat->sa->len > 3)
-//		push(dat->sa, dat->sb, 'b');
-//	//sort_three_empty(dat->sa);
-//	sort_three_empty(dat->sa);
-//	while (dat->sb->len)
-//	{
-//		//dat->plan.target = dat->sb->head->indx;
-//		put_in_optimal_place(dat);
-//	}
-//	resort(dat->sa, 'a');
-//}

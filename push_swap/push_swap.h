@@ -39,8 +39,10 @@ void	push(t_list *origin, t_list *dest, char dest_stack);
 //sorting
 size_t	targets_at_bottom(t_list *stack, size_t min, size_t max);
 void	sort_three_or_lower(t_list *sa, size_t min, size_t max);
-void	resort(t_list *stack, char id);
 void	qsort_a(t_data *dat, size_t min, size_t max);
 void	qsort_b(t_data *dat, size_t min, size_t max);
+//sorting helpers
+size_t	find_next_push(t_list *stack, size_t min, size_t max, char s_id);
+void	optimal_rrotation(t_list *stack, size_t idx, char id);
 
 #endif
