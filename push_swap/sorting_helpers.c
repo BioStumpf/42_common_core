@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:10:55 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/05 11:41:50 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/25 19:13:33 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,44 +27,59 @@ static size_t	moves_to_top(size_t idx, size_t stack_len)
 size_t	find_next_push(t_list *stack, size_t min, size_t max, char s_id)
 {
 	t_node	*tmp;
-	size_t	cur_indx;
-	size_t	best_indx;
+	size_t	curi;
+	size_t	bsti;
 	size_t	mid;
 
 	tmp = stack->head;
-	cur_indx = 0;
-	best_indx = stack->len;
+	curi = 0;
+	bsti = stack->len;
 	mid = (max + min + 1) / 2;
 	while (tmp)
 	{
-		if (s_id == 'a' && tmp->indx < mid && tmp->indx >= min 
-		&& moves_to_top(cur_indx, stack->len) < moves_to_top(best_indx, stack->len))
-			best_indx = cur_indx;
+		if (s_id == 'a' && tmp->indx < mid && tmp->indx >= min
+			&& moves_to_top(curi, stack->len) < moves_to_top(bsti, stack->len))
+			bsti = curi;
 		else if (s_id == 'b' && tmp->indx >= mid && tmp->indx <= max
-		&& moves_to_top(cur_indx, stack->len) < moves_to_top(best_indx, stack->len))
-			best_indx = cur_indx;
+			&& moves_to_top(curi, stack->len) < moves_to_top(bsti, stack->len))
+			bsti = curi;
 		tmp = tmp->next;
-		cur_indx++;
+		curi++;
 	}
-	return (best_indx);
+	return (bsti);
 }
 
-void	optimal_rrotation(t_list *stack, size_t idx, char id)
+static void	rrotate_a_or_b(t_data *dat, char stack_id, int direction)
+{
+	if (stack_id == 'a' && direction == FOR)
+		check_n_store_ops(dat->sa, dat->sb, RA);
+	else if (stack_id == 'b' && direction == FOR)
+		check_n_store_ops(dat->sa, dat->sb, RB);
+	if (stack_id == 'a' && direction == REV)
+		check_n_store_ops(dat->sa, dat->sb, RRA);
+	if (stack_id == 'b' && direction == REV)
+		check_n_store_ops(dat->sa, dat->sb, RRB);
+}
+
+void	optimal_rrotation(t_data *dat, size_t idx, char stack_id)
 {
 	size_t	i;
-	size_t	mid;
+	size_t	stack_len;
 
 	i = 0;
-	mid = stack->len / 2;
-	if (idx > mid)
+	if (stack_id == 'a')
+		stack_len = dat->sa->len;
+	else
+		stack_len = dat->sb->len;
+	if (idx > (stack_len / 2))
 	{
-		idx = stack->len - idx;
+		idx = stack_len - idx;
 		while (i++ < idx)
-			rrotate(stack, id);
+			rrotate_a_or_b(dat, stack_id, REV);
 	}
 	else
 	{
 		while (i++ < idx)
-			rotate(stack, id);
+			rrotate_a_or_b(dat, stack_id, FOR);
 	}
 }

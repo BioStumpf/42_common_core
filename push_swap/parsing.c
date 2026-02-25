@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:20:10 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/01/27 20:36:09 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/25 18:41:57 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	parse_arg(char *arg, t_list *lst)
 
 	while (*arg)
 	{
-		num = malloc(sizeof(int)); 
+		num = malloc(sizeof(int));
 		if (!num)
 			return (false);
 		new = ft_nodenew(num);
@@ -52,5 +52,3 @@ bool	parse_inpt(int ac, char **av, t_list *lst)
 	}
 	return (true);
 }
-
-

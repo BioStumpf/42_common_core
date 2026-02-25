@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 13:45:29 by dstumpf           #+#    #+#             */
-/*   Updated: 2025/12/01 13:46:18 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/25 18:37:33 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static long	get_int(int sign, char **nptr)
 	while (ft_isdigit(**nptr))
 	{
 		digit = **nptr - '0';
-		if ((sign == 1 && res > ((long)INT_MAX - digit) / 10) || 
-		(sign == -1 && res > (-(long)INT_MIN - digit) / 10))
+		if ((sign == 1 && res > ((long)INT_MAX - digit) / 10)
+			|| (sign == -1 && res > (-(long)INT_MIN - digit) / 10))
 		{
 			errno = ERANGE;
 			return (-1);

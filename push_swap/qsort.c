@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:25:57 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/19 18:49:32 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/25 19:17:17 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	split_sa(t_data *dat, size_t min, size_t max)
 		next_push_indx = find_next_push(dat->sa, min, max, 'a');
 		if (next_push_indx == dat->sa->len)
 			return ;
-		optimal_rrotation(dat->sa, next_push_indx, 'a');
-		push(dat->sa, dat->sb, 'b');
+		optimal_rrotation(dat, next_push_indx, 'a');
+		check_n_store_ops(dat->sa, dat->sb, PB);
 	}
 }
 
@@ -35,8 +35,8 @@ static void	split_sb(t_data *dat, size_t min, size_t max)
 		next_push_indx = find_next_push(dat->sb, min, max, 'b');
 		if (next_push_indx == dat->sb->len)
 			return ;
-		optimal_rrotation(dat->sb, next_push_indx, 'b');
-		push(dat->sb, dat->sa, 'a');
+		optimal_rrotation(dat, next_push_indx, 'b');
+		check_n_store_ops(dat->sa, dat->sb, PA);
 	}
 }
 
@@ -47,10 +47,10 @@ void	qsort_a(t_data *dat, size_t min, size_t max)
 	range = max - min + 1;
 	if (range <= 3)
 	{
-		sort_three_or_lower(dat->sa, min, max);
+		sort_three_or_lower(dat, min, max);
 		return ;
 	}
-	split_sa(dat, min, max); 
+	split_sa(dat, min, max);
 	qsort_a(dat, (max + min + 1) / 2, max);
 	qsort_b(dat, min, (max + min - 1) / 2);
 }
@@ -66,14 +66,14 @@ void	qsort_b(t_data *dat, size_t min, size_t max)
 	{
 		bottom_targets = targets_at_bottom(dat->sb, min, max);
 		while (bottom_targets--)
-			rrotate(dat->sb, 'b');
+			check_n_store_ops(dat->sa, dat->sb, RRB);
 		i = range;
 		while (i-- > 0)
-			push(dat->sb, dat->sa, 'a');
-		sort_three_or_lower(dat->sa, min, max);
+			check_n_store_ops(dat->sa, dat->sb, PA);
+		sort_three_or_lower(dat, min, max);
 		return ;
 	}
-	split_sb(dat, min, max); 
+	split_sb(dat, min, max);
 	qsort_a(dat, (max + min + 1) / 2, max);
 	qsort_b(dat, min, (max + min - 1) / 2);
 }

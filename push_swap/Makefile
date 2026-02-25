@@ -11,7 +11,7 @@ DEP_DIR := dep/
 OBJ_DIR := obj/
 LIBFT_DIR := libft/
 
-SRCS = main.c parsing.c stack_operations_1.c stack_operations_2.c sorting3.c qsort.c sorting_helpers.c
+SRCS = main.c parsing.c stack_operations.c operation_printing_1.c operation_printing_2.c sorting3.c qsort.c sorting_helpers.c
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
