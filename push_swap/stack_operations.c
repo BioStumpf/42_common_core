@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "ft_printf.h"
 
 void	swap(t_list *lst)
 {

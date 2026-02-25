@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "ft_printf.h"
 
 static bool	check_sorted(t_list *stack)
 {

@@ -12,7 +12,6 @@
 
 #include "push_swap.h"
 #include <errno.h>
-#include "ft_printf.h"
 
 static bool	parse_arg(char *arg, t_list *lst)
 {
