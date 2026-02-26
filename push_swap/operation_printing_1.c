@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_operations_2.c                               :+:      :+:    :+:   */
+/*   operation_printing_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:02:28 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/25 19:41:57 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/26 18:09:15 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,6 @@ static void	print_operations(size_t *prev)
 	prev[RRB] = 0;
 	prev[PA] = 0;
 	prev[PB] = 0;
-}
-
-static void	print_operation(int select)
-{
-	if (select == RA)
-		ft_printf("ra\n");
-	else if (select == RB)
-		ft_printf("rb\n");
-	else if (select == RRA)
-		ft_printf("rra\n");
-	else if (select == RRB)
-		ft_printf("rrb\n");
-	else if (select == SA)
-		ft_printf("sa\n");
-	else if (select == PA)
-		ft_printf("pa\n");
-	else if (select == PB)
-		ft_printf("pb\n");
 }
 
 static void	do_operation(t_list *sa, t_list *sb, int select)
@@ -81,8 +63,9 @@ void	check_n_store_ops(t_list *sa, t_list *sb, int select)
 		trim_redundant_moves(prev);
 		combine_rrots(prev);
 		print_operations(prev);
-		print_operation(select);
 	}
-	else
+	if (select == SA)
+		ft_printf("sa\n");
+	else if (select != STOP)
 		prev[select]++;
 }

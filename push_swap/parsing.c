@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:20:10 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/25 18:41:57 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/26 16:45:13 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static bool	parse_arg(char *arg, t_list *lst)
 {
 	t_node	*new;
 	int		*num;
+	int		err;
 
 	while (*arg)
 	{
@@ -24,8 +25,9 @@ static bool	parse_arg(char *arg, t_list *lst)
 		if (!num)
 			return (false);
 		new = ft_nodenew(num);
-		*num = ft_atoi_multi(&arg);
-		if ((*num == -1 && errno == ERANGE) || !new || ft_lstfind(lst, num, 5))
+		err = 0;
+		*num = ft_atoi_multi(&arg, &err);
+		if ((*num == -1 && err == ERANGE) || !new || ft_lstfind(lst, num, 5))
 		{
 			free(num);
 			free(new);

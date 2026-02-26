@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:25:50 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/25 18:39:53 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/26 10:38:49 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ int	main(int ac, char **av)
 	t_list	sb;
 	t_data	dat;
 
-	if (ac < 2)
-		error();
 	ft_lstinit(&sa);
 	ft_lstinit(&sb);
 	if (!parse_inpt(ac, av, &sa))

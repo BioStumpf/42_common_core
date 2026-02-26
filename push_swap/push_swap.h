@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:50:53 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/25 19:50:30 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/26 17:44:24 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@
 # define SA 6 
 # define STOP 7
 
+typedef size_t	(*t_func)(t_list *, size_t, size_t, char);
+
 typedef struct s_data
 {
-	t_list			*sa;
-	t_list			*sb;
-}					t_data;
+	t_list	*sa;
+	t_list	*sb;
+	t_func	find_next;
+}			t_data;
 
 //input handling
 bool	parse_inpt(int ac, char **av, t_list *lst);
@@ -50,6 +53,7 @@ void	qsort_a(t_data *dat, size_t min, size_t max);
 void	qsort_b(t_data *dat, size_t min, size_t max);
 //sorting helpers
 size_t	find_next_push(t_list *stack, size_t min, size_t max, char s_id);
+size_t	find_next_push_empty(t_list *stack, size_t min, size_t max, char s_id);
 void	optimal_rrotation(t_data *dat, size_t idx, char stack);
 //printing the stack operations
 //helpers

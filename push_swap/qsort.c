@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:25:57 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/25 19:17:17 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/26 17:50:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,16 @@
 static void	split_sa(t_data *dat, size_t min, size_t max)
 {
 	size_t	next_push_indx;
+	size_t	range;
 
+	range = max - min + 1;
+	if (dat->sa->len == range)
+		dat->find_next = find_next_push_empty;
+	else
+		dat->find_next = find_next_push;
 	while (true)
 	{
-		next_push_indx = find_next_push(dat->sa, min, max, 'a');
+		next_push_indx = dat->find_next(dat->sa, min, max, 'a');
 		if (next_push_indx == dat->sa->len)
 			return ;
 		optimal_rrotation(dat, next_push_indx, 'a');
@@ -29,10 +35,16 @@ static void	split_sa(t_data *dat, size_t min, size_t max)
 static void	split_sb(t_data *dat, size_t min, size_t max)
 {
 	size_t	next_push_indx;
+	size_t	range;
 
+	range = max - min + 1;
+	if (dat->sb->len == range)
+		dat->find_next = find_next_push_empty;
+	else
+		dat->find_next = find_next_push;
 	while (true)
 	{
-		next_push_indx = find_next_push(dat->sb, min, max, 'b');
+		next_push_indx = dat->find_next(dat->sb, min, max, 'b');
 		if (next_push_indx == dat->sb->len)
 			return ;
 		optimal_rrotation(dat, next_push_indx, 'b');

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 13:45:29 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/02/25 18:37:33 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/02/26 16:37:32 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	get_sign_skip(char **nptr, int *sign)
 		(*nptr)++;
 }
 
-static long	get_int(int sign, char **nptr)
+static long	get_int(int sign, char **nptr, int *err)
 {
 	long	res;
 	long	digit;
@@ -33,7 +33,7 @@ static long	get_int(int sign, char **nptr)
 		if ((sign == 1 && res > ((long)INT_MAX - digit) / 10)
 			|| (sign == -1 && res > (-(long)INT_MIN - digit) / 10))
 		{
-			errno = ERANGE;
+			*err = ERANGE;
 			return (-1);
 		}
 		res = res * 10 + digit;
@@ -42,7 +42,7 @@ static long	get_int(int sign, char **nptr)
 	return (res * sign);
 }
 
-int	ft_atoi_multi(char **nptr)
+int	ft_atoi_multi(char **nptr, int *err)
 {
 	int		sign;
 	int		res;
@@ -53,10 +53,10 @@ int	ft_atoi_multi(char **nptr)
 	get_sign_skip(nptr, &sign);
 	if (**nptr && !ft_isdigit(**nptr))
 	{
-		errno = ERANGE;
+		*err = ERANGE;
 		return (-1);
 	}
-	res = (int)get_int(sign, nptr);
+	res = (int)get_int(sign, nptr, err);
 	while (**nptr && ft_iswhitespace(**nptr))
 		(*nptr)++;
 	return (res);

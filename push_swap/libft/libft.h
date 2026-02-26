@@ -79,7 +79,7 @@ t_node	*ft_nodenew(void *content);
 void	ft_lstprint(t_list *lst, void (*print_fn)(void *content));
 size_t	count_words(const char *s, const char *sep);
 size_t	count_nums(const char *s);
-int		ft_atoi_multi(char **nptr);
+int		ft_atoi_multi(char **nptr, int *err);
 int		ft_iswhitespace(const char c);
 int		ft_atoi_hex_multi(char **nptr);
 void	ft_lstiter(t_list *lst, void (*f)(t_node *node));
