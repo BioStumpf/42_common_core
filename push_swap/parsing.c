@@ -27,7 +27,7 @@ static bool	parse_arg(char *arg, t_list *lst)
 		new = ft_nodenew(num);
 		err = 0;
 		*num = ft_atoi_multi(&arg, &err);
-		if ((*num == -1 && err == ERANGE) || !new || ft_lstfind(lst, num, 5))
+		if ((*num == -1 && err != 0) || !new || ft_lstfind(lst, num, sizeof(int)))
 		{
 			free(num);
 			free(new);

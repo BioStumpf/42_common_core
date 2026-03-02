@@ -38,9 +38,9 @@ By continuously dividing the data into smaller subsets, the problem is reduced s
 - **make** (```sudo apt install make```)
 
 ### Compilation
-- ```make``` will compile a binary called fdf
+- ```make``` will compile the binary
 - ```make clean``` will remove all object and dependency files
-- ```make fclean``` will clean and remove the fdf binary
+- ```make fclean``` will clean and remove the binary
 - ```make re``` will fclean and make
 
 ### Excecution
