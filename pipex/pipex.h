@@ -4,4 +4,6 @@
 # include <fcntl.h>
 # include <unistd.h>
 
+# define BUFF_S 256
+
 #endif
