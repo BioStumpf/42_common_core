@@ -58,7 +58,7 @@ char	**ft_split(char const *s, char c)
 	char			**out;
 	size_t			wc;
 
-	wc = count_words(s, &c);
+	wc = count_words(s, c);
 	if (!*s || wc == 0)
 		wc = 0;
 	out = malloc(sizeof(char *) * (wc + 1));
@@ -67,4 +67,14 @@ char	**ft_split(char const *s, char c)
 	if (!fill_array(s, c, out, wc))
 		return (0);
 	return (out);
+}
+
+void	free_split(char **split)
+{
+	size_t	i;
+
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
 }

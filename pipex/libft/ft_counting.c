@@ -12,29 +12,18 @@
 
 #include "libft.h"
 
-static bool	in_charset(char c, const char *charset)
-{
-	while (*charset)
-	{
-		if (c == *charset)
-			return (true);
-		++charset;
-	}
-	return (false);
-}
-
-size_t	count_words(const char *s, const char *sep)
+size_t	count_words(const char *s, const char c)
 {
 	size_t	word_count;
 
 	word_count = 0;
 	while (*s)
 	{
-		while (in_charset(*s, sep))
+		while (*s == c)
 			s++;
 		if (*s)
 			word_count++;
-		while (*s && !in_charset(*s, sep))
+		while (*s && *s != c)
 			s++;
 	}
 	return (word_count);
