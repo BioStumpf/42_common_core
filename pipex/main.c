@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/06 12:21:08 by dstumpf            ###   ########.fr       */
+/*   Updated: 26/03/06 12:43:53 by dstumpf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ static void	execute_program(struct s_dat *data, char **envp)
 	close_pipe(data);
 	if (data->out)
 		open_file(data, &WREND, data->out, O_WRONLY | O_CREAT | O_TRUNC);
-	else
-	{
-		if (pipe(data->pipe_fd) == -1)
+	else if (pipe(data->pipe_fd) == -1)
 			cleanup(data, 1, "pipe");
-	}
 	data->pid = fork(); 
 	if (data->pid == -1)
 		cleanup(data, 1, "fork");
@@ -83,29 +80,8 @@ int main(int ac, char **av, char **envp)
 		get_program_av(&data, av[i]);
 		get_program_path(&data, data.program_av[0]);
 		if (i == ac - 2)
-			data.out = av[ac - 2]; 
+			data.out = av[ac - 1]; 
 		execute_program(&data, envp);
-		//if (dup2(RDEND, STDIN) == -1)
-		//	cleanup(&data, 1, "dup2");
-		//close_pipe(&data);
-		//if (i == ac - 2)
-		//	open_file(&data, &WREND, OUTPUT, O_WRONLY | O_CREAT | O_TRUNC);
-		//else
-		//{
-		//	if (pipe(data.pipe_fd) == -1)
-		//		cleanup(&data, 1, "pipe");
-		//}
-		//data.pid = fork(); 
-		//if (data.pid == -1)
-		//	cleanup(&data, 1, "fork");
-		//if (data.pid == 0)
-		//{
-		//	if (dup2(WREND, STDOUT) == -1) 
-		//		cleanup(&data, 1, "dup2");
-		//	close_pipe(&data);
-		//	execve(data.program_path, data.program_av, envp); 
-		//	cleanup(&data, 1, "execve");
-		//}
 		clean_program(&data);
 	}
 	waitpid(data.pid, &data.wstatus, 0);
