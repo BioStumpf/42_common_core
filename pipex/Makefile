@@ -11,7 +11,7 @@ DEP_DIR := dep/
 OBJ_DIR := obj/
 LIBFT_DIR := libft/
 
-SRCS = main.c
+SRCS = main.c cleanup.c handle_args.c
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 

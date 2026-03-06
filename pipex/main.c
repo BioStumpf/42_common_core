@@ -1,50 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
+/*   Updated: 26/03/06 12:21:08 by dstumpf            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 #include "libft.h"
-#include "ft_printf.h"
-
-static void	cleanup(struct s_dat *data, int status)
-{
-	if (data->pipe_fd[0] != -1)
-		close(data->pipe_fd[0]);
-	if (data->pipe_fd[1] != -1)
-		close(data->pipe_fd[1]);
-	if (data->path_split)
-		free_split(data->path_split);
-	if (data->program_path)
-		free(data->program_path);
-	if (data->program_av)
-		free_split(data->program_av);
-	exit (status);
-}
 
 static void	check_args(int ac)
 {
-	if (ac < 5)
+	if (ac != 5)
 	{
 		write(2, "Invalid number of arguments\n", 29);
 		exit(1);
 	}
-}
-
-static char	*find_path(char **envp)
-{
-	while (*envp)
-	{
-		if (ft_strncmp("PATH=", *envp, 5) == 0)
-			return (*envp + 5);
-		envp++;
-	}
-	return (NULL);
-}
-
-static void	split_path(struct s_dat *data, char **envp)
-{
-	char *path;
-
-	path = find_path(envp);
-	data->path_split = ft_split(path, ':');
-	if (!data->path_split)
-		cleanup(data, 1);
 }
 
 static void	init_dat(struct s_dat *data)
@@ -54,50 +29,8 @@ static void	init_dat(struct s_dat *data)
 	data->path_split = NULL;
 	data->program_av = NULL;
 	data->program_path = NULL;
-}
-
-static void	get_program_path(struct s_dat *data, char *program)
-{
-	size_t	i;
-
-	i = 0;
-	while (data->path_split[i])
-	{
-		data->program_path = ft_pathjoin(data->path_split[i], program);
-		if (!data->program_path)
-			cleanup(data, 1);
-		if (access(data->program_path, X_OK) == 0)
-			return ;
-		free(data->program_path);
-		data->program_path = NULL;
-		i++;
-	}
-	cleanup(data, 1);
-}
-
-static void	clean_process(struct s_dat *data)
-{
-	free(data->program_path);
-	data->program_path = NULL;
-	free_split(data->program_av);
-	data->program_av = NULL;
-}
-
-static void	close_pipe(struct s_dat *data)
-{
-	if (data->pipe_fd[0] != -1)
-		close(data->pipe_fd[0]);
-	if (data->pipe_fd[1] != -1)
-		close(data->pipe_fd[1]);
-	data->pipe_fd[0] = -1;
-	data->pipe_fd[1] = -1;
-}
-
-static void	get_program_av(struct s_dat *data, char *arg)
-{
-	data->program_av = ft_split(arg, ' ');
-	if (!data->program_av)
-		cleanup(data, 1);
+	data->wstatus = 0;
+	data->out = NULL;
 }
 
 static void	open_file(struct s_dat *data, int *fd, char *file, int flags)
@@ -107,10 +40,34 @@ static void	open_file(struct s_dat *data, int *fd, char *file, int flags)
 	else
 		*fd = open(file, flags);
 	if (*fd == -1)
-		cleanup(data, 1);
+		cleanup(data, 1, "open");
 }
 
-//#include <signal.h>
+static void	execute_program(struct s_dat *data, char **envp)
+{
+	if (dup2(data->pipe_fd[0], STDIN) == -1)
+		cleanup(data, 1, "dup2");
+	close_pipe(data);
+	if (data->out)
+		open_file(data, &WREND, data->out, O_WRONLY | O_CREAT | O_TRUNC);
+	else
+	{
+		if (pipe(data->pipe_fd) == -1)
+			cleanup(data, 1, "pipe");
+	}
+	data->pid = fork(); 
+	if (data->pid == -1)
+		cleanup(data, 1, "fork");
+	if (data->pid == 0)
+	{
+		if (dup2(WREND, STDOUT) == -1) 
+			cleanup(data, 1, "dup2");
+		close_pipe(data);
+		execve(data->program_path, data->program_av, envp); 
+		cleanup(data, 1, "execve");
+	}
+}
+
 int main(int ac, char **av, char **envp)
 {
 	struct s_dat	data;
@@ -119,33 +76,40 @@ int main(int ac, char **av, char **envp)
 	init_dat(&data);
 	check_args(ac);
 	split_path(&data, envp);
-	open_file(&data, &RDEND, INPUT, O_RDONLY);
+	open_file(&data, &data.pipe_fd[0], av[1], O_RDONLY);
 	i = 1;
 	while (++i <= ac - 2)
 	{
 		get_program_av(&data, av[i]);
 		get_program_path(&data, data.program_av[0]);
-		if (dup2(RDEND, STDIN) == -1)
-			cleanup(&data, 1);
-		close_pipe(&data);
 		if (i == ac - 2)
-			open_file(&data, &WREND, OUTPUT, O_WRONLY | O_CREAT | O_TRUNC);
-		else
-			pipe(data.pipe_fd); 
-		data.pid = fork(); 
-		if (data.pid == -1)
-			cleanup(&data, 1);
-		if (data.pid == 0)
-		{
-		//	raise(SIGSTOP);
-			if (dup2(WREND, STDOUT) == -1) 
-				cleanup(&data, 1);
-			close_pipe(&data);
-			execve(data.program_path, data.program_av, envp); 
-			cleanup(&data, 1);
-		}
-		clean_process(&data);
+			data.out = av[ac - 2]; 
+		execute_program(&data, envp);
+		//if (dup2(RDEND, STDIN) == -1)
+		//	cleanup(&data, 1, "dup2");
+		//close_pipe(&data);
+		//if (i == ac - 2)
+		//	open_file(&data, &WREND, OUTPUT, O_WRONLY | O_CREAT | O_TRUNC);
+		//else
+		//{
+		//	if (pipe(data.pipe_fd) == -1)
+		//		cleanup(&data, 1, "pipe");
+		//}
+		//data.pid = fork(); 
+		//if (data.pid == -1)
+		//	cleanup(&data, 1, "fork");
+		//if (data.pid == 0)
+		//{
+		//	if (dup2(WREND, STDOUT) == -1) 
+		//		cleanup(&data, 1, "dup2");
+		//	close_pipe(&data);
+		//	execve(data.program_path, data.program_av, envp); 
+		//	cleanup(&data, 1, "execve");
+		//}
+		clean_program(&data);
 	}
-	waitpid(data.pid, NULL, 0); 
-	cleanup(&data, 0);
+	waitpid(data.pid, &data.wstatus, 0);
+	while (wait(NULL) != -1)
+		;
+	cleanup(&data, WEXITSTATUS(data.wstatus), NULL);
 } 
