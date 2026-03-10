@@ -26,7 +26,7 @@ static char	*find_path(char **envp)
 
 void	split_path(struct s_dat *data, char **envp)
 {
-	char *path;
+	char	*path;
 
 	path = find_path(envp);
 	data->path_split = ft_split(path, ':');

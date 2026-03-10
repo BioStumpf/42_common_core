@@ -16,10 +16,10 @@
 
 void	cleanup(struct s_dat *data, int status, char *msg)
 {
-	if (data->pipe_fd[0] != -1)
-		close(data->pipe_fd[0]);
-	if (data->pipe_fd[1] != -1)
-		close(data->pipe_fd[1]);
+	if (data->pipe[0] != -1)
+		close(data->pipe[0]);
+	if (data->pipe[1] != -1)
+		close(data->pipe[1]);
 	if (data->path_split)
 		free_split(data->path_split);
 	if (data->program_path)
@@ -41,10 +41,10 @@ void	clean_program(struct s_dat *data)
 
 void	close_pipe(struct s_dat *data)
 {
-	if (data->pipe_fd[0] != -1)
-		close(data->pipe_fd[0]);
-	if (data->pipe_fd[1] != -1)
-		close(data->pipe_fd[1]);
-	data->pipe_fd[0] = -1;
-	data->pipe_fd[1] = -1;
+	if (data->pipe[0] > 2)
+		close(data->pipe[0]);
+	if (data->pipe[1] > 2)
+		close(data->pipe[1]);
+	data->pipe[0] = -1;
+	data->pipe[1] = -1;
 }

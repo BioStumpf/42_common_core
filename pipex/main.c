@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/06 12:43:53 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/10 12:32:03 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	check_args(int ac)
 
 static void	init_dat(struct s_dat *data)
 {
-	data->pipe_fd[0] = -1;
-	data->pipe_fd[1] = -1;
+	data->pipe[0] = -1;
+	data->pipe[1] = -1;
 	data->path_split = NULL;
 	data->program_av = NULL;
 	data->program_path = NULL;
@@ -33,7 +33,7 @@ static void	init_dat(struct s_dat *data)
 	data->out = NULL;
 }
 
-static void	open_file(struct s_dat *data, int *fd, char *file, int flags)
+static void	open_fd(struct s_dat *data, int *fd, char *file, int flags)
 {
 	if (flags & O_WRONLY)
 		*fd = open(file, flags, 0644);
@@ -45,27 +45,27 @@ static void	open_file(struct s_dat *data, int *fd, char *file, int flags)
 
 static void	execute_program(struct s_dat *data, char **envp)
 {
-	if (dup2(data->pipe_fd[0], STDIN) == -1)
+	if (dup2(data->pipe[0], STDIN) == -1)
 		cleanup(data, 1, "dup2");
 	close_pipe(data);
 	if (data->out)
-		open_file(data, &WREND, data->out, O_WRONLY | O_CREAT | O_TRUNC);
-	else if (pipe(data->pipe_fd) == -1)
-			cleanup(data, 1, "pipe");
-	data->pid = fork(); 
+		open_fd(data, &data->pipe[1], data->out, O_WRONLY | O_CREAT | O_TRUNC);
+	else if (pipe(data->pipe) == -1)
+		cleanup(data, 1, "pipe");
+	data->pid = fork();
 	if (data->pid == -1)
 		cleanup(data, 1, "fork");
 	if (data->pid == 0)
 	{
-		if (dup2(WREND, STDOUT) == -1) 
+		if (dup2(data->pipe[1], STDOUT) == -1)
 			cleanup(data, 1, "dup2");
 		close_pipe(data);
-		execve(data->program_path, data->program_av, envp); 
+		execve(data->program_path, data->program_av, envp);
 		cleanup(data, 1, "execve");
 	}
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	struct s_dat	data;
 	int				i;
@@ -73,14 +73,14 @@ int main(int ac, char **av, char **envp)
 	init_dat(&data);
 	check_args(ac);
 	split_path(&data, envp);
-	open_file(&data, &data.pipe_fd[0], av[1], O_RDONLY);
+	open_fd(&data, &data.pipe[0], av[1], O_RDONLY);
 	i = 1;
 	while (++i <= ac - 2)
 	{
 		get_program_av(&data, av[i]);
 		get_program_path(&data, data.program_av[0]);
 		if (i == ac - 2)
-			data.out = av[ac - 1]; 
+			data.out = av[ac - 1];
 		execute_program(&data, envp);
 		clean_program(&data);
 	}
@@ -88,4 +88,4 @@ int main(int ac, char **av, char **envp)
 	while (wait(NULL) != -1)
 		;
 	cleanup(&data, WEXITSTATUS(data.wstatus), NULL);
-} 
+}

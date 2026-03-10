@@ -11,18 +11,37 @@ DEP_DIR := dep/
 OBJ_DIR := obj/
 LIBFT_DIR := libft/
 
-SRCS = main.c cleanup.c handle_args.c
+SRCS = cleanup.c handle_args.c
+SRCS_MANDATORY = main.c
+OBJS_MANDATORY = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS_MANDATORY))
+SRCS_BONUS = main_bonus.c heredoc_bonus.c
+OBJS_BONUS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS_BONUS))
+
+ifeq ($(BONUS), 1)
+	SRCS += $(SRCS_BONUS)
+else
+	SRCS += $(SRCS_MANDATORY)
+endif
+
 LIBFT := $(addprefix $(LIBFT_DIR), libft.a)
-OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
+OBJS = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 
-CFLAGS_OBJS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR) -c $< -o $@
-CFLAGS_NAME = -Wall -Wextra -Werror -g -o $@ $(OBJS) $(LIBFT)
+CFLAGS_OBJS = -Wall -Wextra -Werror -I$(LIBFT_DIR) -c $< -o $@
+CFLAGS_NAME = -Wall -Wextra -Werror -o $@ $(OBJS) $(LIBFT)
 DEP_FLAGS = -MMD -MP -MT $@ -MF $(DEP_DIR)$*.d
+
+ifeq ($(dbg), 1)
+	CFLAGS_OBJS += -g
+endif
 
 all: $(NAME)
 
+bonus:
+	@$(MAKE) --no-print-directory BONUS=1
+
 $(NAME): $(LIBFT) $(OBJS) 
+	@if [ "$(BONUS)" = 1 ]; then rm -f $(OBJS_MANDATORY); else rm -f $(OBJS_BONUS); fi
 	@echo "$(GREEN)======================================$(RESET)"
 	@echo "$(BOLD)$(BLUE)       OBJS DONE          $(RESET)"
 	@echo "$(GREEN)======================================$(RESET)"

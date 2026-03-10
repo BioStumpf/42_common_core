@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 10:15:16 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/10 18:12:30 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/11 11:04:04 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 # define STDIN 0
 # define STDOUT 1
+# define IN 0
+# define OUT 1
 
 struct s_dat
 {
@@ -30,6 +32,7 @@ struct s_dat
 	char	**program_av;
 	char	*program_path;
 	char	*out;
+	char	*limiter;
 };
 
 void	get_program_av(struct s_dat *data, char *arg);
