@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/10 12:32:03 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/12 17:12:26 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,36 +33,14 @@ static void	init_dat(struct s_dat *data)
 	data->out = NULL;
 }
 
-static void	open_fd(struct s_dat *data, int *fd, char *file, int flags)
+void	open_fd(struct s_dat *data, int *fd, char *file, int flag)
 {
-	if (flags & O_WRONLY)
-		*fd = open(file, flags, 0644);
+	if (flag == OUT)
+		*fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
-		*fd = open(file, flags);
+		*fd = open(file, O_RDONLY);
 	if (*fd == -1)
-		cleanup(data, 1, "open");
-}
-
-static void	execute_program(struct s_dat *data, char **envp)
-{
-	if (dup2(data->pipe[0], STDIN) == -1)
-		cleanup(data, 1, "dup2");
-	close_pipe(data);
-	if (data->out)
-		open_fd(data, &data->pipe[1], data->out, O_WRONLY | O_CREAT | O_TRUNC);
-	else if (pipe(data->pipe) == -1)
-		cleanup(data, 1, "pipe");
-	data->pid = fork();
-	if (data->pid == -1)
-		cleanup(data, 1, "fork");
-	if (data->pid == 0)
-	{
-		if (dup2(data->pipe[1], STDOUT) == -1)
-			cleanup(data, 1, "dup2");
-		close_pipe(data);
-		execve(data->program_path, data->program_av, envp);
-		cleanup(data, 1, "execve");
-	}
+		cleanup(data, 1, file);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -78,10 +56,12 @@ int	main(int ac, char **av, char **envp)
 	while (++i <= ac - 2)
 	{
 		get_program_av(&data, av[i]);
-		get_program_path(&data, data.program_av[0]);
+		if (!check_if_path(&data, av[i]))
+			get_program_path(&data, data.program_av[0]);
 		if (i == ac - 2)
 			data.out = av[ac - 1];
-		execute_program(&data, envp);
+		setup_child(&data);
+		exec_child(&data, envp);
 		clean_program(&data);
 	}
 	waitpid(data.pid, &data.wstatus, 0);

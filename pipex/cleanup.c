@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 11:33:51 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/06 11:41:42 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/12 18:03:42 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 void	cleanup(struct s_dat *data, int status, char *msg)
 {
+	if (status == 1)
+		perror(msg);
 	if (data->pipe[0] != -1)
 		close(data->pipe[0]);
 	if (data->pipe[1] != -1)
@@ -26,8 +28,8 @@ void	cleanup(struct s_dat *data, int status, char *msg)
 		free(data->program_path);
 	if (data->program_av)
 		free_split(data->program_av);
-	if (status == 1)
-		perror(msg);
+	while (wait(NULL) != -1)
+		;
 	exit (status);
 }
 
