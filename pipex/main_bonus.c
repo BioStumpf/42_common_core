@@ -47,7 +47,7 @@ void	open_fd(struct s_dat *data, int *fd, char *file, int flag)
 	else
 		*fd = open(file, O_RDONLY);
 	if (*fd == -1)
-		cleanup(data, 1, "open");
+		cleanup(data, 1, file);
 }
 
 int	main(int ac, char **av, char **envp)

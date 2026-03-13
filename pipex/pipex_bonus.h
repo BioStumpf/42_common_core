@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 10:15:16 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/12 18:47:18 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/13 14:24:38 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ struct s_dat
 	int		pipe[2];
 	int		pid;
 	int		wstatus;
+	size_t	colon;
 	char	**path_split;
 	char	**program_av;
 	char	*program_path;

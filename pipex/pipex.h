@@ -29,6 +29,7 @@ struct s_dat
 	int		pipe[2];
 	int		pid;
 	int		wstatus;
+	size_t	colon;
 	char	**path_split;
 	char	**program_av;
 	char	*program_path;

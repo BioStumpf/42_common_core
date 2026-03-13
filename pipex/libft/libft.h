@@ -85,5 +85,6 @@ int		ft_iswhitespace(const char c);
 int		ft_atoi_hex_multi(char **nptr);
 void	ft_lstiter(t_list *lst, void (*f)(t_node *node));
 void	free_split(char **split);
+void	skip_char(char **str, char c);
 
 #endif

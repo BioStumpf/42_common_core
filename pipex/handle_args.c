@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 11:34:20 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/12 18:34:50 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/13 12:54:57 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,32 @@ static char	*find_path(char **envp)
 	return (NULL);
 }
 
+void	find_colon(struct s_dat *data, char *path)
+{
+	size_t	i;
+
+	i = 0;
+	data->colon = SIZE_MAX; 
+	if (path[i] == ':')
+	{
+		data->colon = 0;
+		return ;
+	}
+	while (data->path_split[i])
+	{
+		if (path[0] && ft_strncmp("::", path, 2) == 0)
+		{
+			data->colon = i;
+			return ;
+		}
+		skip_char(&path, ':');
+		path += ft_strlen(data->path_split[i]);
+		i++;
+	}
+	if (path[0] == ':')
+		data->colon = i;
+}
+
 void	split_path(struct s_dat *data, char **envp)
 {
 	char	*path;
@@ -33,6 +59,7 @@ void	split_path(struct s_dat *data, char **envp)
 	data->path_split = ft_split(path, ':');
 	if (!data->path_split)
 		cleanup(data, 1, "ft_split");
+	find_colon(data, path);
 }
 
 bool	check_if_path(struct s_dat *data, char *program)
@@ -47,6 +74,30 @@ bool	check_if_path(struct s_dat *data, char *program)
 	return (false);
 }
 
+static bool	check_access(struct s_dat *data, int *status)
+{
+	if (access(data->program_path, F_OK) == 0)
+	{
+		if (access(data->program_path, X_OK) == 0)
+			return (true);
+		else
+			*status = errno;
+	}
+	return (false);
+}
+
+static bool	check_path(struct s_dat *data, char *path, char *program, int *status)
+{
+	data->program_path = ft_pathjoin(path, program);
+	if (!data->program_path)
+		cleanup(data, 1, "ft_pathjoin");
+	if (check_access(data, status))
+		return (true);
+	free(data->program_path);
+	data->program_path = NULL;
+	return (false);
+}
+
 void	get_program_path(struct s_dat *data, char *program)
 {
 	size_t	i;
@@ -56,18 +107,13 @@ void	get_program_path(struct s_dat *data, char *program)
 	status = 0;
 	while (data->path_split[i])
 	{
-		data->program_path = ft_pathjoin(data->path_split[i], program);
-		if (!data->program_path)
-			cleanup(data, 1, "ft_pathjoin");
-		if (access(data->program_path, F_OK) == 0)
+		if (data->colon == i)
 		{
-			if (access(data->program_path, X_OK) == 0)
+			if (check_path(data, ".", program, &status))
 				return ;
-			else
-				status = errno;
 		}
-		free(data->program_path);
-		data->program_path = NULL;
+		if (check_path(data, data->path_split[i], program, &status))
+			return ;
 		i++;
 	}
 	if (status)
