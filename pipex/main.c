@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/12 17:12:26 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/13 15:42:37 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ int	main(int ac, char **av, char **envp)
 		exec_child(&data, envp);
 		clean_program(&data);
 	}
+	close(STDIN);
 	waitpid(data.pid, &data.wstatus, 0);
-	while (wait(NULL) != -1)
-		;
 	cleanup(&data, WEXITSTATUS(data.wstatus), NULL);
 }
