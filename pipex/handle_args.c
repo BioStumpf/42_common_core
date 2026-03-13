@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 11:34:20 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/13 12:54:57 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/13 14:36:54 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ void	get_program_path(struct s_dat *data, char *program)
 		if (check_path(data, data->path_split[i], program, &status))
 			return ;
 		i++;
+	}
+	if (data->colon == i)
+	{
+		if (check_path(data, ".", program, &status))
+			return ;
 	}
 	if (status)
 		errno = status;
