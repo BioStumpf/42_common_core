@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 11:33:51 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/13 15:42:06 by dstumpf          ###   ########.fr       */
+/*   Updated: 26/03/15 15:06:30 by dstumpf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,25 @@
 #include <stdio.h>
 #include "libft.h"
 
+void	close_pipend(int *end)
+{
+	if (*end != -1)
+		close(*end);
+	*end = -1;
+}
+
 void	cleanup(struct s_dat *data, int status, char *msg)
 {
 	if (status == 1)
 		perror(msg);
-	if (data->pipe[0] != -1)
-		close(data->pipe[0]);
-	if (data->pipe[1] != -1)
-		close(data->pipe[1]);
+	close_pipend(&data->pipe[0]);
+	close_pipend(&data->pipe[1]);
 	if (data->path_split)
 		free_split(data->path_split);
 	if (data->program_path)
 		free(data->program_path);
 	if (data->program_av)
 		free_split(data->program_av);
-	while (wait(NULL) != -1)
-		;
 	exit (status);
 }
 
@@ -39,14 +42,4 @@ void	clean_program(struct s_dat *data)
 	data->program_path = NULL;
 	free_split(data->program_av);
 	data->program_av = NULL;
-}
-
-void	close_pipe(struct s_dat *data)
-{
-	if (data->pipe[0] > 2)
-		close(data->pipe[0]);
-	if (data->pipe[1] > 2)
-		close(data->pipe[1]);
-	data->pipe[0] = -1;
-	data->pipe[1] = -1;
 }
