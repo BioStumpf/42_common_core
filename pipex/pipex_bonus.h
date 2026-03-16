@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 10:15:16 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/13 14:24:38 by dstumpf          ###   ########.fr       */
+/*   Updated: 26/03/16 11:58:29 by dstumpf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ struct s_dat
 	char	**path_split;
 	char	**program_av;
 	char	*program_path;
+	char	*in;
 	char	*out;
 	char	*limiter;
 };
@@ -42,11 +43,13 @@ void	get_program_path(struct s_dat *data, char *program);
 void	split_path(struct s_dat *data, char **envp);
 void	cleanup(struct s_dat *data, int status, char *msg);
 void	clean_program(struct s_dat *data);
-void	close_pipe(struct s_dat *data);
-void	setup_child(struct s_dat *data);
+void	close_pipend(int *end);
 void	open_fd(struct s_dat *data, int *fd, char *file, int flag);
-void	exec_child(struct s_dat *data, char **envp);
-void	exec_heredoc(struct s_dat *data);
+//void	exec_heredoc(struct s_dat *data);
 bool	check_if_path(struct s_dat *data, char *program);
+void	exec_mid_child(struct s_dat *data, char **envp, char *program);
+void	exec_first_child(struct s_dat *data, char **envp, char *program);
+void	exec_mid_child(struct s_dat *data, char **envp, char *program);
+void	exec_last_child(struct s_dat *data, char **envp, char *program);
 
 #endif
