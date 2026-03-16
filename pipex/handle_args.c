@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 11:34:20 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/16 15:14:38 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/16 18:09:23 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	find_colon(struct s_dat *data, char *path)
 	size_t	i;
 
 	i = 0;
-	data->colon = SIZE_MAX; 
+	data->colon = SIZE_MAX;
 	if (path[i] == ':')
 	{
 		data->colon = 0;
@@ -83,7 +83,7 @@ bool	check_if_path(struct s_dat *data, char *program)
 			cleanup(data, 1, NULL);
 		if (check_access(data))
 			return (true);
-		cleanup(data, data->access_state, program); 
+		cleanup(data, data->access_state, program);
 	}
 	return (false);
 }
@@ -105,6 +105,8 @@ void	get_program_path(struct s_dat *data, char *program)
 	size_t	i;
 
 	i = 0;
+	if (!program[0])
+		cleanup(data, 127, "");
 	while (data->path_split[i])
 	{
 		if (data->colon == i)

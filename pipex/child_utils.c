@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 12:18:17 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/03/16 16:57:45 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/16 17:51:26 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static bool	create_enter_child(struct s_dat *data)
 static void	exec_program(struct s_dat *data, char **envp, char *program)
 {
 	get_program_av(data, program);
+	if (!data->program_av[0])
+		get_program_path(data, program);
 	if (!check_if_path(data, data->program_av[0]))
 		get_program_path(data, data->program_av[0]);
 	execve(data->program_path, data->program_av, envp);

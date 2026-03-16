@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/16 15:13:34 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/16 18:07:50 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	open_fd(struct s_dat *data, int *fd, char *file, int flag)
 		cleanup(data, 1, file);
 }
 
-static void close_and_link_pipe(struct s_dat *data)
+static void	close_and_link_pipe(struct s_dat *data)
 {
 	if (dup2(data->pipe[0], STDIN) == -1)
 		cleanup(data, 1, "dup2: parent");
@@ -60,9 +60,9 @@ int	main(int ac, char **av, char **envp)
 	check_args(ac);
 	init_dat(&data, av[1], av[4]);
 	split_path(&data, envp);
-	exec_first_child(&data, envp, av[2]); 
+	exec_first_child(&data, envp, av[2]);
 	close_and_link_pipe(&data);
-	exec_last_child(&data, envp, av[3]); 
+	exec_last_child(&data, envp, av[3]);
 	close(STDIN);
 	waitpid(data.pid, &data.wstatus, 0);
 	while (wait(NULL) != -1)

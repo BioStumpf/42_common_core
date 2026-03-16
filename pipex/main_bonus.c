@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/16 16:47:56 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/16 18:08:41 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	check_args(struct s_dat *data, int ac, char **av)
 		exit(1);
 	}
 }
+
 static void	init_dat(struct s_dat *data, char *in, char *out)
 {
 	data->pipe[0] = -1;
@@ -50,7 +51,7 @@ void	open_fd(struct s_dat *data, int *fd, char *file, int flag)
 		cleanup(data, 1, file);
 }
 
-static void close_and_link_pipe(struct s_dat *data)
+static void	close_and_link_pipe(struct s_dat *data)
 {
 	if (dup2(data->pipe[0], STDIN) == -1)
 		cleanup(data, 1, "dup2: parent");
@@ -67,7 +68,7 @@ int	main(int ac, char **av, char **envp)
 	init_dat(&data, av[1], av[ac - 1]);
 	split_path(&data, envp);
 	create_heredoc(&data);
-	exec_first_child(&data, envp, av[2 + (data.limiter != NULL)]); 
+	exec_first_child(&data, envp, av[2 + (data.limiter != NULL)]);
 	close_and_link_pipe(&data);
 	i = 2 + (data.limiter != NULL);
 	while (++i < ac - 2)
@@ -75,7 +76,7 @@ int	main(int ac, char **av, char **envp)
 		exec_mid_child(&data, envp, av[i]);
 		close_and_link_pipe(&data);
 	}
-	exec_last_child(&data, envp, av[ac - 2]); 
+	exec_last_child(&data, envp, av[ac - 2]);
 	close(STDIN);
 	waitpid(data.pid, &data.wstatus, 0);
 	while (wait(NULL) != -1)
