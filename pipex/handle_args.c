@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 11:34:20 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/13 14:36:54 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/16 15:14:38 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,18 @@ void	split_path(struct s_dat *data, char **envp)
 	find_colon(data, path);
 }
 
+static bool	check_access(struct s_dat *data)
+{
+	if (access(data->program_path, F_OK) == 0)
+	{
+		if (access(data->program_path, X_OK) == 0)
+			return (true);
+		else
+			data->access_state = 126;
+	}
+	return (false);
+}
+
 bool	check_if_path(struct s_dat *data, char *program)
 {
 	if (ft_strchr(program, '/'))
@@ -69,29 +81,19 @@ bool	check_if_path(struct s_dat *data, char *program)
 		data->program_path = ft_strdup(program);
 		if (!data->program_path)
 			cleanup(data, 1, NULL);
-		return (true);
-	}
-	return (false);
-}
-
-static bool	check_access(struct s_dat *data, int *status)
-{
-	if (access(data->program_path, F_OK) == 0)
-	{
-		if (access(data->program_path, X_OK) == 0)
+		if (check_access(data))
 			return (true);
-		else
-			*status = errno;
+		cleanup(data, data->access_state, program); 
 	}
 	return (false);
 }
 
-static bool	check_path(struct s_dat *data, char *path, char *program, int *status)
+static bool	check_path(struct s_dat *data, char *path, char *program)
 {
 	data->program_path = ft_pathjoin(path, program);
 	if (!data->program_path)
 		cleanup(data, 1, "ft_pathjoin");
-	if (check_access(data, status))
+	if (check_access(data))
 		return (true);
 	free(data->program_path);
 	data->program_path = NULL;
@@ -101,29 +103,27 @@ static bool	check_path(struct s_dat *data, char *path, char *program, int *statu
 void	get_program_path(struct s_dat *data, char *program)
 {
 	size_t	i;
-	int		status;
 
 	i = 0;
-	status = 0;
 	while (data->path_split[i])
 	{
 		if (data->colon == i)
 		{
-			if (check_path(data, ".", program, &status))
+			if (check_path(data, ".", program))
 				return ;
 		}
-		if (check_path(data, data->path_split[i], program, &status))
+		if (check_path(data, data->path_split[i], program))
 			return ;
 		i++;
 	}
 	if (data->colon == i)
 	{
-		if (check_path(data, ".", program, &status))
+		if (check_path(data, ".", program))
 			return ;
 	}
-	if (status)
-		errno = status;
-	cleanup(data, 1, program);
+	if (data->access_state == 126)
+		errno = EACCES;
+	cleanup(data, data->access_state, program);
 }
 
 void	get_program_av(struct s_dat *data, char *arg)

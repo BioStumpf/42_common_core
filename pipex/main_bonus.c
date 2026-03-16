@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/16 12:05:24 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/16 15:15:43 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	init_dat(struct s_dat *data, char *in, char *out)
 	data->wstatus = 0;
 	data->in = in;
 	data->out = out;
+	data->access_state = 127;
 }
 
 void	open_fd(struct s_dat *data, int *fd, char *file, int flag)
@@ -81,5 +82,8 @@ int	main(int ac, char **av, char **envp)
 	waitpid(data.pid, &data.wstatus, 0);
 	while (wait(NULL) != -1)
 		;
-	cleanup(&data, WEXITSTATUS(data.wstatus), NULL);
+	if (WIFEXITED(data.wstatus))
+		cleanup(&data, WEXITSTATUS(data.wstatus), NULL);
+	else if (WIFSIGNALED(data.wstatus))
+		cleanup(&data, 128 + WTERMSIG(data.wstatus), NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 10:15:16 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/16 11:58:29 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/16 14:03:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ struct s_dat
 	char	*program_path;
 	char	*in;
 	char	*out;
+	int		access_state;
 	char	*limiter;
 };
 

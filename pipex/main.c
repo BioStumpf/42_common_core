@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/15 15:05:54 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/16 15:13:34 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	init_dat(struct s_dat *data, char *in, char *out)
 	data->wstatus = 0;
 	data->in = in;
 	data->out = out;
+	data->access_state = 127;
 }
 
 void	open_fd(struct s_dat *data, int *fd, char *file, int flag)
@@ -44,6 +45,14 @@ void	open_fd(struct s_dat *data, int *fd, char *file, int flag)
 		cleanup(data, 1, file);
 }
 
+static void close_and_link_pipe(struct s_dat *data)
+{
+	if (dup2(data->pipe[0], STDIN) == -1)
+		cleanup(data, 1, "dup2: parent");
+	close_pipend(&data->pipe[0]);
+	close_pipend(&data->pipe[1]);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	struct s_dat	data;
@@ -52,14 +61,14 @@ int	main(int ac, char **av, char **envp)
 	init_dat(&data, av[1], av[4]);
 	split_path(&data, envp);
 	exec_first_child(&data, envp, av[2]); 
-	if (dup2(data.pipe[0], STDIN) == -1)
-		cleanup(&data, 1, "dup2: parent");
-	close_pipend(&data.pipe[0]);
-	close_pipend(&data.pipe[1]);
+	close_and_link_pipe(&data);
 	exec_last_child(&data, envp, av[3]); 
 	close(STDIN);
 	waitpid(data.pid, &data.wstatus, 0);
 	while (wait(NULL) != -1)
 		;
-	cleanup(&data, WEXITSTATUS(data.wstatus), NULL);
+	if (WIFEXITED(data.wstatus))
+		cleanup(&data, WEXITSTATUS(data.wstatus), NULL);
+	else if (WIFSIGNALED(data.wstatus))
+		cleanup(&data, 128 + WTERMSIG(data.wstatus), NULL);
 }

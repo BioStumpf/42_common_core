@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 11:33:51 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/15 15:06:30 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/16 15:03:56 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	close_pipend(int *end)
 
 void	cleanup(struct s_dat *data, int status, char *msg)
 {
-	if (status == 1)
+	if (status != 0 && msg)
 		perror(msg);
 	close_pipend(&data->pipe[0]);
 	close_pipend(&data->pipe[1]);
