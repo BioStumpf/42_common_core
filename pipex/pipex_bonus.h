@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 10:15:16 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/16 14:03:06 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/16 16:48:47 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ void	get_program_av(struct s_dat *data, char *arg);
 void	get_program_path(struct s_dat *data, char *program);
 void	split_path(struct s_dat *data, char **envp);
 void	cleanup(struct s_dat *data, int status, char *msg);
-void	clean_program(struct s_dat *data);
 void	close_pipend(int *end);
 void	open_fd(struct s_dat *data, int *fd, char *file, int flag);
-//void	exec_heredoc(struct s_dat *data);
+void	create_heredoc(struct s_dat *data);
 bool	check_if_path(struct s_dat *data, char *program);
 void	exec_mid_child(struct s_dat *data, char **envp, char *program);
 void	exec_first_child(struct s_dat *data, char **envp, char *program);
 void	exec_mid_child(struct s_dat *data, char **envp, char *program);
 void	exec_last_child(struct s_dat *data, char **envp, char *program);
+void	remove_heredoc(struct s_dat *data);
 
 #endif

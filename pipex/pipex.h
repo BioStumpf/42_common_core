@@ -42,7 +42,6 @@ void	get_program_av(struct s_dat *data, char *arg);
 void	get_program_path(struct s_dat *data, char *program);
 void	split_path(struct s_dat *data, char **envp);
 void	cleanup(struct s_dat *data, int status, char *msg);
-void	clean_program(struct s_dat *data);
 void	close_pipend(int *end);
 void	open_fd(struct s_dat *data, int *fd, char *file, int flag);
 void	setup_child(struct s_dat *data);

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 09:46:30 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/16 15:15:43 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/16 16:47:56 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ void	open_fd(struct s_dat *data, int *fd, char *file, int flag)
 		*fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (flag == OUT && data->limiter)
 		*fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (flag == IN && data->limiter)
-		*fd = 0;
-	else
+	else if (flag == IN)
 		*fd = open(file, O_RDONLY);
 	if (*fd == -1)
 		cleanup(data, 1, file);
@@ -68,7 +66,7 @@ int	main(int ac, char **av, char **envp)
 	check_args(&data, ac, av);
 	init_dat(&data, av[1], av[ac - 1]);
 	split_path(&data, envp);
-	//exec_heredoc(&data);
+	create_heredoc(&data);
 	exec_first_child(&data, envp, av[2 + (data.limiter != NULL)]); 
 	close_and_link_pipe(&data);
 	i = 2 + (data.limiter != NULL);

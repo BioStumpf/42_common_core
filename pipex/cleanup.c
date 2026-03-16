@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 11:33:51 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/16 15:03:56 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/16 17:27:23 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,19 @@ void	close_pipend(int *end)
 	*end = -1;
 }
 
+static void	p_error(char *error, char *msg)
+{
+	write(2, msg, ft_strlen(msg));
+	write(2, ": ", 2);
+	write(2, error, ft_strlen(error));
+	write(2, "\n", 1);
+}
+
 void	cleanup(struct s_dat *data, int status, char *msg)
 {
-	if (status != 0 && msg)
+	if (msg && status == 127)
+		p_error("command not found", msg);
+	else if (status != 0 && msg)
 		perror(msg);
 	close_pipend(&data->pipe[0]);
 	close_pipend(&data->pipe[1]);
@@ -34,12 +44,4 @@ void	cleanup(struct s_dat *data, int status, char *msg)
 	if (data->program_av)
 		free_split(data->program_av);
 	exit (status);
-}
-
-void	clean_program(struct s_dat *data)
-{
-	free(data->program_path);
-	data->program_path = NULL;
-	free_split(data->program_av);
-	data->program_av = NULL;
 }

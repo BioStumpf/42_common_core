@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 12:18:17 by dstumpf           #+#    #+#             */
-/*   Updated: 26/03/16 11:53:49 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/16 16:58:33 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	exec_first_child(struct s_dat *data, char **envp, char *program)
 		return ;
 	close_pipend(&data->pipe[0]);
 	open_fd(data, &data->pipe[0], data->in, IN);
+	remove_heredoc(data);
 	if (dup2(data->pipe[0], STDIN) == -1)
 		cleanup(data, 1, "dup2");
 	close_pipend(&data->pipe[0]);
