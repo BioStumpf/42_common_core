@@ -11,7 +11,7 @@ DEP_DIR := dep/
 OBJ_DIR := obj/
 LIBFT_DIR := libft/
 
-SRCS = cleanup.c handle_args.c 
+SRCS = cleanup.c handle_args.c handle_env_path.c
 SRCS_MANDATORY = main.c child_utils.c
 OBJS_MANDATORY = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS_MANDATORY))
 SRCS_BONUS = main_bonus.c heredoc_bonus.c child_utils_bonus.c

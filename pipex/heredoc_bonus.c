@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 18:52:32 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/03/16 17:24:51 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/17 11:54:52 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,11 @@ static int	find_limiter(char *line, int size, char *limiter)
 	return (-1);
 }
 
-void	create_heredoc(struct s_dat *data)
+static void	read_stdin(struct s_dat *data)
 {
 	int		bytes_read;
 	char	*line;
 
-	if (!data->limiter)
-		return ;
-	data->pipe[0] = open("here_doc", O_TRUNC | O_CREAT | O_WRONLY, 0644);
-	if (data->pipe[0] == -1)
-		cleanup(data, 1, "here_doc");
 	while (true)
 	{
 		write(STDOUT, "> ", 2);
@@ -60,6 +55,16 @@ void	create_heredoc(struct s_dat *data)
 		write(data->pipe[0], line, bytes_read);
 		free(line);
 	}
+}
+
+void	create_heredoc(struct s_dat *data)
+{
+	if (!data->limiter)
+		return ;
+	data->pipe[0] = open("here_doc", O_TRUNC | O_CREAT | O_WRONLY, 0644);
+	if (data->pipe[0] == -1)
+		cleanup(data, 1, "here_doc");
+	read_stdin(data);
 	close_pipend(&data->pipe[0]);
 }
 
