@@ -70,9 +70,5 @@ void	exec_mid_child(struct s_dat *data, char **envp, char *program)
 	if (dup2(data->pipe[1], STDOUT) == -1)
 		cleanup(data, 1, "dup2");
 	close_pipend(&data->pipe[1]);
-	get_program_av(data, program);
-	if (!check_if_path(data, data->program_av[0]))
-		get_program_path(data, data->program_av[0]);
-	execve(data->program_path, data->program_av, envp);
-	cleanup(data, 1, "execve");
+	exec_program(data, envp, program);
 }
