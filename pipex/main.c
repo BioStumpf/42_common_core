@@ -12,6 +12,7 @@
 
 #include "pipex.h"
 #include "libft.h"
+#include <sys/wait.h>
 
 static void	check_args(int ac)
 {

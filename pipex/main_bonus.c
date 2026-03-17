@@ -12,6 +12,7 @@
 
 #include "pipex_bonus.h"
 #include "libft.h"
+#include <sys/wait.h>
 
 static void	check_args(struct s_dat *data, int ac, char **av)
 {

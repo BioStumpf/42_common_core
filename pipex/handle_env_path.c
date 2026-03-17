@@ -12,7 +12,6 @@
 
 #include "pipex.h"
 #include "libft.h"
-#include <errno.h>
 
 static char	*find_path(char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/06 10:15:16 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/16 14:03:13 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/17 12:30:34 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <sys/wait.h>
 # include <stdbool.h>
 
 # define STDIN 0
