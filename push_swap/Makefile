@@ -24,20 +24,26 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) 
 	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       OBJS DONE          $(RESET)"
+	@echo "$(BOLD)$(BLUE)       Make Binary          $(RESET)"
 	@echo "$(GREEN)======================================$(RESET)"
-	@echo
 	$(CC) $(CFLAGS_NAME)
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       Binary DONE          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
 
-$(LIBFT):
-	$(MAKE) --no-print-directory -sC $(LIBFT_DIR)
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       Libft DONE          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo 
+
+$(LIBFT): FORCE
+	@if $(MAKE) -q -sC $(LIBFT_DIR); then \
+		:; \
+	else \
+		echo "$(GREEN)======================================$(RESET)"; \
+		echo "$(BOLD)$(BLUE)       Make Libft          $(RESET)"; \
+		echo "$(GREEN)======================================$(RESET)"; \
+		$(MAKE) --no-print-directory -sC $(LIBFT_DIR); \
+		echo "$(GREEN)======================================$(RESET)"; \
+		echo "$(BOLD)$(BLUE)         DONE          $(RESET)"; \
+		echo "$(GREEN)======================================$(RESET)"; \
+		echo; \
+	fi
+
+FORCE:
 
 $(OBJ_DIR)%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
 	$(CC) $(CFLAGS_OBJS) $(DEP_FLAGS)
@@ -49,34 +55,30 @@ $(OBJ_DIR):
 	mkdir -p $@
 
 localclean:
+	@echo "$(GREEN)======================================$(RESET)"
+	@echo "$(BOLD)$(BLUE)       LOCAL CLEANING         $(RESET)"
+	@echo "$(GREEN)======================================$(RESET)"
 	rm -rf $(OBJ_DIR)
 	rm -rf $(DEP_DIR)
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       LOCAL CLEANING DONE          $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
 	@echo 
 
 clean: localclean
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
 	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       LIBFT CLEANING DONE         $(RESET)"
+	@echo "$(BOLD)$(BLUE)       CLEANING         $(RESET)"
 	@echo "$(GREEN)======================================$(RESET)"
+	$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
 	@echo 
 
 fclean: localclean
+	@echo "$(GREEN)======================================$(RESET)"
+	@echo "$(BOLD)$(BLUE)       FCLEANING       $(RESET)"
+	@echo "$(GREEN)======================================$(RESET)"
 	rm -rf $(NAME)
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       LOCAL FCLEANING DONE       $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo 
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean
-	@echo "$(GREEN)======================================$(RESET)"
-	@echo "$(BOLD)$(BLUE)       LIBFT FCLEANING DONE        $(RESET)"
-	@echo "$(GREEN)======================================$(RESET)"
+	$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean
 	@echo 
 
 re: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re FORCE
