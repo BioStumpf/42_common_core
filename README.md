@@ -38,4 +38,5 @@ library.
 
 **push_swap ⏳ Ongoing** 
 
-**Minitalk 💤**
+**Pipex ✅ 125/100**   
+Pipex is a project designed to help understand Unix process management and inter-process communication (IPC).
