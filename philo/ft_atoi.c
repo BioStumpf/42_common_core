@@ -1,0 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dstumpf <dstumpf@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/03 11:17:57 by dstumpf           #+#    #+#             */
+/*   Updated: 2026/03/20 15:55:51 by dstumpf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <limits.h>
+
+static int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+static int	ft_iswhitespace(int c)
+{
+	return (c == ' ' || c == '\f' || c == '\n'
+		||c == '\r' || c == '\t' || c == '\v');
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int				sign;
+	unsigned int	res;
+	unsigned int	digit;
+
+	sign = 1;
+	res = 0;
+	while (ft_iswhitespace(*nptr))
+		nptr++;
+	if ((*nptr == '-') || (*nptr == '+'))
+	{
+		sign = 44 - *nptr;
+		nptr++;
+	}
+	while (ft_isdigit(*nptr))
+	{
+		digit = *nptr - '0';
+		if (sign == 1 && res > ((unsigned int)INT_MAX - digit) / 10)
+			return (INT_MAX);
+		if (sign == -1 && res > ((unsigned int)INT_MIN - digit) / 10)
+			return (INT_MIN);
+		res = res * 10 + digit;
+		nptr++;
+	}
+	return ((int)res * sign);
+}
