@@ -10,7 +10,7 @@ CC := cc
 DEP_DIR := dep/
 OBJ_DIR := obj/
 
-SRCS = main.c ft_atoi.c threads.c
+SRCS = main.c ft_atoi.c threads.c philo_funcs.c
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 
@@ -48,7 +48,6 @@ fclean: clean
 	@echo "$(BOLD)$(BLUE)       FCLEANING       $(RESET)"
 	@echo "$(GREEN)======================================$(RESET)"
 	rm -rf $(NAME)
-	$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean
 	@echo 
 
 re: fclean all

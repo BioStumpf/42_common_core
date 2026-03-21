@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:07:08 by dstumpf           #+#    #+#             */
-/*   Updated: 26/03/21 15:45:45 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/21 19:52:01 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ int	ft_atoi(const char *nptr);
 int	start_simulation(t_dat *data);
 //thread functions
 //actions (eat/sleep/think repeat)
+void	pickup_fork(t_philo *philo);
 
 #endif

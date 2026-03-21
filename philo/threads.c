@@ -6,20 +6,18 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/21 09:27:56 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/21 15:55:45 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/21 20:08:09 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
 #include "philo.h"
-#include <stdio.h>
 
 static void	*philosopher(void *input)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)input;
-	printf("Hello, I am philosopher nr.: %d\n", philo->num);
+	pickup_fork(philo);
 	return (NULL);
 }
 
@@ -48,7 +46,7 @@ int	start_simulation(t_dat *data)
 	i = 0;
 	while (i < data->philo_num)
 	{
-		data->philos[i].num = i + 1;
+		data->philos[i].num = i;
 		data->philos[i].data = data;
 		if (pthread_create(&data->philos[i].t, NULL, philosopher, &data->philos[i]) != 0)
 		{
@@ -59,6 +57,6 @@ int	start_simulation(t_dat *data)
 	}
 	//while (all_alive(data) == 0)
 	//	;
-	thread_cleanup(data, i);
+	thread_cleanup(data, data->philo_num);
 	return (0);
 }
