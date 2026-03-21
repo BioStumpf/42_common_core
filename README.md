@@ -36,7 +36,9 @@ In this circle, push_swap is mandatory. In addition, you must complete either mi
 basic computer graphics, 3D transformations, and event handling using the **MiniLibX**
 library.   
 
-**push_swap ⏳ Ongoing** 
+**push_swap ✅ 91/100**   
+Push_swap is a sorting algorithm project. The goal is to sort a list of integers using two stacks (a and b) and a limited set of predefined operations.   
+_(Note: Due to an incorrectly marked checkbox during evaluation, the project did not receive full points. I plan to resubmit.)_   
 
 **Pipex ✅ 125/100**   
 Pipex is a project designed to help understand Unix process management and inter-process communication (IPC).
