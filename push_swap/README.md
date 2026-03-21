@@ -29,7 +29,7 @@ Is based on the **quicksort divide-and-conquer strategy** and uses two recursive
 - `qsort_a` partitions the current subset of elements in stack `a` by pushing the lower half into stack `b`, keeping the higher half in `a`.
 - `qsort_b` performs the opposite operation by pushing the higher half of stack `b` back into stack `a`.
 
-By continuously dividing the data into smaller subsets, the problem is reduced step by step, significantly lowering the total number of operations required.
+By continuously dividing the data into smaller subsets, the problem is reduced step by step, significantly lowering the total number of operations. This results in the algorithm requiring approximately 650 operations for 100 numbers and about 4,600 for 500 numbers.
 
 ## Instructions
 ### Requirements
