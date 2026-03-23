@@ -10,7 +10,7 @@ CC := cc
 DEP_DIR := dep/
 OBJ_DIR := obj/
 
-SRCS = main.c ft_atoi.c threads.c philo_funcs.c
+SRCS = main.c ft_atoi.c simulation.c eat.c
 OBJS := $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
 DEPS := $(patsubst %.c, $(DEP_DIR)%.d, $(SRCS)) 
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads.c                                          :+:      :+:    :+:   */
+/*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/21 09:27:56 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/21 20:08:09 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/23 18:32:43 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	*philosopher(void *input)
 	t_philo	*philo;
 
 	philo = (t_philo *)input;
-	pickup_fork(philo);
+	while (!philo->data->stop)
+		eat(philo);
 	return (NULL);
 }
 
@@ -25,15 +26,31 @@ static void	thread_cleanup(t_dat *data, int actual_philos)
 {
 	int	i;
 
-	//pthread_mutex_lock(&data->stop_lock);
-	//data->stop = 1;
-	//pthread_mutex_unlock(&data->stop_lock);
+	pthread_mutex_lock(&data->stop_lock);
+	data->stop = 1;
+	pthread_mutex_unlock(&data->stop_lock);
 	i = 0;
 	while (i < actual_philos)
-		pthread_join(data->philos[i++].t, NULL);
-	i = 0;
+	{
+		pthread_join(data->philos[i].t, NULL);
+		pthread_mutex_destroy(&data->forks[i++]);
+	}
 	while (i < data->philo_num)
 		pthread_mutex_destroy(&data->forks[i++]);
+	pthread_mutex_destroy(&data->stop_lock);
+}
+
+static int	all_alive(t_dat *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->philo_num)
+	{
+		if (data->philos[i++].died)
+			return (-1);
+	}
+	return (0);
 }
 
 int	start_simulation(t_dat *data)
@@ -43,6 +60,7 @@ int	start_simulation(t_dat *data)
 	i = 0;
 	while (i < data->philo_num)
 		pthread_mutex_init(&data->forks[i++], NULL);
+	pthread_mutex_init(&data->stop_lock, NULL);
 	i = 0;
 	while (i < data->philo_num)
 	{
@@ -55,8 +73,8 @@ int	start_simulation(t_dat *data)
 		}
 		i++;
 	}
-	//while (all_alive(data) == 0)
-	//	;
+	while (all_alive(data) == 0)
+		;
 	thread_cleanup(data, data->philo_num);
 	return (0);
 }
