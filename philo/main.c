@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:06:34 by dstumpf           #+#    #+#             */
-/*   Updated: 26/03/21 15:49:15 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/24 11:56:50 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int main(int ac, char **av)
 
 	if (fetch_args(&data, ac, av) == -1)
 		return (1);
-	start_simulation(&data);	
+	simulate(&data);	
 	cleanup(&data);
 	return (0);
 }
