@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/21 09:27:56 by dstumpf             #+#    #+#             */
-/*   Updated: 26/03/25 12:01:43 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/25 17:27:04 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ static void	thread_cleanup(t_dat *data, int actual_philos)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&data->stop_lock);
+	data->stop = true;
+	pthread_mutex_unlock(&data->stop_lock);
 	while (i < actual_philos)
 	{
 		pthread_join(data->philos[i].t, NULL);
@@ -48,21 +51,36 @@ static void	thread_cleanup(t_dat *data, int actual_philos)
 	pthread_mutex_destroy(&data->stop_lock);
 }
 
-static bool	not_done(t_dat *data)
+	//pthread_mutex_lock(&data->stop_lock);
+	//if (data->stop)
+	//{
+	//	pthread_mutex_unlock(&data->stop_lock);
+	//	return (false);
+	//}
+	//pthread_mutex_unlock(&data->stop_lock);
+static bool	simulation_done(t_dat *data)
 {
-	pthread_mutex_lock(&data->stop_lock);
-	if (data->stop)
+	int	i;
+	int	finish_eating;
+
+	i = 0;
+	finish_eating = 0;
+	while (i < data->philo_num)
 	{
-		pthread_mutex_unlock(&data->stop_lock);
-		return (false);
+		if (data->philos[i].died)
+			return (true);
+		if (data->philos[i].times_eaten == data->must_eat)
+			finish_eating++;
+		i++;
 	}
-	pthread_mutex_unlock(&data->stop_lock);
-	return (true);
+	if (finish_eating == data->philo_num)
+		return (true);
+	return (false);
 }
 
 int	simulate(t_dat *data)
 {
-	int				i;
+	int	i;
 
 	i = 0;
 	while (i < data->philo_num)
@@ -77,6 +95,7 @@ int	simulate(t_dat *data)
 		data->philos[i].data = data;
 		data->philos[i].last_eaten = data->sim_start;
 		data->philos[i].times_eaten = 0;
+		data->philos[i].died = false;
 		if (pthread_create(&data->philos[i].t, NULL, philosopher, &data->philos[i]) != 0)
 		{
 			thread_cleanup(data, i);
@@ -84,8 +103,7 @@ int	simulate(t_dat *data)
 		}
 		i++;
 	}
-	usleep(5);
-	while (not_done(data))
+	while (!simulation_done(data))
 		;
 	thread_cleanup(data, data->philo_num);
 	return (0);

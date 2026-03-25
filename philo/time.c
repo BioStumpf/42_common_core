@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:58:36 by dstumpf           #+#    #+#             */
-/*   Updated: 26/03/25 11:30:03 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/25 17:14:41 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ uint64_t	get_rel_time(t_philo *philo, struct timeval *tv_old)
 	if (gettimeofday(&tv, NULL) != 0)
 	{
 		pthread_mutex_lock(&philo->data->stop_lock);
-		philo->data->stop = 1;
+		philo->data->stop = true;
 		pthread_mutex_unlock(&philo->data->stop_lock);
 		return (0);
 	}
@@ -39,9 +39,10 @@ bool	check_if_done(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->stop_lock);
 		return (true);
 	}
-	if (get_rel_time(philo, &philo->last_eaten) > (uint64_t)philo->data->die_time)
+	if (get_rel_time(philo, &philo->last_eaten) >= (uint64_t)philo->data->die_time)
 	{
-		philo->data->stop = 1;
+		philo->died = true;
+		//philo->data->stop = 1;
 		pthread_mutex_unlock(&philo->data->stop_lock);
 		printf("%lu %d died\n", get_rel_time(philo, &philo->data->sim_start),  philo->num + 1);
 		return (true);

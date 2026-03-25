@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:07:08 by dstumpf           #+#    #+#             */
-/*   Updated: 26/03/25 11:14:01 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/25 16:57:12 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ typedef struct s_dat t_dat;
 
 typedef	struct s_philo
 {
+	bool			died;
 	int				num;
+	int				times_eaten;
 	pthread_t		t;
 	t_dat			*data;
 	struct timeval	last_eaten;
-	int			times_eaten;
-//	bool			done;
-}				t_philo;
+}					t_philo;
 
 struct s_dat
 {
+	bool			stop;
 	int				philo_num;
 	int				die_time;
 	int				eat_time;
 	int				sleep_time;
 	int				must_eat;
-	int				stop;
 	struct timeval	sim_start;
 	pthread_mutex_t	stop_lock;
 	pthread_mutex_t	*forks;
