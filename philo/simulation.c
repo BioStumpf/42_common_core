@@ -6,11 +6,12 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/21 09:27:56 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/25 17:27:04 by dstumpf          ###   ########.fr       */
+/*   Updated: 26/03/26 12:09:13 by dstumpf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdio.h>
 
 static void	*philosopher(void *input)
 {
@@ -33,19 +34,25 @@ static void	*philosopher(void *input)
 	return (NULL);
 }
 
+static void	print_death(t_philo *philo)
+{
+	printf("%lu %d died\n", get_rel_time(philo, &philo->data->sim_start),  philo->num + 1);
+}
+
 static void	thread_cleanup(t_dat *data, int actual_philos)
 {
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(&data->stop_lock);
-	data->stop = true;
-	pthread_mutex_unlock(&data->stop_lock);
 	while (i < actual_philos)
 	{
 		pthread_join(data->philos[i].t, NULL);
+		pthread_mutex_destroy(&data->philos[i].lock);
 		pthread_mutex_destroy(&data->forks[i++]);
 	}
+	if (data->stop != NO_DIE)
+		print_death(&data->philos[data->stop]);
+		//printf("%lu %d died\n", get_rel_time(philo, &philo->data->sim_start),  data->philos[]->num + 1);
 	while (i < data->philo_num)
 		pthread_mutex_destroy(&data->forks[i++]);
 	pthread_mutex_destroy(&data->stop_lock);
@@ -67,10 +74,18 @@ static bool	simulation_done(t_dat *data)
 	finish_eating = 0;
 	while (i < data->philo_num)
 	{
+		pthread_mutex_lock(&data->philos[i].lock);
 		if (data->philos[i].died)
+		{
+			pthread_mutex_lock(&data->stop_lock);
+			data->stop = i;
+			pthread_mutex_unlock(&data->stop_lock);
+			pthread_mutex_unlock(&data->philos[i].lock);
 			return (true);
+		}
 		if (data->philos[i].times_eaten == data->must_eat)
 			finish_eating++;
+		pthread_mutex_unlock(&data->philos[i].lock);
 		i++;
 	}
 	if (finish_eating == data->philo_num)
@@ -96,6 +111,7 @@ int	simulate(t_dat *data)
 		data->philos[i].last_eaten = data->sim_start;
 		data->philos[i].times_eaten = 0;
 		data->philos[i].died = false;
+		pthread_mutex_init(&data->philos[i].lock, NULL);
 		if (pthread_create(&data->philos[i].t, NULL, philosopher, &data->philos[i]) != 0)
 		{
 			thread_cleanup(data, i);
@@ -104,7 +120,7 @@ int	simulate(t_dat *data)
 		i++;
 	}
 	while (!simulation_done(data))
-		;
+		usleep(10);
 	thread_cleanup(data, data->philo_num);
 	return (0);
 }

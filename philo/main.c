@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:06:34 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/03/25 16:16:39 by dstumpf          ###   ########.fr       */
+/*   Updated: 26/03/26 11:53:08 by dstumpf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	init_data(t_dat *data, int ac, char **av)
 	data->die_time = ft_atoi(av[2]);
 	data->eat_time = ft_atoi(av[3]) * 1000;
 	data->sleep_time = ft_atoi(av[4]) * 1000;
+	data->stop = -1;
 	if (ac == 6)
 		data->must_eat = ft_atoi(av[5]);
 	else

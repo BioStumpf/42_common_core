@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:07:08 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/03/25 16:57:12 by dstumpf          ###   ########.fr       */
+/*   Updated: 26/03/26 11:54:43 by dstumpf            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/time.h>
 # include <stdint.h>
 
+# define NO_DIE -2
+
 typedef struct s_dat t_dat;
 
 typedef	struct s_philo
@@ -27,14 +29,15 @@ typedef	struct s_philo
 	bool			died;
 	int				num;
 	int				times_eaten;
-	pthread_t		t;
-	t_dat			*data;
 	struct timeval	last_eaten;
+	t_dat			*data;
+	pthread_mutex_t	lock;
+	pthread_t		t;
 }					t_philo;
 
 struct s_dat
 {
-	bool			stop;
+	int				stop;
 	int				philo_num;
 	int				die_time;
 	int				eat_time;
