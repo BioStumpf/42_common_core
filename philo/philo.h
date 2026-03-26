@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:07:08 by dstumpf           #+#    #+#             */
-/*   Updated: 26/03/26 11:54:43 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/03/26 17:40:58 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@
 # include <sys/time.h>
 # include <stdint.h>
 
-# define NO_DIE -2
-
 typedef struct s_dat t_dat;
 
 typedef	struct s_philo
 {
-	bool			died;
 	int				num;
 	int				times_eaten;
 	struct timeval	last_eaten;
@@ -37,7 +34,7 @@ typedef	struct s_philo
 
 struct s_dat
 {
-	int				stop;
+	bool			stop;
 	int				philo_num;
 	int				die_time;
 	int				eat_time;
@@ -53,11 +50,12 @@ struct s_dat
 int			ft_atoi(const char *nptr);
 //actions (eat/sleep/think repeat)
 bool		ph_eat(t_philo *philo);
-void		ph_sleep(t_philo *philo);
-void		ph_think(t_philo *philo);
+bool		ph_sleep(t_philo *philo);
+bool		ph_think(t_philo *philo);
 int			init_time(t_dat *data);
-uint64_t	get_rel_time(t_philo *philo, struct timeval *);
+uint64_t	get_rel_time(struct timeval *);
 bool		check_if_done(t_philo *philo);
+bool		check_if_died(t_philo *philo);
 //simulation
 int			simulate(t_dat *data);
 

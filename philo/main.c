@@ -28,7 +28,6 @@ static int	init_data(t_dat *data, int ac, char **av)
 	data->die_time = ft_atoi(av[2]);
 	data->eat_time = ft_atoi(av[3]) * 1000;
 	data->sleep_time = ft_atoi(av[4]) * 1000;
-	data->stop = -1;
 	if (ac == 6)
 		data->must_eat = ft_atoi(av[5]);
 	else
