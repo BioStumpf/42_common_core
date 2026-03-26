@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/21 09:27:56 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/26 19:43:32 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/26 19:48:41 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static bool	simulation_done(t_dat *data)
 			pthread_mutex_unlock(&data->philos[i].lock);
 			return (true);
 		}
-		if (data->philos[i].times_eaten >= data->must_eat)
+		if (data->must_eat != -1 && data->philos[i].times_eaten >= data->must_eat)
 			finish_eating++;
 		pthread_mutex_unlock(&data->philos[i].lock);
 		i++;
