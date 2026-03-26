@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/21 09:27:56 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/26 19:48:41 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/03/26 22:13:14 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,24 @@ static void	*philosopher(void *input)
 	philo = (t_philo *)input;
 	while (true)
 	{
-		if (!ph_eat(philo))
-			return (NULL);
-		if (!ph_sleep(philo))
-			return (NULL);
-		if (!ph_think(philo))
-			return (NULL);
+		if (philo->num % 2)
+		{
+			if (!ph_eat(philo))
+				return (NULL);
+			if (!ph_sleep(philo))
+				return (NULL);
+			if (!ph_think(philo))
+				return (NULL);
+		}
+		else
+		{
+			if (!ph_sleep(philo))
+				return (NULL);
+			if (!ph_think(philo))
+				return (NULL);
+			if (!ph_eat(philo))
+				return (NULL);
+		}
 	}
 	return (NULL);
 }
