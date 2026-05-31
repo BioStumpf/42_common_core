@@ -32,8 +32,8 @@ static int	init_data(t_dat *data, int ac, char **av)
 		data->must_eat = ft_atoi(av[5]);
 	else
 		data->must_eat = -1; 
-	if (data->philo_num <= 0 || data->die_time < 0 || data->eat_time < 0
-	 || data->sleep_time < 0)
+	if (data->philo_num <= 0 || data->die_time < 0 || data->eat_time <= 0
+	 || data->sleep_time <= 0)
 		return (-1);
 	data->philos = malloc(data->philo_num * (sizeof(t_philo)));
 	data->forks = malloc(data->philo_num * (sizeof(pthread_mutex_t)));
@@ -47,6 +47,7 @@ static int	fetch_args(t_dat *data, int ac, char **av)
 	if (5 > ac || ac > 6)
 		return (-1);
 	if (init_data(data, ac, av) == -1)
+	
 		return (-1);
 	return (0);
 }
