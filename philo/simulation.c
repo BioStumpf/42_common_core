@@ -6,13 +6,31 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/21 09:27:56 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/03/26 22:13:14 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/16 17:12:06 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdio.h>
 
+		// if (philo->num % 2)
+		// {
+		// 	if (!ph_eat(philo))
+		// 		return (NULL);
+		// 	if (!ph_sleep(philo))
+		// 		return (NULL);
+		// 	if (!ph_think(philo))
+		// 		return (NULL);
+		// }
+		// else
+		// {
+		// 	if (!ph_think(philo))
+		// 		return (NULL);
+		// 	if (!ph_eat(philo))
+		// 		return (NULL);
+		// 	if (!ph_sleep(philo))
+		// 		return (NULL);
+		// }
 static void	*philosopher(void *input)
 {
 	t_philo	*philo;
@@ -20,24 +38,12 @@ static void	*philosopher(void *input)
 	philo = (t_philo *)input;
 	while (true)
 	{
-		if (philo->num % 2)
-		{
-			if (!ph_eat(philo))
-				return (NULL);
-			if (!ph_sleep(philo))
-				return (NULL);
-			if (!ph_think(philo))
-				return (NULL);
-		}
-		else
-		{
-			if (!ph_sleep(philo))
-				return (NULL);
-			if (!ph_think(philo))
-				return (NULL);
-			if (!ph_eat(philo))
-				return (NULL);
-		}
+		if (!ph_eat(philo))
+			return (NULL);
+		if (!ph_sleep(philo))
+			return (NULL);
+		if (!ph_think(philo))
+			return (NULL);
 	}
 	return (NULL);
 }
@@ -63,28 +69,36 @@ static void	thread_cleanup(t_dat *data, int actual_philos)
 	pthread_mutex_destroy(&data->stop_lock);
 }
 
+static bool	finished_eating(t_philo *philo)
+{
+	return (philo->data->must_eat != -1
+		&& philo->times_eaten >= philo->data->must_eat);
+}
+
 static bool	simulation_done(t_dat *data)
 {
-	int	i;
-	int	finish_eating;
+	int		i;
+	int		finish_eating;
+	t_philo	*philo;
 
 	i = 0;
 	finish_eating = 0;
 	while (i < data->philo_num)
 	{
-		pthread_mutex_lock(&data->philos[i].lock);
-		if (check_if_died(&data->philos[i]))
+		philo = &data->philos[i];
+		pthread_mutex_lock(&philo->lock);
+		if (died(philo))
 		{
 			pthread_mutex_lock(&data->stop_lock);
 			data->stop = true;
-			print_death(&data->philos[i]);
+			print_death(philo);
 			pthread_mutex_unlock(&data->stop_lock);
-			pthread_mutex_unlock(&data->philos[i].lock);
+			pthread_mutex_unlock(&philo->lock);
 			return (true);
 		}
-		if (data->must_eat != -1 && data->philos[i].times_eaten >= data->must_eat)
+		if (finished_eating(philo))
 			finish_eating++;
-		pthread_mutex_unlock(&data->philos[i].lock);
+		pthread_mutex_unlock(&philo->lock);
 		i++;
 	}
 	if (finish_eating == data->philo_num)
@@ -114,6 +128,7 @@ int	simulate(t_dat *data)
 		data->philos[i].data = data;
 		data->philos[i].last_eaten = data->sim_start;
 		data->philos[i].times_eaten = 0;
+		data->philos[i].died = false;
 		pthread_mutex_init(&data->philos[i].lock, NULL);
 		if (pthread_create(&data->philos[i].t, NULL, philosopher, &data->philos[i]) != 0)
 		{

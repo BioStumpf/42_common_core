@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:58:36 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/03/26 18:48:45 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/16 15:52:16 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ uint64_t	get_rel_time(struct timeval *tv_old)
 	return (diff / 1000);
 }
 
-bool	check_if_died(t_philo *philo)
+bool	died(t_philo *philo)
 {
-	if (get_rel_time(&philo->last_eaten) > (uint64_t)philo->data->die_time)
+	if (philo->died)
 		return (true);
-	return (false);
+	if (get_rel_time(&philo->last_eaten) > (uint64_t)philo->data->die_time)
+		philo->died = true;
+	return (philo->died);
 }

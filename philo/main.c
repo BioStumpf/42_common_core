@@ -6,13 +6,13 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:06:34 by dstumpf           #+#    #+#             */
-/*   Updated: 26/03/26 11:53:08 by dstumpf            ###   ########.fr       */
+/*   Updated: 2026/07/16 18:00:43 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
-//#include <stdio.h>
+#include <unistd.h>
 
 static int	cleanup(t_dat *data)
 {
@@ -28,6 +28,10 @@ static int	init_data(t_dat *data, int ac, char **av)
 	data->die_time = ft_atoi(av[2]);
 	data->eat_time = ft_atoi(av[3]) * 1000;
 	data->sleep_time = ft_atoi(av[4]) * 1000;
+	if (data->philo_num % 2 && data->sleep_time <= data->eat_time)
+		data->think_time = 1000 + (data->eat_time - data->sleep_time);
+	else
+		data->think_time = 0;
 	if (ac == 6)
 		data->must_eat = ft_atoi(av[5]);
 	else
