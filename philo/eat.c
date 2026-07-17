@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 19:23:04 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/16 16:01:25 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/17 13:55:25 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static void	putdown_forks(t_philo *philo, int left_fork, int right_fork)
 static bool	pickup_fork(t_philo *philo, int fork)
 {
 	pthread_mutex_lock(&philo->data->forks[fork]);
-	pthread_mutex_lock(&philo->data->stop_lock);
 	pthread_mutex_lock(&philo->lock);
+	pthread_mutex_lock(&philo->data->stop_lock);
 	if (philo->data->stop || died(philo))
 	{
 		pthread_mutex_unlock(&philo->data->stop_lock);
@@ -82,10 +82,10 @@ bool	ph_eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->stop_lock);
 		return (false);
 	}
-	printf("%lu %d is eating\n", get_rel_time(&philo->data->sim_start),  philo->num + 1);
 	gettimeofday(&philo->last_eaten, NULL);
 	philo->times_eaten++;
 	pthread_mutex_unlock(&philo->lock);
+	printf("%lu %d is eating\n", get_rel_time(&philo->data->sim_start),  philo->num + 1);
 	pthread_mutex_unlock(&philo->data->stop_lock);
 	usleep(philo->data->eat_time);
 	putdown_forks(philo, left_fork, right_fork);

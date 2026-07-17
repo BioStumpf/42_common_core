@@ -36,6 +36,7 @@ typedef	struct s_philo
 struct s_dat
 {
 	bool			stop;
+	bool			start;
 	int				philo_num;
 	int				die_time;
 	int				eat_time;
