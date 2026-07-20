@@ -60,6 +60,7 @@ uint64_t	rel_time(struct timeval *tv_old);
 bool		check_if_done(t_philo *philo);
 bool		died(t_philo *philo);
 //simulation
+void		*phil(void *input);
 bool		simulation_done(t_dat *data);
 void		start_sim(t_dat *data);
 void		stop_sim(t_dat *data);

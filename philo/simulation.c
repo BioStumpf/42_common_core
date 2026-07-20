@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 26/03/21 09:27:56 by dstumpf             #+#    #+#             */
-/*   Updated: 2026/07/20 15:02:22 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/20 16:07:35 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,6 @@ static bool	init_mutex(t_dat *data, int *i)
 	if (pthread_mutex_init(&data->stop_lock, NULL) != 0)
 		return (false);
 	return (true);
-}
-
-static void	*phil(void *input)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)input;
-	wait_for_start(philo);
-	if (philo->num % 2)
-		usleep(philo->data->eat_time / 2);
-	while (true)
-	{
-		if (!ph_eat(philo))
-			return (NULL);
-		if (!ph_sleep(philo))
-			return (NULL);
-		if (!ph_think(philo))
-			return (NULL);
-	}
-	return (NULL);
 }
 
 int	simulate(t_dat *data)
