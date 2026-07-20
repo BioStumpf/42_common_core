@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:07:08 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/16 18:09:12 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/20 14:49:20 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <sys/time.h>
 # include <stdint.h>
 
-typedef struct s_dat t_dat;
+typedef struct s_dat	t_dat;
 
-typedef	struct s_philo
+typedef struct s_philo
 {
 	bool			died;
 	int				num;
@@ -56,10 +56,22 @@ bool		ph_eat(t_philo *philo);
 bool		ph_sleep(t_philo *philo);
 bool		ph_think(t_philo *philo);
 int			init_time(t_dat *data);
-uint64_t	get_rel_time(struct timeval *);
+uint64_t	rel_time(struct timeval *tv_old);
 bool		check_if_done(t_philo *philo);
 bool		died(t_philo *philo);
 //simulation
+bool		simulation_done(t_dat *data);
+void		start_sim(t_dat *data);
+void		stop_sim(t_dat *data);
 int			simulate(t_dat *data);
+void		wait_for_start(t_philo *philo);
+//cleanup
+void		sim_cleanup(t_dat *data, int philos, int mutexes);
+//printing
+void		print_death(t_philo *philo);
+void		print_think(t_philo *philo);
+void		print_sleep(t_philo *philo);;
+void		print_eat(t_philo *philo);
+void		print_fork(t_philo *philo);
 
 #endif

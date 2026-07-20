@@ -6,12 +6,11 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 11:42:25 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/17 14:07:36 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/20 14:47:33 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stdio.h>
 
 bool	ph_sleep(t_philo *philo)
 {
@@ -24,7 +23,7 @@ bool	ph_sleep(t_philo *philo)
 		return (false);
 	}
 	pthread_mutex_unlock(&philo->lock);
-	printf("%lu %d is sleeping\n", get_rel_time(&philo->data->sim_start),  philo->num + 1);
+	print_sleep(philo);
 	pthread_mutex_unlock(&philo->data->stop_lock);
 	usleep(philo->data->sleep_time);
 	return (true);
@@ -41,7 +40,7 @@ bool	ph_think(t_philo *philo)
 		return (false);
 	}
 	pthread_mutex_unlock(&philo->lock);
-	printf("%lu %d is thinking\n", get_rel_time(&philo->data->sim_start),  philo->num + 1);
+	print_think(philo);
 	pthread_mutex_unlock(&philo->data->stop_lock);
 	usleep(philo->data->think_time);
 	return (true);

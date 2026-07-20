@@ -13,7 +13,7 @@
 #include "philo.h"
 #include <stdint.h>
 
-uint64_t	get_rel_time(struct timeval *tv_old)
+uint64_t	rel_time(struct timeval *tv_old)
 {
 	uint64_t		diff;
 	struct timeval	tv;
@@ -29,7 +29,7 @@ bool	died(t_philo *philo)
 {
 	if (philo->died)
 		return (true);
-	if (get_rel_time(&philo->last_eaten) > (uint64_t)philo->data->die_time)
+	if (rel_time(&philo->last_eaten) > (uint64_t)philo->data->die_time)
 		philo->died = true;
 	return (philo->died);
 }
