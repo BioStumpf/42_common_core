@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:06:34 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/20 14:31:39 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/22 14:46:31 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ static int	init_data(t_dat *data, int ac, char **av)
 	if (data->philo_num % 2 && data->sleep_time <= data->eat_time)
 		data->think_time = 1000 + (data->eat_time - data->sleep_time);
 	if (ac == 6)
+	{
 		data->must_eat = ft_atoi(av[5]);
+		if (data->must_eat < 0)
+			return (-1);
+	}
 	else
 		data->must_eat = -1;
 	if (data->philo_num <= 0 || data->die_time < 0 || data->eat_time <= 0

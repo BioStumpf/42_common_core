@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:07:08 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/20 14:49:20 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/22 14:45:08 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ bool		ph_sleep(t_philo *philo);
 bool		ph_think(t_philo *philo);
 int			init_time(t_dat *data);
 uint64_t	rel_time(struct timeval *tv_old);
-bool		check_if_done(t_philo *philo);
 bool		died(t_philo *philo);
 //simulation
 void		*phil(void *input);
@@ -71,7 +70,7 @@ void		sim_cleanup(t_dat *data, int philos, int mutexes);
 //printing
 void		print_death(t_philo *philo);
 void		print_think(t_philo *philo);
-void		print_sleep(t_philo *philo);;
+void		print_sleep(t_philo *philo);
 void		print_eat(t_philo *philo);
 void		print_fork(t_philo *philo);
 

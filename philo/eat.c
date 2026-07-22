@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 19:23:04 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/20 14:46:01 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/22 14:42:18 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ static bool	lock_forks_ordered(t_philo *philo, int first, int second)
 
 static bool	pickup_forks(t_philo *philo, int left_fork, int right_fork)
 {
-	if (philo->num % 2 && lock_forks_ordered(philo, left_fork, right_fork))
-		return (true);
-	else if (lock_forks_ordered(philo, right_fork, left_fork))
-		return (true);
-	return (false);
+	if (philo->num % 2)
+		return (lock_forks_ordered(philo, left_fork, right_fork));
+	return (lock_forks_ordered(philo, right_fork, left_fork));
 }
 
 bool	ph_eat(t_philo *philo)
