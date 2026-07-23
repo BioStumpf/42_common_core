@@ -99,3 +99,4 @@ Philosopher IDs are 1-indexed in the output even though they're tracked 0-indexe
 
 ## Resources
 - To understand threads and mutexes, the [Linux man pages online](https://man7.org/linux/man-pages/) were used.
+- To understand threads and mutexes, the [Introduction To Threads (pthreads) | C Programming Tutorial youtube video](https://www.youtube.com/watch?v=ldJ8WGZVXZk) was used.
