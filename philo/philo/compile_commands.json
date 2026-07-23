@@ -1,0 +1,212 @@
+[
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "main.c",
+   "-o",
+   "obj/main.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/main.o",
+   "-MF",
+   "dep/main.d"
+  ],
+  "file": "main.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "ft_atoi.c",
+   "-o",
+   "obj/ft_atoi.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/ft_atoi.o",
+   "-MF",
+   "dep/ft_atoi.d"
+  ],
+  "file": "ft_atoi.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "simulation.c",
+   "-o",
+   "obj/simulation.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/simulation.o",
+   "-MF",
+   "dep/simulation.d"
+  ],
+  "file": "simulation.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "eat.c",
+   "-o",
+   "obj/eat.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/eat.o",
+   "-MF",
+   "dep/eat.d"
+  ],
+  "file": "eat.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "think_sleep.c",
+   "-o",
+   "obj/think_sleep.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/think_sleep.o",
+   "-MF",
+   "dep/think_sleep.d"
+  ],
+  "file": "think_sleep.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "time.c",
+   "-o",
+   "obj/time.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/time.o",
+   "-MF",
+   "dep/time.d"
+  ],
+  "file": "time.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "cleanup.c",
+   "-o",
+   "obj/cleanup.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/cleanup.o",
+   "-MF",
+   "dep/cleanup.d"
+  ],
+  "file": "cleanup.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "simulation_control.c",
+   "-o",
+   "obj/simulation_control.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/simulation_control.o",
+   "-MF",
+   "dep/simulation_control.d"
+  ],
+  "file": "simulation_control.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "print.c",
+   "-o",
+   "obj/print.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/print.o",
+   "-MF",
+   "dep/print.d"
+  ],
+  "file": "print.c"
+ },
+ {
+  "directory": "/home/dstumpf/42_common_core/philo/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g",
+   "-c",
+   "simulation_threads.c",
+   "-o",
+   "obj/simulation_threads.o",
+   "-MMD",
+   "-MP",
+   "-MT",
+   "obj/simulation_threads.o",
+   "-MF",
+   "dep/simulation_threads.d"
+  ],
+  "file": "simulation_threads.c"
+ }
+]
