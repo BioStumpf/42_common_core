@@ -6,7 +6,7 @@
 /*   By: dstumpf <dstumpf@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 13:52:04 by dstumpf           #+#    #+#             */
-/*   Updated: 2026/07/22 14:44:16 by dstumpf          ###   ########.fr       */
+/*   Updated: 2026/07/23 12:43:18 by dstumpf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	*one_phil(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->forks[philo->num]);
+	pthread_mutex_lock(&philo->lock);
 	print_fork(philo);
 	usleep(philo->data->die_time * 1000);
-	pthread_mutex_lock(&philo->lock);
 	died(philo);
 	pthread_mutex_unlock(&philo->data->forks[philo->num]);
 	pthread_mutex_unlock(&philo->lock);
