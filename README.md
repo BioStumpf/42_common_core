@@ -42,3 +42,7 @@ _(Note: Due to an incorrectly marked checkbox during evaluation, the project did
 
 **Pipex ✅ 125/100**   
 Pipex is a project designed to help understand Unix process management and inter-process communication (IPC).
+
+## Circle 3
+**Philosophers ✅ 100/100**   
+The Dining Philosophers project at 42 is a concurrency exercise where multiple philosopher threads compete for shared forks while alternating between thinking, eating, and sleeping. The goal is to synchronize access to shared resources without causing deadlocks, race conditions, or philosopher starvation.
