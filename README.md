@@ -38,7 +38,7 @@ library.
 
 **push_swap ✅ 91/100**   
 Push_swap is a sorting algorithm project. The goal is to sort a list of integers using two stacks (a and b) and a limited set of predefined operations.   
-_(Note: Due to an incorrectly marked checkbox during evaluation, the project did not receive full points. I plan to resubmit.)_   
+_(Note: Due to an incorrectly marked checkbox during evaluation, the project did not receive full points.)_   
 
 **Pipex ✅ 125/100**   
 Pipex is a project designed to help understand Unix process management and inter-process communication (IPC).
@@ -47,5 +47,29 @@ Pipex is a project designed to help understand Unix process management and inter
 **Philosophers ✅ 100/100**   
 The Dining Philosophers project at 42 is a concurrency exercise where multiple philosopher threads compete for shared forks while alternating between thinking, eating, and sleeping. The goal is to synchronize access to shared resources without causing deadlocks, race conditions, or philosopher starvation.
 
-**Minishell ([Repository](https://github.com/BioStumpf/Minishell)) Pending**   
+**Minishell ([Repository](https://github.com/BioStumpf/Minishell)) ⏳**   
 Minishell recreates a simplified Unix shell, implementing commands, pipes, redirections, environment variables, built-ins, and operators such as && and ||. The project provides a deeper understanding of processes, file descriptors, signals, and system calls while giving practical insight into how Bash works under the hood.
+
+## Circle 4
+**NetPractice ⏳**   
+Learn the fundamentals of computer networking by configuring IP addresses, subnet masks, routing tables, and network interfaces to establish communication between devices.
+
+**Cub2d ⏳**  
+Build a simple 3D raycasting engine inspired by early first-person games, rendering a navigable environment from a 2D map using the MiniLibX graphics library.
+
+**CPP Modules 00 - 04 ⏳**  
+Learn the fundamentals of C++ through classes, encapsulation, inheritance, polymorphism, operator overloading, memory management, and abstract classes.
+
+## Circle 5
+**CPP Modules 05 - 09 ⏳**   
+Explore more advanced C++ concepts including exceptions, casting, templates, STL containers, iterators, algorithms, and practical use of the standard library.   
+
+**Inception ⏳**   
+Set up a small infrastructure using Docker, creating and connecting isolated services while managing containers, networks, volumes, configuration, and persistent data.
+
+**Webserv ⏳**  
+Develop an HTTP server capable of handling client connections, requests, responses, configuration, CGI execution, and multiple simultaneous connections while following the HTTP protocol.
+ 
+
+## Circle 6
+**ft_trancendence ⏳**   
