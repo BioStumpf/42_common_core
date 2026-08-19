@@ -55,7 +55,7 @@ Minishell recreates a simplified Unix shell, implementing commands, pipes, redir
 Learn the fundamentals of computer networking by configuring IP addresses, subnet masks, routing tables, and network interfaces to establish communication between devices.
 
 **Cub2d ⏳**  
-Build a simple 3D raycasting engine inspired by early first-person games, rendering a navigable environment from a 2D map using the MiniLibX graphics library.
+Build a 3D raycasting engine inspired by early first-person games, rendering a navigable environment from a 2D map using the MiniLibX graphics library.
 
 **CPP Modules 00 - 04 ⏳**  
 Learn the fundamentals of C++ through classes, encapsulation, inheritance, polymorphism, operator overloading, memory management, and abstract classes.
@@ -65,7 +65,7 @@ Learn the fundamentals of C++ through classes, encapsulation, inheritance, polym
 Explore more advanced C++ concepts including exceptions, casting, templates, STL containers, iterators, algorithms, and practical use of the standard library.   
 
 **Inception ⏳**   
-Set up a small infrastructure using Docker, creating and connecting isolated services while managing containers, networks, volumes, configuration, and persistent data.
+Set up a Docker infrastructure, creating and connecting isolated services while managing containers, networks, volumes, configuration, and persistent data.
 
 **Webserv ⏳**  
 Develop an HTTP server capable of handling client connections, requests, responses, configuration, CGI execution, and multiple simultaneous connections while following the HTTP protocol.
