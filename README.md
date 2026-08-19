@@ -46,3 +46,6 @@ Pipex is a project designed to help understand Unix process management and inter
 ## Circle 3
 **Philosophers ✅ 100/100**   
 The Dining Philosophers project at 42 is a concurrency exercise where multiple philosopher threads compete for shared forks while alternating between thinking, eating, and sleeping. The goal is to synchronize access to shared resources without causing deadlocks, race conditions, or philosopher starvation.
+
+**Minishell ([Repository](https://github.com/BioStumpf/Minishell)) Pending**   
+Minishell recreates a simplified Unix shell, implementing commands, pipes, redirections, environment variables, built-ins, and operators such as && and ||. The project provides a deeper understanding of processes, file descriptors, signals, and system calls while giving practical insight into how Bash works under the hood.
